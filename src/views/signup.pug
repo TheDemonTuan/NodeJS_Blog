@@ -1,0 +1,48 @@
+extends layouts/index.pug
+
+block content
+    .container.my-2
+        h1.mb-0.text-center.mb-3 Sign up
+        section.pb-4
+            form#sign-up.row.justify-content-center.gx-3.gy-2.align-items-center(method = 'POST')
+                .text-center.mb-3
+                    p Sign up with:
+                    button.btn.btn-secondary.btn-floating.mx-1(type='button')
+                        i.fab.fa-facebook-f
+                    button.btn.btn-secondary.btn-floating.mx-1(type='button')
+                        i.fab.fa-google
+                    button.btn.btn-secondary.btn-floating.mx-1(type='button')
+                        i.fab.fa-twitter
+                    button.btn.btn-secondary.btn-floating.mx-1(type='button')
+                        i.fab.fa-github
+                p.text-center or:
+
+                .col-sm-8.col-md-6.col-lg-4.col-xl-3
+                    // Email input
+                    .form-outline.mb-4
+                        input#email.form-control(type='email' name='email')
+                        label.form-label(for='email') Email
+                    // Username input
+                    .form-outline.mb-4
+                        input#username.form-control(type='text' name='username')
+                        label.form-label(for='username') Username
+                    // Password input
+                    .form-outline.mb-4
+                        input#password.form-control(type='password' name='password')
+                        label.form-label(for='password') Password
+                    //Repeat Password input
+                    .form-outline.mb-4
+                        input#repeat-password.form-control(type='password' name='repeat-password')
+                        label.form-label(for='repeat-password') Repeat password
+                    // Checkbox
+                    .form-check.d-flex.justify-content-center.mb-4
+                        input#registerCheck.form-check-input.me-2(type='checkbox' value='' checked='' aria-describedby='registerCheckHelpText' name='check')
+                        label.form-check-label(for='registerCheck')
+                            | I have read and agree to the terms
+                    input(name="_csrf" type="hidden" value="" + csrfToken + "")
+                    // Submit button
+                    button.btn.btn-primary.btn-block.mb-4(type='submit' name='signup') Sign up
+                    .text-center
+                        p
+                            | Already have an account? 
+                            a(href='/signin') Sign in                    

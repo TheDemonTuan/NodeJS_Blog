@@ -1,0 +1,95 @@
+html
+  head
+    title #{title ? title : 'Home'} | TheDemonTuan
+    // Font Awesome
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' integrity='sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    // Google Fonts
+    link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap' rel='stylesheet')
+    // MDB
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css' rel='stylesheet')
+    // CSS
+    link(rel='stylesheet' href='/css/index.css')
+  body
+    <!-- Header Start -->
+    .border-bottom.bg-light.shadow-sm.lh-1.py-2
+      .container
+        .row.flex-nowrap.justify-content-end
+          .col-4.d-flex.justify-content-end.align-items-center
+            .row.row-cols-auto
+              a.btn.btn-sm.btn-primary.mx-2(href='/signin') Sign in
+              a.btn.btn-sm.btn-danger(href='/signup') Sign up
+    header
+      <!-- Navbar Start -->
+      #tdt-navbar.nav.navbar.navbar-expand-lg.bg-white.navbar-light.p-3.shadow-lg
+        .container-fluid
+          // Navbar brand
+          a.navbar-brand(href='/')
+            img(src='/img/logo.png' height='25' alt='' loading='lazy')
+          button.navbar-toggler(type='button' data-mdb-toggle='collapse' data-mdb-target='#navbar-toggle' aria-controls='navbar-toggle' aria-expanded='false' aria-label='Toggle navigation')
+            i.fas.fa-bars
+          #navbar-toggle.collapse.navbar-collapse
+            ul.navbar-nav.me-auto.mb-2.mb-lg-0
+              li.nav-item.active
+                a.nav-link(aria-current='page' href='/') Home
+              li.nav-item
+                a.nav-link(href='https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA' rel='nofollow' target='_blank') Datapacks
+            ul.navbar-nav.d-flex.flex-row
+              // Icons
+              li.nav-item.me-3.me-lg-0
+                a.nav-link(href='https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA' rel='nofollow' target='_blank')
+                  i.fab.fa-youtube
+              li.nav-item.me-3.me-lg-0
+                a.nav-link(href='https://www.facebook.com/mdbootstrap' rel='nofollow' target='_blank')
+                  i.fab.fa-facebook-f
+              li.nav-item.me-3.me-lg-0
+                a.nav-link(href='https://twitter.com/MDBootstrap' rel='nofollow' target='_blank')
+                  i.fab.fa-twitter
+              li.nav-item.me-3.me-lg-0
+                a.nav-link(href='https://github.com/mdbootstrap/mdb-ui-kit' rel='nofollow' target='_blank')
+                  i.fab.fa-github
+          a.link-secondary(href='#' aria-label='Search')
+            svg.mx-3(xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' role='img' viewbox='0 0 24 24')
+              title Search
+              circle(cx='10.5' cy='10.5' r='7.5')
+              path(d='M21 21l-5.2-5.2')        
+      <!-- Navbar End -->
+
+      <!-- Jumbotron Start -->
+      #intro.p-5.text-center.bg-light
+        h1.mb-3.h2 Hi, I am TheDemonTuan.
+        p.mb-3 Backend developer and also a minecraft datapack developer.
+      <!-- Jumbotron End -->
+
+    <!-- Header End -->
+
+    <!-- Content Start -->
+    main
+      block content
+    <!-- Content End -->
+
+
+    <!-- Footer Start -->
+    footer.bg-light.text-lg-start
+      hr.m-0
+      .text-center.py-4.align-items-center
+        p Follow me on social media
+        a.btn.btn-primary.m-1(href='https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA' role='button' rel='nofollow' target='_blank')
+          i.fab.fa-youtube
+        a.btn.btn-primary.m-1(href='https://www.facebook.com/mdbootstrap' role='button' rel='nofollow' target='_blank')
+          i.fab.fa-facebook-f
+        a.btn.btn-primary.m-1(href='https://twitter.com/MDBootstrap' role='button' rel='nofollow' target='_blank')
+          i.fab.fa-twitter
+        a.btn.btn-primary.m-1(href='https://github.com/mdbootstrap/mdb-ui-kit' role='button' rel='nofollow' target='_blank')
+          i.fab.fa-github
+      .text-center.p-3(style='background-color: rgba(0, 0, 0, 0.2);')
+        | &copy; #{new Date().getFullYear()} Copyright:
+        a.text-dark(href='/') TheDemonTuan
+    <!-- Footer End -->
+
+    <!-- JS Start -->
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.10/sweetalert2.all.min.js' integrity='sha512-hqj3uRcg6pYUd2hJHI1k1qKyf8PA/YMWcEV9hTlD+mpnUKe2mpzS7Epp8FCQrGG632TEp2Bn194SN69Auykcdg==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js' integrity='sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    // MDB
+    script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js')
+    script(src="/js/index.js") 
+    <!-- JS End -->
