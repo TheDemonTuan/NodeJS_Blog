@@ -10,7 +10,7 @@ exports.index = async (req, res, next) => {
 exports.store = async (req, res, next) => {
   try {
     // Check duplicate email or username
-    //Demo//
+    //Demo///
     var duplicateCheck = await new Promise((resolve, reject) => {
       Users.findByEmailOrUsername(
         req.body.email,
