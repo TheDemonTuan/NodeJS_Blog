@@ -6,7 +6,7 @@ It's just a small project of mine for my website.
 
 ## Tech Stack
 
-**Client:** `HTML, CSS, Javascript, EJS Template, Jquery, MDB, Fontawesome, Sweetalert 2`
+**Client:** `HTML` `CSS` `Javascript, EJS Template, Jquery, MDB, Fontawesome, Sweetalert 2`
 
 **Server:** `Node, Express, MySQL, NPM`
 
