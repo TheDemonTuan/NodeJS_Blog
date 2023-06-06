@@ -1,7 +1,16 @@
-#Blog Website
+# Blog Website
 
-#My project for my website (thedemontuan.com).
+## My small project for my website (thedemontuan.com).
 
-Frontend: Pug,MDB,Jquery,Fontawesome,Sweetalert
+### Frontend: 
+- Pug
+- MDB
+- Jquery
+- Fontawesome
+- Sweetalert 2
 
-Backend: Nodejs,Expressjs,MySQL
+### Backend: 
+- Nodejs
+- Expressjs
+- MySQL
+- NPM
