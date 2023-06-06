@@ -1,10 +1,11 @@
 const { body, validationResult, checkSchema } = require("express-validator");
+const message = require("../middlewares/message.js");
 
-exports.errors = (req, res, next) => {
+exports.catchErrors = (req, res, next) => {
   let err = validationResult(req);
-  if (!err.isEmpty())
-    res.json({ status: "error", message: err.array()[0].msg });
-  else next();
+  if (!err.isEmpty()) {
+    return message.create(req, res, next, "error", err.array()[0].msg, true);
+  } else next();
 };
 
 exports.signup = checkSchema({
@@ -26,8 +27,9 @@ exports.signup = checkSchema({
       errorMessage: "Username is required",
     },
     isLength: {
-      errorMessage: "Username should be at least 5 chars long and at most 20 chars long",
-      options: { min: 5, max: 20},
+      errorMessage:
+        "Username should be at least 5 chars long and at most 20 chars long",
+      options: { min: 5, max: 20 },
     },
     escape: true,
     trim: true,
@@ -64,13 +66,14 @@ exports.signup = checkSchema({
 });
 
 exports.signin = checkSchema({
-  username:{
+  username: {
     notEmpty: {
       errorMessage: "Username is required",
     },
     isLength: {
-      errorMessage: "Username should be at least 5 chars long and at most 20 chars long",
-      options: { min: 5, max: 20},
+      errorMessage:
+        "Username should be at least 5 chars long and at most 20 chars long",
+      options: { min: 5, max: 20 },
     },
     escape: true,
     trim: true,

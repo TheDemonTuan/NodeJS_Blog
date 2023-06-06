@@ -17,7 +17,7 @@
       <i class="fab fa-github"></i>
     </a>
   </div>
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">&copy; 2023 Copyright: <a class="text-dark" href="/">TheDemonTuan</a>
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">&copy; <%= new Date().getFullYear() %> Copyright: <a class="text-dark" href="/">TheDemonTuan</a>
   </div>
 </footer>
 <!--JS-->
@@ -27,5 +27,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- MDB-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"></script>
-<script src="/js/index.js"></script>
-</body></html>
+<script src="/js/home.js"></script>
+<% var showMessage = showMessage %>
+<% if (showMessage) { %>
+<script>
+  Swal.fire({
+    icon: '<%= showMessage.status %>',
+    title: '<%= showMessage.message %>',
+  })
+</script>
+<% } %>
+</body>
+</html>

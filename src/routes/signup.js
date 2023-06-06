@@ -6,6 +6,6 @@ const signupController = require("../controllers/signup");
 router.get("/", signupController.index);
 
 // [POST] /
-router.post("/", validate.signup, validate.errors, signupController.store);
+router.post("/", validate.signup, validate.catchErrors, signupController.store);
 
 module.exports = router;

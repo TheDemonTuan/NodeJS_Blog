@@ -1,82 +1,58 @@
 <%- include('partials/header.ejs'); -%>
-<div class="container my-2">
-  <h1 class="mb-0 text-center mb-3">Sign in</h1>
-  <h1></h1>
-  <section class="pb-4">
-    <form
-      class="row justify-content-center gx-3 gy-2 align-items-center"
-      id="sign-in"
-      method="POST"
-    >
-      <div class="col-sm-8 col-md-6 col-lg-4 col-xl-3">
-        <!-- Username input-->
-        <div class="form-outline mb-4">
-          <input
-            class="form-control"
-            id="username"
-            type="text"
-            name="username"
-          />
-          <label class="form-label" for="username">Username</label>
-        </div>
-        <!-- Password input-->
-        <div class="form-outline mb-4">
-          <input
-            class="form-control"
-            id="password"
-            type="password"
-            name="password"
-          />
-          <label class="form-label" for="password">Password</label>
-        </div>
-        <input name="_csrf" type="hidden" value="undefined" />
-        <div class="row mb-4">
-          <div class="col d-flex justify-content-center">
-            <!-- Checkbox-->
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                id="remember"
-                type="checkbox"
-                value=""
-                checked=""
-              />
-              <label class="form-check-label" for="remember">
-                Remember me
-              </label>
+  <div class="container my-2">
+    <h1 class="mb-0 text-center mb-3">Sign in</h1>
+    <h1></h1>
+    <section class="pb-4">
+      <form class="row justify-content-center gx-3 gy-2 align-items-center" id="sign-in" method="POST">
+        <div class="col-sm-8 col-md-6 col-lg-4 col-xl-3">
+          <!-- Username input-->
+          <div class="form-outline mb-4">
+            <input class="form-control" id="username" type="text" name="username" />
+            <label class="form-label" for="username">Username</label>
+          </div>
+          <!-- Password input-->
+          <div class="form-outline mb-4">
+            <input class="form-control" id="password" type="password" name="password" />
+            <label class="form-label" for="password">Password</label>
+          </div>
+          <input name="_csrf" type="hidden" value="<%= csrfToken %>" />
+          <div class="row mb-4">
+            <div class="col d-flex justify-content-center">
+              <!-- Checkbox-->
+              <div class="form-check">
+                <input class="form-check-input" id="remember" type="checkbox" value="" checked="" />
+                <label class="form-check-label" for="remember">
+                  Remember me
+                </label>
+              </div>
+            </div>
+            <div class="col">
+              <!-- Simple link--><a href="/forgot">Forgot password?</a>
             </div>
           </div>
-          <div class="col">
-            <!-- Simple link--><a href="/forgot">Forgot password?</a>
+          <!-- Submit button-->
+          <button class="btn btn-primary btn-block mb-4" type="submit" name="signin">
+            Sign in
+          </button>
+          <!-- Register buttons-->
+          <div class="text-center">
+            <p>Not a member? <a href="/signup">Sign up</a></p>
+            <p>or sign up with:</p>
+            <button class="btn btn-secondary btn-floating mx-1" type="button">
+              <i class="fab fa-facebook-f"></i>
+            </button>
+            <button class="btn btn-secondary btn-floating mx-1" type="button">
+              <i class="fab fa-google"></i>
+            </button>
+            <button class="btn btn-secondary btn-floating mx-1" type="button">
+              <i class="fab fa-twitter"></i>
+            </button>
+            <button class="btn btn-secondary btn-floating mx-1" type="button">
+              <i class="fab fa-github"></i>
+            </button>
           </div>
         </div>
-        <!-- Submit button-->
-        <button
-          class="btn btn-primary btn-block mb-4"
-          type="submit"
-          name="signin"
-        >
-          Sign in
-        </button>
-        <!-- Register buttons-->
-        <div class="text-center">
-          <p>Not a member? <a href="/signup">Sign up</a></p>
-          <p>or sign up with:</p>
-          <button class="btn btn-secondary btn-floating mx-1" type="button">
-            <i class="fab fa-facebook-f"></i>
-          </button>
-          <button class="btn btn-secondary btn-floating mx-1" type="button">
-            <i class="fab fa-google"></i>
-          </button>
-          <button class="btn btn-secondary btn-floating mx-1" type="button">
-            <i class="fab fa-twitter"></i>
-          </button>
-          <button class="btn btn-secondary btn-floating mx-1" type="button">
-            <i class="fab fa-github"></i>
-          </button>
-        </div>
-      </div>
-    </form>
-  </section>
-</div>
-<%- include('partials/footer.ejs'); -%>
+      </form>
+    </section>
+  </div>
+  <%- include('partials/footer.ejs'); -%>

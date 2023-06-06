@@ -10,7 +10,7 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
-        "script-src": ["'self'", "cdnjs.cloudflare.com"],
+        "script-src": ["'self'", "cdnjs.cloudflare.com","'unsafe-inline'"],
       },
     },
   })
@@ -18,7 +18,7 @@ app.use(
 
 // ENV config
 const dotenv = require("dotenv").config();
-app.set("env", process.env.NODE_ENV);
+app.set("env", process.env.NODE_ENV ?? "production");
 
 // Body parser
 app.use(express.json()); // for parsing application/json

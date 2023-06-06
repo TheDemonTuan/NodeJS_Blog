@@ -17,7 +17,6 @@
   "dependencies": {
     "@dr.pogodin/csurf": "^1.12.4",
     "bcrypt": "^5.1.0",
-    "bluebird": "^3.7.2",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.9",
