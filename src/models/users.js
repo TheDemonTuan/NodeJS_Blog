@@ -1,4 +1,5 @@
 const db = require("../utils/db");
+const Promise = require("bluebird");
 
 class Users {
   constructor(user) {
@@ -12,11 +13,15 @@ class Users {
       else result(err, res);
     });
   }
-  static findByUsername(username, result) {
-    db.query("select * from users where username = ?", username, (err, res) => {
-      if (err) result(err, res);
-      else result(err, res);
-    });
+  static async findByUsername(username, result) {
+    db.execute(
+      "select * from users where username = ?",
+      [username],
+      (err, res) => {
+        if (err) result(err, res);
+        else result(err, res);
+      }
+    );
   }
   static findByEmail(email, result) {
     db.query(`select * from users where email = '${email}'`, (err, res) => {
@@ -34,14 +39,14 @@ class Users {
       }
     );
   }
-  static findById(id, result) {
-    db.query("'select * from users where id = ?", id, (err, res) => {
+  static async findById(id, result) {
+    db.execute("'select * from users where id = ?", [id], (err, res) => {
       if (err) result(err, res);
       else result(err, res);
     });
   }
   static create(newUser, result) {
-    db.query("insert into users set ?", newUser, (err, res) => {
+    db.execute("insert into users set ?", [newUser], (err, res) => {
       if (err) result(err, res);
       else result(err, res);
     });

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
   $(window).scroll(function () {
     if ($(this).scrollTop() > 0) {
       $("#tdt-navbar").addClass("fixed-top");
@@ -16,12 +17,13 @@ $(document).ready(function () {
     })
       .done(function (data) {
         //console.log(data);
-        Swal.fire({
-          icon: data.status,
-          title: data.message,
-        });
         if (data.status == "success") {
-          $("#sign-in")[0].reset();
+          window.location.href = "/";
+        } else {
+          Swal.fire({
+            icon: data.status,
+            title: data.message,
+          });
         }
       })
       .fail(function (jqXHR, textStatus, err) {

@@ -1,4 +1,5 @@
 // [GET] /
 exports.index = async (req, res, next) => {
-  res.render("home");
+  console.log(res.locals.message);
+  res.render("home", { title: "Home" });
 };

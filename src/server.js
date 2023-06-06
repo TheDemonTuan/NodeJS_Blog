@@ -32,8 +32,14 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.static(path.join(__dirname, "public")));
 
 // View engine setup
-app.set("view engine", "pug");
+app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+//app.set("view cache", false);
+app.locals.pretty = true;
+
+// Message middleware
+const message = require("./middlewares/message.js");
+app.use(message.check)
 
 // Routes init
 const routes = require("./routes");

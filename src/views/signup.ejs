@@ -1,0 +1,95 @@
+<%- include('partials/header.ejs'); -%>
+<div class="container my-2">
+  <h1 class="mb-0 text-center mb-3">Sign up</h1>
+  <section class="pb-4">
+    <form
+      class="row justify-content-center gx-3 gy-2 align-items-center"
+      id="sign-up"
+      method="POST"
+    >
+      <div class="text-center mb-3">
+        <p>Sign up with:</p>
+        <button class="btn btn-secondary btn-floating mx-1" type="button">
+          <i class="fab fa-facebook-f"></i>
+        </button>
+        <button class="btn btn-secondary btn-floating mx-1" type="button">
+          <i class="fab fa-google"></i>
+        </button>
+        <button class="btn btn-secondary btn-floating mx-1" type="button">
+          <i class="fab fa-twitter"></i>
+        </button>
+        <button class="btn btn-secondary btn-floating mx-1" type="button">
+          <i class="fab fa-github"></i>
+        </button>
+      </div>
+      <p class="text-center">or:</p>
+      <div class="col-sm-8 col-md-6 col-lg-4 col-xl-3">
+        <!-- Email input-->
+        <div class="form-outline mb-4">
+          <input class="form-control" id="email" type="email" name="email" />
+          <label class="form-label" for="email">Email</label>
+        </div>
+        <!-- Username input-->
+        <div class="form-outline mb-4">
+          <input
+            class="form-control"
+            id="username"
+            type="text"
+            name="username"
+          />
+          <label class="form-label" for="username">Username</label>
+        </div>
+        <!-- Password input-->
+        <div class="form-outline mb-4">
+          <input
+            class="form-control"
+            id="password"
+            type="password"
+            name="password"
+          />
+          <label class="form-label" for="password">Password</label>
+        </div>
+        <!--Repeat Password input-->
+        <div class="form-outline mb-4">
+          <input
+            class="form-control"
+            id="repeat-password"
+            type="password"
+            name="repeat-password"
+          />
+          <label class="form-label" for="repeat-password"
+            >Repeat password</label
+          >
+        </div>
+        <!-- Checkbox-->
+        <div class="form-check d-flex justify-content-center mb-4">
+          <input
+            class="form-check-input me-2"
+            id="registerCheck"
+            type="checkbox"
+            value=""
+            checked=""
+            aria-describedby="registerCheckHelpText"
+            name="check"
+          />
+          <label class="form-check-label" for="registerCheck"
+            >I have read and agree to the terms</label
+          >
+        </div>
+        <input name="_csrf" type="hidden" value="<%= csrfToken %>" />
+        <!-- Submit button-->
+        <button
+          class="btn btn-primary btn-block mb-4"
+          type="submit"
+          name="signup"
+        >
+          Sign up
+        </button>
+        <div class="text-center">
+          <p>Already have an account? <a href="/signin">Sign in </a></p>
+        </div>
+      </div>
+    </form>
+  </section>
+</div>
+<%- include('partials/footer.ejs'); -%>
