@@ -1,7 +1,7 @@
 const csrf = require("@dr.pogodin/csurf");
 exports.protection = csrf({
   cookie: {
-    key: "csrfToken",
+    key: "__tdt_csrf",
     secure: true,
     httpOnly: true,
     sameSite: "strict",

@@ -38,6 +38,7 @@ exports.store = async (req, res, next) => {
     return message.create(req, res, next, "success", "Sign up successfully", true, "/signin");
   } catch (err) {
     // Return error message
-    return message.create(req, res, next, "error", "Cant sign in", true);
+    //console.log(err);
+    return message.create(req, res, next, "error", "Something went wrong", true);
   }
 };

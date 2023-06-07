@@ -23,19 +23,18 @@ exports.checkLogin = async (req, res, next) => {
     if (user.length == 0 || !bcrypt.compareSync(req.body.password, user[0].password))
       return message.create(req, res, next, "error", "Username or password is incorrect", true);
 
-    res.clearCookie("token");
     res.cookie(
-      "token",
+      "__tdt_token",
       jwt.sign({ id: user[0].id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       }),
-      { httpOnly: true, sameSite: "strict", secure: true, maxAge: 86400000 }
+      { httpOnly: true, sameSite: "lax", secure: true, maxAge: 86400000 }
     );
     // Return success message
     return message.create(req, res, next, "success", "Sign in successfully", true, "/");
   } catch (err) {
     // Return error message
-    return message.create(req, res, next, "error", "Cant sign in", true);
     //console.log(err);
+    return message.create(req, res, next, "error", "Something went wrong", true);
   }
 };

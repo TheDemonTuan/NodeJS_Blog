@@ -5,10 +5,11 @@ const Users = require("../models/users");
 
 // midleware for jwt check
 exports.jwtAuth = async (req, res, next) => {
-  var cookie = req.cookies.token;
+  var cookie = req.cookies.__tdt_token;
   if (cookie) {
     // Verify token
     try {
+      //throw new Error("Who are u ?");
       // Get user id from token
       var userId = await new Promise((resolve, reject) => {
         jwt.verify(cookie, process.env.JWT_SECRET, (err, decoded) => {
@@ -40,8 +41,7 @@ exports.jwtAuth = async (req, res, next) => {
       return message.create(req, res, next, "error", "Token is invalid", true, "/signin");
     }
   }
-  else
-    res.locals.isLogged = false;
+  res.locals.isLogged =  res.locals.isLogged ?? false;
   next();
 };
 

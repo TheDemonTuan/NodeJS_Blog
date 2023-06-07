@@ -1,15 +1,16 @@
 const csrf = require("../middlewares/csrf.js");
 const auth = require("../middlewares/auth.js");
+const limit = require("../middlewares/rate-limit.js");
 
 function routes(app) {
   // Auth Middleware
-  app.use("*", auth.jwtAuth);
+  app.use("*", limit.all, auth.jwtAuth);
 
   // Signup Router
-  app.use("/signup", auth.isLogged, csrf.protection, require("./signup"));
+  app.use("/signup", auth.isLogged, limit.signup, csrf.protection, require("./signup"));
 
   // Signin Router
-  app.use("/signin", auth.isLogged, csrf.protection, require("./signin"));
+  app.use("/signin", auth.isLogged, limit.signin, csrf.protection, require("./signin"));
 
   // Logout Router
   app.use("/logout", auth.isNotLogged, require("./logout"));
@@ -26,13 +27,7 @@ function routes(app) {
 
   // Error Handler
   app.use((err, req, res, next) => {
-    // Xử lý lỗi 404
-    if (err.status === 404) {
-      res.status(404).render("errors/404", { title: err.status, error_code: err.status, error_message: err });
-    } else {
-      // Xử lý các lỗi khác
-      res.status(500).render("errors/404", { title: "500", error_code: "500", error_message: err });
-    }
+    res.status(err.status).render("errors/error", { title: err.status, error_code: err.status, error_message: err });
   });
 }
 

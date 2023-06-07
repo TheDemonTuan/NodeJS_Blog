@@ -21,7 +21,7 @@ app.use(
 
 // ENV config
 const dotenv = require("dotenv").config();
-app.set("env", process.env.NODE_ENV ?? "production");
+app.set("env", process.env.NODE_ENV);
 
 // Body parser
 app.use(express.json()); // for parsing application/json
