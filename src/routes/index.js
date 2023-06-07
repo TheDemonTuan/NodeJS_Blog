@@ -12,7 +12,7 @@ function routes(app) {
   app.use("/signin", auth.isLogged, csrf.protection, require("./signin"));
 
   // Logout Router
-  app.use("/logout", require("./logout"));
+  app.use("/logout", auth.isNotLogged, require("./logout"));
 
   // Home Router
   app.use("/", require("./home"));
@@ -23,7 +23,7 @@ function routes(app) {
     error.status = 404;
     next(error);
   });
-  
+
   // Error Handler
   app.use((err, req, res, next) => {
     // Xử lý lỗi 404

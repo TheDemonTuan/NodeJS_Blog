@@ -16,9 +16,7 @@ exports.check = (req, res, next) => {
   if (req.signedCookies.message && req.method == "GET") {
     //console.log(req.signedCookies.message);
     res.locals.showMessage = JSON.parse(req.signedCookies.message);
-    res.clearCookie("message");
-    next();
-  } else {
-    next();
   }
+  res.clearCookie("message");
+  next();
 };

@@ -10,7 +10,7 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
-        "script-src": ["'self'", "cdnjs.cloudflare.com","'unsafe-inline'"],
+        "script-src": ["'self'", "cdnjs.cloudflare.com", "'unsafe-inline'"],
       },
     },
   })
@@ -41,6 +41,22 @@ app.locals.pretty = true;
 const message = require("./middlewares/message.js");
 app.use(message.check)
 
+//Redis
+// const redis = require("redis");
+// const client = redis.createClient();
+// client.on('error', err => console.log('Redis Client Error', err));
+// const test = async () => {
+//   try {
+//     await client.connect();
+//     await client.set('key', 'value');
+//     const value = await client.get('key');
+//     console.log(value)
+//     await client.disconnect();
+//   } catch (err) {
+//     console.log('Redis Client Error', err);
+//   }
+// }
+// test();
 // Routes init
 const routes = require("./routes");
 routes(app);
