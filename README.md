@@ -35,6 +35,8 @@ app.use(message.check)
 
 message.create(req, res, next, status, message, isRedirect = false, pageRedirect = "");
 
+Message will save at res.locals.showMessage.
+
 ```
 
 

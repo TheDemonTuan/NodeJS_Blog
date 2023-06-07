@@ -12,13 +12,10 @@ exports.store = async (req, res, next) => {
   try {
     // Check duplicate email or username
     var duplicateCheck = await new Promise((resolve, reject) => {
-      Users.findByEmailOrUsername(
-        req.body.email,
-        req.body.username,
-        (err, data) => {
-          if (err) reject(err);
-          else resolve(data);
-        }
+      Users.findByEmailOrUsername(req.body.email, req.body.username, (err, data) => {
+        if (err) reject(err);
+        else resolve(data);
+      }
       );
     });
 

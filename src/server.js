@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require("express");
 const path = require("path");
 
@@ -11,6 +13,7 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         "script-src": ["'self'", "cdnjs.cloudflare.com", "'unsafe-inline'"],
+        "img-src": ["'self'", "mdbootstrap.com"],
       },
     },
   })
@@ -28,6 +31,36 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 const cookieParser = require("cookie-parser");
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
+//Redis and session
+const session = require("express-session");
+const Redis = require("ioredis");
+const RedisStore = require("connect-redis").default
+
+try {
+  let redisStore = new RedisStore({ client: new Redis(), prefix: "tdt-sess:", ttl: 3600 })
+
+  app.use(
+    session({
+      store: redisStore,
+      name: process.env.SESSION_NAME,
+      resave: false, // required: force lightweight session keep alive (touch)
+      saveUninitialized: false, // recommended: only save session when data exists
+      secret: process.env.SESSION_SECRET,
+      cookie: {
+        httpOnly: true,
+        secure: false, // required: only set cookies over https
+        sameSite: "strict", // recommended: csrf
+      },
+    })
+  )
+} catch (err) {
+  console.log(err)
+}
+
+// Message middleware
+const message = require("./middlewares/message.js");
+app.use(message.check)
+
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -37,26 +70,6 @@ app.set("views", path.join(__dirname, "views"));
 //app.set("view cache", false);
 app.locals.pretty = true;
 
-// Message middleware
-const message = require("./middlewares/message.js");
-app.use(message.check)
-
-//Redis
-// const redis = require("redis");
-// const client = redis.createClient();
-// client.on('error', err => console.log('Redis Client Error', err));
-// const test = async () => {
-//   try {
-//     await client.connect();
-//     await client.set('key', 'value');
-//     const value = await client.get('key');
-//     console.log(value)
-//     await client.disconnect();
-//   } catch (err) {
-//     console.log('Redis Client Error', err);
-//   }
-// }
-// test();
 // Routes init
 const routes = require("./routes");
 routes(app);

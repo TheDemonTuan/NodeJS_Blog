@@ -26,7 +26,7 @@ exports.checkLogin = async (req, res, next) => {
     res.clearCookie("token");
     res.cookie(
       "token",
-      jwt.sign({ id: user[0].id }, process.env.COOKIE_SECRET, {
+      jwt.sign({ id: user[0].id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       }),
       { httpOnly: true, sameSite: "strict", secure: true, maxAge: 86400000 }

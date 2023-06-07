@@ -34,7 +34,7 @@ class Users {
     );
   }
   static async findById(id, result) {
-    db.execute("'select * from users where id = ?", [id], (err, res) => {
+    db.execute("select * from users where id = ?", [id], (err, res) => {
       if (err) result(err, res);
       else result(err, res);
     });
