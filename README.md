@@ -1,3 +1,4 @@
+![](https://komarev.com/ghpvc/?username=TheDemonTuan)
 # Blog Website Using NodeJS
 
 It's just a small project of mine for my website.
