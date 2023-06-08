@@ -4,7 +4,13 @@ const message = require("../middlewares/message.js");
 const catchErrors = (req, res, next) => {
   let err = validationResult(req);
   if (!err.isEmpty()) {
-    return message.create(req, res, next, "error", err.array()[0].msg, true);
+    let arr = [];
+    if (req.body.email)
+      arr["email"] = req.body.email;
+    if (req.body.username)
+      arr["username"] = req.body.username;
+    const query = "?" + Object.entries(arr).map(([key, value]) => `${key}=${value}`).join("&");
+    return message.create(req, res, next, "error", err.array()[0].msg, true, `${req.baseUrl}${query}`);
   } else next();
 };
 

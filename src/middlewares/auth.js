@@ -1,4 +1,3 @@
-const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const message = require("../middlewares/message");
 const Users = require("../models/users");
@@ -42,7 +41,6 @@ exports.jwt = async (req, res, next) => {
       return message.create(req, res, next, "error", "Token is invalid", true, "/signin");
     }
   }
-  res.locals.isLogged = res.locals.isLogged ?? false;
   next();
 };
 
@@ -59,3 +57,12 @@ exports.isNotLogged = async (req, res, next) => {
     return message.create(req, res, next, "warning", "You are not logged in", true, "/signin");
   next();
 };
+
+exports.isAdmin = async (req, res, next) => {
+  if (!res.locals.userInfo.role) {
+    const error = new Error("Page not found");
+    error.status = 404;
+    next(error);
+  }
+  next();
+}

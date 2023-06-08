@@ -16,12 +16,12 @@ const configRateLimit = (options) => rateLimit({
 
 exports.signup = configRateLimit({
     windowMs: 60 * 60 * 1000,
-    max: 6, 
+    max: 10, 
 })
 
 exports.signin = configRateLimit({
     windowMs: 60 * 60 * 1000, 
-    max: 10, 
+    max: 15, 
 })
 
 exports.all = configRateLimit({

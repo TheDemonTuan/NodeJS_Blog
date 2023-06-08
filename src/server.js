@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 
 const express = require("express");
 const path = require("path");
@@ -62,18 +62,12 @@ try {
   //console.log(err)
 }
 
-// Message middleware
-const message = require("./middlewares/message.js");
-app.use(message.check)
-
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
 
 // View engine setup
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-//app.set("view cache", false);
-//app.locals.pretty = true;
 
 // Routes init
 const routes = require("./routes");

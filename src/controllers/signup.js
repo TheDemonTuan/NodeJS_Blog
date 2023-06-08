@@ -4,6 +4,8 @@ const message = require("../middlewares/message.js");
 
 // [GET] /
 exports.index = async (req, res, next) => {
+  res.locals.old_email = req.query.email ? req.query.email : false;
+  res.locals.old_username = req.query.username ? req.query.username : false;
   res.render("signup", { title: "Sign up" });
 };
 
@@ -21,7 +23,7 @@ exports.store = async (req, res, next) => {
 
     // If duplicate email or username exists, return error
     if (duplicateCheck.length > 0)
-      return message.create(req, res, next, "error", "Email or username already exists", true);
+      return message.create(req, res, next, "error", "Email or username already exists", true,`/signup?email=${req.body.email}&username=${req.body.username}`);
 
     // Hash password
     req.body.password = await bcrypt.hashSync(req.body.password, 11);
@@ -35,7 +37,7 @@ exports.store = async (req, res, next) => {
     });
 
     // Return success message
-    return message.create(req, res, next, "success", "Sign up successfully", true, "/signin");
+    return message.create(req, res, next, "success", "Sign up successfully", true, `/signin?username=${req.body.username}`);
   } catch (err) {
     // Return error message
     //console.log(err);

@@ -22,12 +22,12 @@
         <div class="col-sm-8 col-md-6 col-lg-4 col-xl-3">
           <!-- Email input-->
           <div class="form-outline mb-4">
-            <input class="form-control" id="email" type="email" name="email" />
+            <input class="form-control" id="email" type="email" name="email" <% if (old_email) { %> value="<%= old_email %>" <% } %>/>
             <label class="form-label" for="email">Email</label>
           </div>
           <!-- Username input-->
           <div class="form-outline mb-4">
-            <input class="form-control" id="username" type="text" name="username" />
+            <input class="form-control" id="username" type="text" name="username" <% if (old_username) { %> value="<%= old_username %>" <% } %>/>
             <label class="form-label" for="username">Username</label>
           </div>
           <!-- Password input-->
