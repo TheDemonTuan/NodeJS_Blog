@@ -4,8 +4,8 @@ const message = require("../middlewares/message");
 const Users = require("../models/users");
 
 // midleware for jwt check
-exports.jwtAuth = async (req, res, next) => {
-  var cookie = req.cookies.__tdt_token;
+exports.jwt = async (req, res, next) => {
+  var cookie = req.signedCookies[process.env.JWT_COOKIE_NAME];
   if (cookie) {
     // Verify token
     try {
@@ -27,12 +27,13 @@ exports.jwtAuth = async (req, res, next) => {
           });
         });
         // Check user info
-        if (userGet.length > 0 && userGet[0].id == userId) {
-          req.session.userInfo = userGet;
-        }
+        if (userGet.length > 0 && userGet[0].id == userId)
+          req.session.userInfo = res.locals.userInfo = userGet[0];
         else
           throw new Error("Who are u ?");
       }
+      else
+        res.locals.userInfo = req.session.userInfo;
       // isLogged Set
       res.locals.isLogged = true;
     } catch (err) {
@@ -41,7 +42,7 @@ exports.jwtAuth = async (req, res, next) => {
       return message.create(req, res, next, "error", "Token is invalid", true, "/signin");
     }
   }
-  res.locals.isLogged =  res.locals.isLogged ?? false;
+  res.locals.isLogged = res.locals.isLogged ?? false;
   next();
 };
 

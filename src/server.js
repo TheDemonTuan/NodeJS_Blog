@@ -6,6 +6,10 @@ const path = require("path");
 const app = express();
 const port = 3000;
 
+//Compression
+const compression = require("compression");
+app.use(compression());
+
 // Helmet
 const helmet = require("helmet");
 app.use(
@@ -21,7 +25,7 @@ app.use(
 
 // ENV config
 const dotenv = require("dotenv").config();
-app.set("env", process.env.NODE_ENV);
+app.set("env", "production");
 
 // Body parser
 app.use(express.json()); // for parsing application/json
@@ -37,7 +41,7 @@ const Redis = require("ioredis");
 const RedisStore = require("connect-redis").default
 
 try {
-  let redisStore = new RedisStore({ client: new Redis(), prefix: "tdt-sess:", ttl: 3600 })
+  let redisStore = new RedisStore({ client: new Redis(), prefix: "tdt-sess:", ttl: 300 })
 
   app.use(
     session({
@@ -50,11 +54,12 @@ try {
         httpOnly: true,
         secure: false, // required: only set cookies over https
         sameSite: "strict", // recommended: csrf
+        signed: true, // recommended: tamper-proof cookies
       },
     })
   )
 } catch (err) {
-  console.log(err)
+  //console.log(err)
 }
 
 // Message middleware

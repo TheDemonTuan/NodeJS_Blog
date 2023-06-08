@@ -4,7 +4,7 @@ const message = require("../middlewares/message.js");
 
 // [GET] /
 exports.index = async (req, res, next) => {
-  res.render("signup", { title: "Sign up", csrfToken: req.csrfToken() });
+  res.render("signup", { title: "Sign up" });
 };
 
 // [POST] /

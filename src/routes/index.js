@@ -1,16 +1,18 @@
 const csrf = require("../middlewares/csrf.js");
 const auth = require("../middlewares/auth.js");
-const limit = require("../middlewares/rate-limit.js");
+const rate_limit = require("../middlewares/rate-limit.js");
 
 function routes(app) {
   // Auth Middleware
-  app.use("*", limit.all, auth.jwtAuth);
+  app.use(rate_limit.all, auth.jwt);
+
+  app.use("/admin", require("./admin"))
 
   // Signup Router
-  app.use("/signup", auth.isLogged, limit.signup, csrf.protection, require("./signup"));
+  app.use("/signup", auth.isLogged, rate_limit.signup, csrf.protection, require("./signup"));
 
   // Signin Router
-  app.use("/signin", auth.isLogged, limit.signin, csrf.protection, require("./signin"));
+  app.use("/signin", auth.isLogged, rate_limit.signin, csrf.protection, require("./signin"));
 
   // Logout Router
   app.use("/logout", auth.isNotLogged, require("./logout"));
@@ -20,14 +22,19 @@ function routes(app) {
 
   // 404 Router
   app.use((req, res, next) => {
-    const error = new Error('Page not found');
+    const error = new Error("Page not found");
     error.status = 404;
     next(error);
   });
 
   // Error Handler
   app.use((err, req, res, next) => {
-    res.status(err.status).render("errors/error", { title: err.status, error_code: err.status, error_message: err });
+    if (!err.status) {
+      //console.log(err)
+     err.status = 500;
+     err.message = process.env.NODE_ENV == "production" ? "Internal Server Error": err.message;
+    }
+    res.status(err.status).render("errors/error", { title: err.status, error_code: err.status, error_message: err.message });
   });
 }
 
