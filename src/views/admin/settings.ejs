@@ -1,0 +1,28 @@
+<%- include('partials/header.ejs'); -%>
+    <main style="margin-top: 58px">
+        <div class="container pt-4">
+            <!-- Section: Main chart -->
+            <section class="mb-4">
+                <div class="card">
+                    <form class="row justify-content-center align-items-center" id="settings" action="/admin/settings/save" method="POST">
+                        <div class="card-header text-center py-3">
+                            <h5 class="mb-0 text-center">
+                                <strong>Settings</strong>
+                            </h5>
+                        </div>
+                        <!-- MDB select -->
+                        <div class="container">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" name="maintenance" id="maintenance" <% if (config.maintenance) { %>checked<% } %>/>
+                                <label class="form-check-label" for="maintenance">Maintenance</label>
+                            </div>
+                        </div>
+                        <input name="_csrf" type="hidden" value="<%= csrfToken %>" />
+                        <button type="submit" class="btn btn-info col-5 col-sm-3 col-xl-1">Save</button>
+                    </form>
+                </div>
+            </section>
+            <!-- Section: Main chart -->
+        </div>
+    </main>
+<%- include('partials/footer.ejs'); -%>

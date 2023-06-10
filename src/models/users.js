@@ -7,7 +7,7 @@ class Users {
     this.password = user.password;
   }
   static findAll(result) {
-    pool.query("select * from users", (err, res) => {
+    pool.execute("select * from users", (err, res) => {
       result(err, res);
     });
   }
@@ -19,7 +19,7 @@ class Users {
     );
   }
   static findByEmail(email, result) {
-    pool.query("select * from users where email = ?", [email], (err, res) => {
+    pool.execute("select * from users where email = ?", [email], (err, res) => {
       result(err, res);
     });
   }

@@ -3,16 +3,15 @@
 const csrf = require("../middlewares/csrf.js");
 const auth = require("../middlewares/auth.js");
 const rate_limit = require("../middlewares/rate-limit.js");
-const constructor = require("../middlewares/constructor.js");
 const message = require("../middlewares/message.js");
+const configs = require("../middlewares/configs.js");
 
 function routes(app) {
-  // Auth Middleware
-  const middlewares = [constructor, rate_limit.all, message.check, auth.jwt]
-
+  // Middleware
+  const middlewares = [rate_limit.all, message.check, auth.jwt, configs.load]
   app.use(middlewares);
 
-  app.use("/admin", auth.isAdmin, require("./admin"))
+  app.use("/admin", auth.isAdmin, csrf.protection, require("./admin"))
 
   // Signup Router
   app.use("/signup", auth.isLogged, rate_limit.signup, csrf.protection, require("./signup"));

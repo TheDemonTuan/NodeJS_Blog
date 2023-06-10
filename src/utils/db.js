@@ -8,7 +8,7 @@ var connection = mysql.createPool({
   database: process.env.DB_DATABASE,
   connectionLimit: 100,
   waitForConnections: true,
-  idleTimeout: 60000,
+  idleTimeout: 60000, // idle connections timeout, in milliseconds, the default value 60000
   queueLimit: 0,
   enableKeepAlive: true,
   keepAliveInitialDelay: 0

@@ -1,76 +1,94 @@
 "use strict"
 
-const express = require("express");
-const path = require("path");
+const { error } = require("console");
 
-const app = express();
-const port = 3000;
+const server = async () => {
+  const express = require("express");
+  const path = require("path");
 
-//Compression
-const compression = require("compression");
-app.use(compression());
+  const app = express();
 
-// Helmet
-const helmet = require("helmet");
-app.use(
-  helmet({
+  //Compression
+  const compression = require("compression");
+  app.use(compression());
+
+  // Helmet
+  const helmet = require("helmet");
+  app.use(helmet({
     contentSecurityPolicy: {
       directives: {
         "script-src": ["'self'", "cdnjs.cloudflare.com", "'unsafe-inline'"],
         "img-src": ["'self'", "mdbootstrap.com"],
       },
     },
-  })
-);
+  }));
 
-// ENV config
-const dotenv = require("dotenv").config();
-app.set("env", "production");
+  // ENV config
+  const dotenv = require("dotenv").config();
+  app.set("env", process.env.NODE_ENV);
 
-// Body parser
-app.use(express.json()); // for parsing application/json
-app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+  // Body parser
+  app.use(express.json()); // for parsing application/json
+  app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-//Cookie parser
-const cookieParser = require("cookie-parser");
-app.use(cookieParser(process.env.COOKIE_SECRET));
+  //Cookie parser
+  const cookieParser = require("cookie-parser");
+  app.use(cookieParser(process.env.COOKIE_SECRET));
 
-//Redis and session
-const session = require("express-session");
-const Redis = require("ioredis");
-const RedisStore = require("connect-redis").default
+  // Static files
+  app.use(express.static(path.join(__dirname, "public")));
 
-try {
-  let redisStore = new RedisStore({ client: new Redis(), prefix: "tdt-sess:", ttl: 300 })
+  // Constructor for ejs template
+  app.use(require("./middlewares/constructor.js"));
 
-  app.use(
-    session({
-      store: redisStore,
-      name: process.env.SESSION_NAME,
-      resave: false, // required: force lightweight session keep alive (touch)
-      saveUninitialized: false, // recommended: only save session when data exists
-      secret: process.env.SESSION_SECRET,
-      cookie: {
-        httpOnly: true,
-        secure: false, // required: only set cookies over https
-        sameSite: "strict", // recommended: csrf
-        signed: true, // recommended: tamper-proof cookies
-      },
-    })
-  )
-} catch (err) {
-  //console.log(err)
+  //Redis and session
+  const session = require("express-session");
+  const Redis = require("ioredis");
+  const RedisStore = require("connect-redis").default;
+  const redisClient = new Redis();
+
+  // Sử dụng hàm để đợi Redis kết nối
+  try {
+    const isRedisConnect = await new Promise((resolve, reject) => {
+      if (redisClient.status === 'connect') {
+        resolve(true);
+      } else {
+        redisClient.on('connect', () => {
+          resolve(true);
+        });
+        redisClient.on('error', (error) => {
+          reject(error);
+        });
+      }
+    });
+
+    // Nếu kết nối thành công thì sử dụng RedisStore
+    if (isRedisConnect) {
+      let redisStore = new RedisStore({ client: redisClient, prefix: "tdt-sess:", ttl: 300 })
+      app.use(session({
+        store: redisStore,
+        name: process.env.SESSION_NAME,
+        resave: false,
+        saveUninitialized: false,
+        secret: process.env.SESSION_SECRET,
+        cookie: { httpOnly: true, secure: false, sameSite: "strict", signed: true, },
+      }));
+    }
+  } catch (err) {
+    redisClient.disconnect();
+    app.use((req, res, next) => {
+      return next(err);
+    });
+  }
+
+  // View engine setup
+  app.set("view engine", "ejs");
+  app.set("views", path.join(__dirname, "views"));
+
+  // Routes init
+  const routes = require("./routes");
+  routes(app);
+
+  app.listen(process.env.NODE_ENV == "production" ? 3000 : process.env.NODE_PORT);
 }
-
-// Static files
-app.use(express.static(path.join(__dirname, "public")));
-
-// View engine setup
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-
-// Routes init
-const routes = require("./routes");
-routes(app);
-
-app.listen(port);
+server();

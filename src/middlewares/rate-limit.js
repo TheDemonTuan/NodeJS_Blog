@@ -8,7 +8,7 @@ const configRateLimit = (options) => rateLimit({
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     message: "Too many requests, please try again later.",
     handler: (request, response, next, options) => {
-        const error = new Error(options.message);
+        const error = options.message;
         error.status = 429;
         next(error);
     }

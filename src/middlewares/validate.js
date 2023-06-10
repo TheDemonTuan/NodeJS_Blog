@@ -1,5 +1,5 @@
 const { body, validationResult, checkSchema } = require("express-validator");
-const message = require("../middlewares/message.js");
+const message = require("./message.js");
 
 const catchErrors = (req, res, next) => {
   let err = validationResult(req);

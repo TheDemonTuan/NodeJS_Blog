@@ -25,7 +25,7 @@
     <div class="row flex-nowrap justify-content-end">
       <div class="col-4 d-flex justify-content-end align-items-center">
         <div class="row row-cols-auto">
-          <% if (!isLogged) { %>
+          <% if (!userInfo) { %>
             <a class="btn btn-sm btn-primary mx-2" href="/signin">Sign in</a>
             <a class="btn btn-sm btn-danger" href="/signup">Sign up</a>
             <% } %>
@@ -55,7 +55,7 @@
                 target="_blank">Datapacks</a>
             </li>
           </ul>
-          <% if (isLogged) { %>
+          <% if (userInfo) { %>
             <!-- Right elements -->
             <div class="d-flex align-items-center">
               <!-- Icon -->
@@ -69,9 +69,13 @@
                   <i class="fas fa-bell"></i>
                   <span class="badge rounded-pill badge-notification bg-danger">1</span>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink" style="width: 250px; position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 44px, 0px);">
                   <li>
-                    <a class="dropdown-item" href="#">Some news</a>
+                    <a gtm-id="Notifications" class="dropdown-item text-wrap" data-notification-date="03/23/2023 13:00"
+                      href="https://youtu.be/Pr5cH-4c54k" target="_blank" rel="nofollow">
+                      <p class="small text-uppercase mb-2">23/3/2023</p>
+                      <p class="mb-0">Learn how to build your own WordPress-like platform from scratch with our latest video tutorial!</p>
+                    </a>
                   </li>
                   <li>
                     <a class="dropdown-item" href="#">Another news</a>
@@ -90,23 +94,27 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
                   <li>
-                    <a class="dropdown-item disabled">Hello, <span class="fw-bold"><%= userInfo.username %></span></a>
+                    <a class="dropdown-item disabled">Hello, <span class="fw-bold">
+                        <%= userInfo.username %>
+                      </span></a>
                   </li>
-                  <li><hr class="dropdown-divider"/></li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
                   <% if (userInfo.role) { %>
-                  <li>
-                    <a class="dropdown-item" href="/admin">Admin dashboard</a>
-                  </li>
-                  <% } %>
-                  <li>
-                    <a class="dropdown-item" href="/user/profile">My profile</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/user/settings">Settings</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/logout">Logout</a>
-                  </li>
+                    <li>
+                      <a class="dropdown-item" href="/admin">Admin dashboard</a>
+                    </li>
+                    <% } %>
+                      <li>
+                        <a class="dropdown-item" href="/user/profile">My profile</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/user/settings">Settings</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                      </li>
                 </ul>
               </div>
             </div>

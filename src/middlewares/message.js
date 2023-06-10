@@ -1,7 +1,7 @@
 exports.create = (req, res, next, status, message, isRedirect = false, pageRedirect = "") => {
   req.session.message = `{"status": "${status}", "message":"${message}"}`;
   if (isRedirect) return res.redirect(pageRedirect ? pageRedirect : req.originalUrl);
-  res.status(401).end("Unauthorized");
+  next();
 };
 
 exports.check = (req, res, next) => {
@@ -9,8 +9,7 @@ exports.check = (req, res, next) => {
     try {
       res.locals.showMessage = JSON.parse(req.session.message);
     } catch (err) {
-      console.log(err);
-      res.locals.showMessage = JSON.parse('{"status": "error", "message":"Something went wrong"}')
+      return next(err)
     }
   }
   delete req.session.message;
