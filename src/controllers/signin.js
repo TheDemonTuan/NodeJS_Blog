@@ -29,6 +29,6 @@ exports.checkLogin = async (req, res, next) => {
   } catch (err) {
     // Return error message
     //console.log(err);
-    return message.create(req, res, next, "error", "Can't sign in right now", true);
+    return message.create(req, res, next, "error", "Can't sign in, please try again later.", true);
   }
 };

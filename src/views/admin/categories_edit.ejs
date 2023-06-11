@@ -1,0 +1,42 @@
+<%- include('partials/header.ejs'); -%>
+    <main style="margin-top: 58px">
+        <div class="container pt-4">
+            <section class="mb-4">
+                <div class="card">
+                    <div class="card-header text-center py-3">
+                        <h5 class="mb-0 text-center">
+                            <strong>Edit Category</strong>
+                        </h5>
+                    </div>
+                    <div class="container card-body">
+                        <a class="btn btn-primary btn-rounded" href="<%=`/${path[0]}/${path[1]}`%>">Back</a>
+                        <div class="container">
+                            <div class="col-12 col-sm-6 col-lg-5 col-xl-4 mx-auto justify-content-center">
+                                <form class="row my-4 justify-content-center align-items-center g-4" method="POST">
+                                    <div class="form-outline col-md-6">
+                                        <input type="text" id="id" name="id" class="form-control" value="<%= category.id %>" readonly required/>
+                                        <label class="form-label" for="id">ID</label>
+                                    </div>
+                                    <div class="form-outline col-md-6">
+                                        <input type="text" id="name" name="name" class="form-control" value="<%= category.name %>"  required/>
+                                        <label class="form-label" for="name">Name</label>
+                                    </div>
+                                    <div class="form-outline col-md-6">
+                                        <input type="text" id="slug" name="slug" class="form-control" value="<%= category.name %>" required/>
+                                        <label class="form-label" for="slug">Slug</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" name="status" id="status" <%= category.status ? 'checked' : null %>/>
+                                        <label class="form-check-label" for="status">Status</label>
+                                    </div>
+                                    <input name="_csrf" type="hidden" value="<%= csrfToken %>" />
+                                    <button class="btn btn-success btn-rounded col-lg-3" type="submit">Update</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <%- include('partials/footer.ejs'); -%>

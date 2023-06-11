@@ -1,5 +1,6 @@
 exports.create = (req, res, next, status, message, isRedirect = false, pageRedirect = "") => {
   req.session.message = `{"status": "${status}", "message":"${message}"}`;
+  delete req.headers.referer;
   if (isRedirect) return res.redirect(pageRedirect ? pageRedirect : req.originalUrl);
   next();
 };

@@ -36,7 +36,7 @@ class Users {
     });
   }
   static async create(newUser, result) {
-    pool.query("insert into users set ?", [newUser], (err, res) => {
+    pool.query("insert into users set ?", [new Users(newUser)], (err, res) => {
       result(err, res);
     });
   }

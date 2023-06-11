@@ -1,0 +1,52 @@
+<%- include('partials/header.ejs'); -%>
+    <main style="margin-top: 58px">
+        <div class="container pt-4">
+            <section class="mb-4">
+                <div class="card">
+                    <div class="card-header text-center py-3">
+                        <h5 class="mb-0 text-center">
+                            <strong>Delete Category</strong>
+                        </h5>
+                    </div>
+                    <div class="container card-body">
+                        <a class="btn btn-primary btn-rounded" href="<%=`/${path[0]}/${path[1]}`%>">Back</a>
+                        <div class="container">
+                            <form class="row my-4 justify-content-center align-items-center g-4" method="POST">
+                                <div class="table-responsive">
+                                    <table class="table align-middle mb-0 bg-white table-hover text-nowrap text-center">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Slug</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <p class="fw-normal mb-1"><%= category.id %></p>
+                                                </td>
+                                                <td><%= category.name %></td>
+                                                <td><%= category.slug %></td>
+                                                <td>
+                                                    <% if (category.status) { %>
+                                                        <span class="badge badge-success rounded-pill d-inline">Active</span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger rounded-pill d-inline">Inactive</span>
+                                                    <% } %>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <input name="_csrf" type="hidden" value="<%= csrfToken %>" />
+                                <button class="btn btn-danger btn-rounded col-sm-3 col-md-2 col-xxl-1" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <%- include('partials/footer.ejs'); -%>

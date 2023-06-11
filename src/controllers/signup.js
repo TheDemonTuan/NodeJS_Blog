@@ -24,7 +24,7 @@ exports.store = async (req, res, next) => {
     req.body.password = bcrypt.hashSync(req.body.password, 11);
 
     // Create new user
-    var newUser = await Users.createAsync(new Users(req.body))
+    var newUser = await Users.createAsync(req.body)
 
     // If can't create new user, return error
     if(newUser.affectedRows === 0)
@@ -35,6 +35,6 @@ exports.store = async (req, res, next) => {
   } catch (err) {
     // Return error message
     //console.log(err);
-    return message.create(req, res, next, "error", "Can't sign up new user right now", true);
+    return message.create(req, res, next, "error", "Can't sign up new user, please try again later.", true);
   }
 };

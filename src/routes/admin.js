@@ -2,28 +2,31 @@ const router = require("express").Router();
 const adminController = require("../controllers/admin");
 
 
-// Settings Start
+//----------------------------------------------Settings----------------------------------------------
 // [GET]
 router.get("/settings", adminController.settingsIndex);
-
 // [POST]
 router.post("/settings/save", adminController.settingsStore);
-// Settings End
 
-// Categories Start
+//----------------------------------------------Categories----------------------------------------------
 // [GET]
 router.get("/categories", adminController.categoriesIndex);
 router.get("/categories/add", adminController.categoriesAdd);
-// Categories End
+router.get("/categories/edit/:id", adminController.categoriesEdit);
+router.get("/categories/delete/:id", adminController.categoriesDelete);
+// [POST]
+router.post("/categories/add", adminController.categoriesStore);
+router.post("/categories/edit/:id", adminController.categoriesUpdate);
+router.post("/categories/delete/:id", adminController.categoriesDestroy);
 
-// Posts Start
+
+//----------------------------------------------Posts----------------------------------------------
 // [GET]
 router.get("/posts", adminController.postsIndex);
-// Posts End
 
-// Dashboard Start
+//----------------------------------------------Dashboard----------------------------------------------
 // [GET] 
 router.get("/", adminController.dashboardIndex);
-// Dashboard End
+
 
 module.exports = router;

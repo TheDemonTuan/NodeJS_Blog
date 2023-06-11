@@ -83,7 +83,29 @@ const server = async () => {
 
   // View engine setup
   app.set("view engine", "ejs");
+  const { LRUCache } = require('lru-cache')
+  const options = {
+    max: 500,
+
+    // for use with tracking overall storage size
+    maxSize: 5000,
+    sizeCalculation: (value, key) => {
+      return 1
+    },
+
+    // how long to live in ms
+    ttl: 1000 * 60 * 5,
+
+    // return stale items before removing from cache?
+    allowStale: false,
+
+    updateAgeOnGet: false,
+    updateAgeOnHas: false,
+  }
+  //const cache = new LRUCache(options)
+  //app.set('view cache', true);
   app.set("views", path.join(__dirname, "views"));
+  //app.set('cache', cache);
 
   // Routes init
   const routes = require("./routes");
