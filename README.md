@@ -7,7 +7,7 @@ It's just a small project of mine for my website.
 
 ## Tech Stack
 
-**Client:** `HTML` `CSS` `Javascript` `EJS Template` `Jquery` `MDB` `Fontawesome` `Sweetalert 2`
+**Client:** `HTML` `CSS` `Javascript` `Pug Template` `Jquery` `MDB` `Fontawesome` `Sweetalert 2` `Jquery DataTables`
 
 **Server:** `Node` `Express` `Redis` `MySQL` `NPM`
 
