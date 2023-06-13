@@ -1,0 +1,9 @@
+extend ../layouts/layout
+
+block content
+	form#settings.row.justify-content-center.align-items-center(action='/admin/settings/save' method='POST')
+		.form-check.form-switch
+			input#maintenance.form-check-input(type='checkbox' role='switch' name='maintenance' checked=maintenance ? true : false)
+			label.form-check-label(for='maintenance') Maintenance
+		input(name='_csrf' type='hidden' value=csrfToken)
+		button.btn.btn-info.col-5.col-sm-3.col-xl-1(type='submit') Save

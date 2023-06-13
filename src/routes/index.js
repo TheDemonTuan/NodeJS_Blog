@@ -1,23 +1,24 @@
-"use strict"
+'use strict'
 
-const csrf = require("../middlewares/csrf.js");
-const auth = require("../middlewares/auth.js");
-const rate_limit = require("../middlewares/rate-limit.js");
-const message = require("../middlewares/message.js");
-const configs = require("../middlewares/configs.js");
+const csrf = require("../middlewares/csrf");
+const auth = require("../middlewares/auth");
+const rateLimit = require("../middlewares/rate-limit");
+const message = require("../middlewares/message");
+const statusCheck = require("../middlewares/status");
 
 function routes(app) {
   // Middleware
-  const middlewares = [rate_limit.all, message.check, auth.jwt, configs.load]
+  const middlewares = [rateLimit.all, message.load, auth.token, statusCheck]
   app.use(middlewares);
 
+  // Admin Router
   app.use("/admin", auth.isAdmin, csrf.protection, require("./admin"))
 
   // Signup Router
-  app.use("/signup", auth.isLogged, rate_limit.signup, csrf.protection, require("./signup"));
+  app.use("/signup", auth.isLogged, rateLimit.signup, csrf.protection, require("./signup"));
 
   // Signin Router
-  app.use("/signin", auth.isLogged, rate_limit.signin, csrf.protection, require("./signin"));
+  app.use("/signin", auth.isLogged, rateLimit.signin, csrf.protection, require("./signin"));
 
   // Logout Router
   app.use("/logout", auth.isNotLogged, require("./logout"));
@@ -34,8 +35,9 @@ function routes(app) {
 
   // Error Handler
   app.use((err, req, res, next) => {
+    if(err == "Too many requests, please try again later.")
+      return res.status(429).render("errors/error", { title: 429, error_code: 429, error_message: err });
     if (!err.status) {
-      //console.log(err)
       err.status = 500;
       err.message = process.env.NODE_ENV == "production" ? "Internal Server Error" : err.message;
     }

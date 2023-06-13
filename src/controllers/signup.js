@@ -1,6 +1,5 @@
 const Promise = require('bluebird');
-const Users = Promise.promisifyAll(require('../models/users'));
-const bcrypt = require("bcrypt");
+const User = Promise.promisifyAll(require('../models/users'));
 const message = require("../middlewares/message.js");
 
 // [GET] /
@@ -14,20 +13,17 @@ exports.index = async (req, res, next) => {
 exports.store = async (req, res, next) => {
   try {
     // Check duplicate email or username
-    var duplicateCheck = await Users.findByEmailOrUsernameAsync(req.body.email, req.body.username)
+    var duplicateCheck = await User.findByEmailOrUsernameAsync(req.body.email, req.body.username)
 
     // If duplicate email or username exists, return error
     if (duplicateCheck.length > 0)
       return message.create(req, res, next, "error", "Email or username already exists", true,`/signup?email=${req.body.email}&username=${req.body.username}`);
 
-    // Hash password
-    req.body.password = bcrypt.hashSync(req.body.password, 11);
-
     // Create new user
-    var newUser = await Users.createAsync(req.body)
+    var user = await User.createAsync(req.body)
 
     // If can't create new user, return error
-    if(newUser.affectedRows === 0)
+    if(user.affectedRows === 0)
       throw new Error("Can't create new user");
 
     // Return success message

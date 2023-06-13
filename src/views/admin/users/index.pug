@@ -1,0 +1,44 @@
+extend ../layouts/layout
+
+block content
+  a.btn.btn-success.my-3.btn-rounded(href='/' + fullPath + '/add') Add
+  .table-responsive
+    table#usersTable.table.align-middle.mb-0.bg-white.table-hover.text-nowrap
+      thead.bg-light
+        tr
+          th ID
+          th Info
+          th Created At
+          th Role
+          th Status
+          th Actions
+      tbody
+        if(users.length > 0)
+          each user in users
+            tr
+              td#user-id.fw-normal #{user.id}
+              td
+                .d-flex.align-items-center
+                  img.rounded-circle(src=user.avatar alt='' height=35)
+                  .ms-3
+                    p.fw-bold.mb-1 #{user.username}
+                    p.text-muted.mb-0 #{user.email}
+              td #{new Date(user.createdAt).toLocaleString()}
+              td
+                if(user.role)
+                  span.badge.badge-danger.rounded-pill.d-inline Admin
+                else
+                  span.badge.badge-primary.rounded-pill.d-inline Member
+              td
+                if(user.status)
+                  span.badge.badge-success.rounded-pill.d-inline Active
+                else
+                  span.badge.badge-danger.rounded-pill.d-inline Deactive
+              td
+                a.btn.btn-sm.btn-primary.btn-rounded(href='/' + fullPath + '/edit/' + user.id) Edit
+                a.btn.btn-sm.btn-danger.btn-rounded.mx-1(href='/' + fullPath + '/delete/' + user.id) Delete
+block scripts
+  script.
+    $(document).ready(function() {
+      $('#usersTable').DataTable();
+    });

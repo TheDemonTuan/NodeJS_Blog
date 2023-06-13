@@ -8,6 +8,17 @@ router.get("/settings", adminController.settingsIndex);
 // [POST]
 router.post("/settings/save", adminController.settingsStore);
 
+//----------------------------------------------Users----------------------------------------------
+// [GET]
+router.get("/users", adminController.usersIndex);
+router.get("/users/add", adminController.usersAdd);
+router.get("/users/edit/:id", adminController.usersEdit);
+router.get("/users/delete/:id", adminController.usersDelete);
+// [POST]
+router.post("/users/add", adminController.usersStore);
+router.post("/users/edit/:id", adminController.usersUpdate);
+router.post("/users/delete/:id", adminController.usersDestroy);
+
 //----------------------------------------------Categories----------------------------------------------
 // [GET]
 router.get("/categories", adminController.categoriesIndex);

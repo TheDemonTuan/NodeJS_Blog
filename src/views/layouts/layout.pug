@@ -1,0 +1,125 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title
+    // Font Awesome
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' integrity='sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    // Google Fonts
+    link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap' rel='stylesheet')
+    // MDB
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css' rel='stylesheet')
+    // SweetAlert2
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.10/sweetalert2.all.min.js' integrity='sha512-hqj3uRcg6pYUd2hJHI1k1qKyf8PA/YMWcEV9hTlD+mpnUKe2mpzS7Epp8FCQrGG632TEp2Bn194SN69Auykcdg==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    // jQuery
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js' integrity='sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    // CSS
+    link(rel='stylesheet' href='/css/home.css')
+    link(rel='icon' type='image/x-icon' href='/img/favicon.ico')
+  // Header
+  .container-fluid.border-bottom.bg-light.shadow-sm.lh-1.py-3
+  body
+    header
+      // Navbar
+      #tdt-navbar.nav.navbar.navbar-expand-lg.bg-white.navbar-light.p-3.shadow-lg
+        .container-fluid
+          // Navbar brand
+          a.navbar-brand(href='/')
+            img(src='/img/logo.webp' height='25' alt='')
+          button.navbar-toggler(type='button' data-mdb-toggle='collapse' data-mdb-target='#navbar-toggle' aria-controls='navbar-toggle' aria-expanded='false' aria-label='Toggle navigation')
+            i.fas.fa-bars
+          #navbar-toggle.collapse.navbar-collapse
+            form.d-none.d-md-flex.input-group.w-auto.my-auto(action='search?keyword=' method='POST')
+              input.form-control.rounded(autocomplete='off' type='search' placeholder='Search (ctrl + "/" to focus)' style='min-width: 225px')
+              span.input-group-text.border-0
+                i.fas.fa-search
+            span#dpl-navbar-new-right-buttons.navbar-nav.ms-auto.d-flex.flex-row
+              ul#main-navbar.nav.navbar-nav.nav-flex-icons.ml-auto.ms-auto.flex-row
+                li.nav-item.me-3.me-lg-0.d-none.d-sm-inline-block.dropdown
+                  a.nav-link(href='/datapacks')
+                    span.d-none.d-lg-inline-block.ml-1 Datapacks
+                li#navbar-static-support.nav-item.me-3.me-lg-0(alt='License')
+                  a.nav-link(href='/forums')
+                    span.d-none.d-lg-inline-block.ml-1 Forums
+                    i.fas.fa-file.d-inline-block.d-lg-none
+                li#navbar-static-support.nav-item.me-3.me-lg-0(alt='Support')
+                  a.nav-link(href='/support/')
+                    span.d-none.d-lg-inline-block.ml-1 FAQS
+                    i.fas.fa-question-circle.d-inline-block.d-lg-none
+                li.nav-item.me-3.me-lg-0.d-none.d-xl-inline-block
+                  a.nav-link(href='/services/')
+                    span.d-none.d-lg-inline-block Services
+                    i.fas.fa-question-circle.d-inline-block.d-lg-none
+                li.nav-item.d-none.d-xl-inline-block
+                  a.nav-link(href='/snippets/')
+                    span.d-none.d-lg-inline-block Playground
+                    i.fas.fa-code.d-inline-block.d-lg-none
+                li.nav-item.me-3.me-lg-0
+                  a.nav-link(href='/learn/mdb-foundations/basics/introduction/')
+                    span.d-none.d-lg-inline-block Learn
+                    i.fas.fa-fire-alt.d-inline-block.d-lg-none
+                li.nav-item.row.align-items-center.mx-1
+                  a#navbarDropdownMenuLink.nav-link(href='#' role='button' data-mdb-toggle='dropdown' aria-expanded='false')
+                    span.d-none.d-lg-inline-block.badge.rounded-pill.badge-notification.bg-danger 1
+                    i.fas.fa-bell.d-inline-block
+                  ul.dropdown-menu.dropdown-menu-end(aria-labelledby='navbarDropdownMenuLink' style='width: 250px;')
+                    li
+                      a.dropdown-item.text-wrap(gtm-id='Notifications' data-notification-date='03/23/2023 13:00' target='_blank' rel='nofollow')
+                        p.small.text-uppercase.mb-2 1/6/2023
+                        p.mb-0 Website under construction!
+                li.nav-item.row.align-items-center.mx-1
+                  a.nav-link(href='https://github.com/TheDemonTuan' rel='nofollow' target='_blank')
+                    i.fab.fa-github
+                if(userInfo)
+                  li.nav-item.dropdown
+                    a#navbarDropdownAvatar.nav-link.dropdown-toggle.hidden-arrow.d-sm-flex.align-items-sm-center(role='button' data-mdb-toggle='dropdown')
+                      img.rounded-circle(src=userInfo.avatar height='25' alt='Avatar' loading='lazy')
+                      strong.d-none.d-sm-block.ms-1 #{userInfo.username}
+                    ul.dropdown-menu.dropdown-menu-end(aria-labelledby='navbarDropdownAvatar')
+                      if(userInfo.role)
+                        li
+                          a.dropdown-item(href='/admin') Admin Daskboard
+                      li
+                        a.dropdown-item(href='#') My profile
+                      li
+                        a.dropdown-item(href='#') Settings
+                      li
+                        a.dropdown-item(href='/logout') Logout
+                else
+                  li.nav-item.row.align-content-center.mx-1
+                    a.btn.btn-primary.btn-outline-info(type='button' href='/signin') Sign in
+
+      // Jumpotron
+      #intro.p-5.text-center.bg-light
+        h1.mb-3.h2 Hi, I am TheDemonTuan.
+        p.mb-3 Backend developer and also a minecraft datapack developer.
+    // Content
+    block content
+    // Footer
+    footer.bg-light.text-lg-start
+      hr.m-0
+      .text-center.py-4.align-items-center
+        p Follow me on social media
+        a.btn.btn-primary.m-1(href='https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA' role='button' rel='nofollow' target='_blank')
+          i.fab.fa-youtube
+        a.btn.btn-primary.m-1(href='https://www.facebook.com/mdbootstrap' role='button' rel='nofollow' target='_blank')
+          i.fab.fa-facebook-f
+        a.btn.btn-primary.m-1(href='https://twitter.com/MDBootstrap' role='button' rel='nofollow' target='_blank')
+          i.fab.fa-twitter
+        a.btn.btn-primary.m-1(href='https://github.com/mdbootstrap/mdb-ui-kit' role='button' rel='nofollow' target='_blank')
+          i.fab.fa-github
+      .text-center.p-3(style='background-color: rgba(0, 0, 0, 0.2);') &copy; #{new Date().getFullYear()} 
+        span.fw-bold TheDemonTuan
+    // JS
+    // MDB
+    script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js')
+    script(src='/js/home.js')
+    if(showMessage)
+      script.
+        Swal.fire({
+          icon: `#{showMessage.status}`,
+          title: `#{showMessage.message}`,
+        })
+    block scripts

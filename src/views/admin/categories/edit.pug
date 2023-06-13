@@ -1,0 +1,21 @@
+extend ../layouts/layout
+
+block content
+  a.btn.btn-primary.btn-rounded(href='/' + path[0] + '/' + path[1]) Back
+  .col-12.col-sm-6.col-lg-5.col-xl-4.mx-auto.justify-content-center
+    form.row.my-4.justify-content-center.align-items-center.g-4(method='POST')
+      .form-outline.col-md-6
+        input#id.form-control(type='text' name='id' value=category.id readonly required)
+        label.form-label(for='id') ID
+      .form-outline.col-md-6
+        input#name.form-control(type='text' name='name' value=category.name required)
+        label.form-label(for='name') Name
+      .form-outline.col-md-6
+        input#slug.form-control(type='text' name='slug' value=category.slug required)
+        label.form-label(for='slug') Slug
+      .form-check.form-switch
+        input#status.form-check-input(type='checkbox' role='switch' name='status' checked=category.status ? true : false)
+        label.form-check-label(for='status') Status
+      input(name='_csrf' type='hidden' value=csrfToken)
+      button.btn.btn-success.btn-rounded.col-lg-3(type='submit') Update
+

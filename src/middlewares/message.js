@@ -5,7 +5,7 @@ exports.create = (req, res, next, status, message, isRedirect = false, pageRedir
   next();
 };
 
-exports.check = (req, res, next) => {
+exports.load = (req, res, next) => {
   if (req.session.message && req.method == "GET") {
     try {
       res.locals.showMessage = JSON.parse(req.session.message);

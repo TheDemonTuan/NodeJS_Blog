@@ -1,0 +1,39 @@
+extend ../layouts/layout
+
+block content
+  a.btn.btn-primary.btn-rounded(href='/' + path[0] + '/' + path[1]) Back
+  .col-12.col-sm-6.col-lg-5.col-xl-4.mx-auto
+    form.row.my-4.justify-content-center.align-items-center.g-4(method='POST')
+      button#user-random.btn.btn-info.btn-rounded.col-auto(type='button') Generate random user
+      .form-outline.col-md-6
+        input#email.form-control(type='email' name='email' required)
+        label.form-label(for='email') Email
+      .form-outline.col-md-6
+        input#username.form-control(type='text' name='username' required)
+        label.form-label(for='username') Username
+      .form-outline.col-md-6
+        input#password.form-control(type='text' name='password' required)
+        label.form-label(for='Password') Password
+      input(name='_csrf' type='hidden' value=csrfToken)
+      button.btn.btn-success.btn-rounded.col-auto(type='submit') Add
+block scripts
+  script.
+    function makeid(length) {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < length) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+          counter += 1;
+        }
+        return result;
+    }
+    $('#user-random').on('click', (e) => {
+      $('#email').val(makeid(20) + '@gmail.com')
+      $('#username').val(makeid(15))
+      $('#password').val(makeid(10))
+      $('#email').focus()
+      $('#username').focus()
+      $('#password').focus()
+    })

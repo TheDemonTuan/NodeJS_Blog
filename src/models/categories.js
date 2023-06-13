@@ -1,9 +1,8 @@
 const pool = require("../utils/db");
-
-const table = "categories";
-
-
 class Category {
+
+  static table = "categories";
+
   constructor(category, type) {
     if (type == "create") {
       this.name = category.name;
@@ -20,35 +19,34 @@ class Category {
   }
 
   static getAll = async (result) => {
-    pool.execute(`select * from ${table}`, (err, res) => {
+    pool.execute(`select * from ${this.table}`, (err, res) => {
       result(err, res);
     })
   }
 
   static findById = async (id, result) => {
-    pool.execute(`select * from ${table} where id = ?`, [id], (err, res) => {
+    pool.execute(`select * from ${this.table} where id = ?`, [id], (err, res) => {
       result(err, res[0]);
     })
   }
 
   static create = async (data, result) => {
-    pool.query(`insert into ${table} set ?`, [new Category(data,"create")], (err, res) => {
+    pool.query(`insert into ${this.table} set ?`, [new Category(data, "create")], (err, res) => {
       result(err, res);
     })
   }
 
   static updateById = async (id, data, result) => {
-    pool.query(`update ${table} set ? where id = ?`, [new Category(data,"update"), id], (err, res) => {
+    pool.query(`update ${this.table} set ? where id = ?`, [new Category(data, "update"), id], (err, res) => {
       result(err, res);
     })
   }
 
   static deleteById = async (id, result) => {
-    pool.execute(`delete from ${table} where id = ?`, [id], (err, res) => {
+    pool.execute(`delete from ${this.table} where id = ?`, [id], (err, res) => {
       result(err, res);
     })
   }
-
 }
 
 module.exports = Category;

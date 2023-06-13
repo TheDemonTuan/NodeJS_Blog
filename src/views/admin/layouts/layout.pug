@@ -1,0 +1,140 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title #{title} | TheDemonTuan 
+    // CSS
+    link(rel='stylesheet' href='/css/tdt.css')
+    link(rel='stylesheet' href='/css/datatables.min.css')
+    // Font Awesome
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' integrity='sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    // Google Fonts
+    link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap' rel='stylesheet')
+    // MDB
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css' rel='stylesheet')
+    // SweetAlert2
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.10/sweetalert2.all.min.js' integrity='sha512-hqj3uRcg6pYUd2hJHI1k1qKyf8PA/YMWcEV9hTlD+mpnUKe2mpzS7Epp8FCQrGG632TEp2Bn194SN69Auykcdg==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    // jQuery
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js' integrity='sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    // JS
+    script(src='/js/datatables.min.js')
+    // Favicon
+    link(rel='icon' type='image/x-icon' href='/img/favicon.ico')
+  // Main Navigation
+  body
+    header
+      // Sidebar
+      nav#sidebarMenu.collapse.d-lg-block.sidebar.collapse.bg-white
+        .position-sticky
+          .list-group.list-group-flush.mx-3.mt-4
+            a.list-group-item.list-group-item-action.py-2.ripple(href='/admin' aria-current='true' class=path[1] == undefined ? 'active' : null)
+              i.fas.fa-tachometer-alt.fa-fw.me-3
+              span Dashboard
+            a.list-group-item.list-group-item-action.py-2.ripple(href='/admin/settings' aria-current='true' class=path[1] == "settings" ? 'active' : null)
+              i.fa-solid.fa-sliders.fa-fw.me-3
+              span Webiste settings
+            a.list-group-item.list-group-item-action.py-2.ripple(href='/admin/users' aria-current='true' class=path[1] == "users" ? 'active' : null)
+              i.fas.fa-users.fa-fw.me-3
+              span Users
+            a.list-group-item.list-group-item-action.py-2.ripple(href='/admin/categories' aria-current='true' class=path[1] == "categories" ? 'active' : null)
+              i.fa-solid.fa-tags.fa-fw.me-3
+              span Categories
+            a.list-group-item.list-group-item-action.py-2.ripple(href='/admin/posts' aria-current='true' class=path[1] == "posts" ? 'active' : null)
+              i.fa-solid.fa-signs-post.fa-fw.me-3
+              span Posts
+            a.list-group-item.list-group-item-action.py-2.ripple(href='#')
+              i.fas.fa-chart-pie.fa-fw.me-3
+              span SEO
+            a.list-group-item.list-group-item-action.py-2.ripple(href='#')
+              i.fas.fa-chart-bar.fa-fw.me-3
+              span Orders
+            a.list-group-item.list-group-item-action.py-2.ripple(href='#')
+              i.fas.fa-globe.fa-fw.me-3
+              span International
+            a.list-group-item.list-group-item-action.py-2.ripple(href='#')
+              i.fas.fa-building.fa-fw.me-3
+              span Partners
+            a.list-group-item.list-group-item-action.py-2.ripple(href='#')
+              i.fas.fa-calendar.fa-fw.me-3
+              span Calendar
+            a.list-group-item.list-group-item-action.py-2.ripple(href='#')
+              i.fas.fa-money-bill.fa-fw.me-3
+              span Sales
+            a.list-group-item.list-group-item-action.py-2.ripple(href='/' aria-current='true')
+              i.fa-solid.fa-arrow-left.fa-fw.me-3
+              span Back home
+      // Sidebar
+      // Navbar
+      nav#main-navbar.navbar.navbar-expand-lg.navbar-light.bg-white.fixed-top
+        // Container wrapper
+        .container-fluid
+          // Toggle button
+          button.navbar-toggler(type='button' data-mdb-toggle='collapse' data-mdb-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')
+            i.fas.fa-bars
+          // Brand
+          a.navbar-brand(href='/admin')
+            img(src='/img/logo.webp' height='25' alt='' loading='lazy')
+          // Search form
+          form.d-none.d-md-flex.input-group.w-auto.my-auto
+            input.form-control.rounded(autocomplete='off' type='search' placeholder='Search (ctrl + "/" to focus)' style='min-width: 225px')
+            span.input-group-text.border-0
+              i.fas.fa-search
+          // Right links
+          ul.navbar-nav.ms-auto.d-flex.flex-row
+            // Notification dropdown
+            li.nav-item.dropdown
+              a#navbarDropdownMenuLink.nav-link.me-3.me-lg-0.dropdown-toggle.hidden-arrow(href='#' role='button' data-mdb-toggle='dropdown' aria-expanded='false')
+                i.fas.fa-bell
+                span.badge.rounded-pill.badge-notification.bg-danger 1
+              ul.dropdown-menu.dropdown-menu-end(aria-labelledby='navbarDropdownMenuLink')
+                li
+                  a.dropdown-item(href='#') Some news
+                li
+                  a.dropdown-item(href='#') Another news
+                li
+                  a.dropdown-item(href='#') Something else here
+            // Icon
+            li.nav-item
+              a.nav-link.me-3.me-lg-0(href='#')
+                i.fas.fa-fill-drip
+            // Icon
+            li.nav-item.me-3.me-lg-0
+              a.nav-link(href='#')
+                i.fab.fa-github
+            // Avatar
+            li.nav-item.dropdown
+              a#navbarDropdownMenuLink.nav-link.dropdown-toggle.hidden-arrow.d-flex.align-items-center(href='#' role='button' data-mdb-toggle='dropdown' aria-expanded='false')
+                img.rounded-circle(src=userInfo.avatar height='22' alt='' loading='lazy')
+              ul.dropdown-menu.dropdown-menu-end(aria-labelledby='navbarDropdownMenuLink')
+                li
+                  a.dropdown-item(href='#') My profile
+                li
+                  a.dropdown-item(href='#') Settings
+                li
+                  a.dropdown-item(href='/logout') Logout
+        // Container wrapper
+      // Navbar
+    main(style='margin-top: 58px')
+      .container.pt-4
+        section.mb-4
+          .card
+            .card-header.text-center.py-3
+              h5.mb-0.text-center
+                strong #{title}
+            .container.card-body
+              block content
+    // JS
+    // MDB
+    script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js')
+    // Default
+    if(showMessage)
+      script.
+        Swal.fire({
+          icon: `#{showMessage.status}`,
+          title: `#{showMessage.message}`,
+        })
+    block scripts
+    script(src='/js/tdt.js')
+

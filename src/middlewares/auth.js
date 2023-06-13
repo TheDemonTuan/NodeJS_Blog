@@ -1,44 +1,49 @@
 const Promise = require('bluebird');
 const message = require("../middlewares/message");
 const jwt = Promise.promisifyAll(require('jsonwebtoken'));
-const Users = Promise.promisifyAll(require('../models/users')); // Chuyển đổi module Users thành Promise-based
+const Users = Promise.promisifyAll(require('../models/users'));
 
 const logOut = (req, res, next) => {
   res.clearCookie(process.env.JWT_COOKIE_NAME);
+  _redisClient.del(res.locals.userInfo.id);
   message.create(req, res, next, "error", "Token is invalid", true, "/signin");
 }
 
-exports.jwt = async (req, res, next) => {
+exports.token = async (req, res, next) => {
   const cookie = req.signedCookies[process.env.JWT_COOKIE_NAME];
   if (cookie) {
     try {
+      // check token is valid
       const { id: userId } = await jwt.verifyAsync(cookie, process.env.JWT_SECRET);
-      if (!req.session[process.env.SESSION_INFO_NAME]) {
+      // check user exists in redis
+      if (!await _redisClient.exists(userId)) {
+        // get user from database
         const userGet = await Users.findByIdAsync(userId);
-        if (userGet.length > 0 && userGet[0].id === userId) {
-          req.session[process.env.SESSION_INFO_NAME] = res.locals[process.env.SESSION_INFO_NAME] = userGet[0];
-        } else {
-          logOut(req, res, next);
+        // if user exists, set user to redis
+        if (userGet && userGet.id === userId) {
+          await _redisClient.set(userId, JSON.stringify(userGet), "EX", 300);
+        } 
+        // if user not exists, logout
+        else {
+          return logOut(req, res, next);
         }
-      } else {
-        res.locals[process.env.SESSION_INFO_NAME] = req.session[process.env.SESSION_INFO_NAME];
       }
+      // set user info to res.locals
+      res.locals.userInfo = JSON.parse(await _redisClient.get(userId));
     } catch (err) {
       return logOut(req, res, next);
     }
-  } else if (cookie === false) {
+  } 
+  // if cookie invalid, logout
+  else if (cookie === false) {
     return logOut(req, res, next);
   }
-  else {
-    if (req.session[process.env.SESSION_INFO_NAME])
-      delete req.session[process.env.SESSION_INFO_NAME];
-  }
-
   next();
 };
 
+// middleware block access to page if logged in
 exports.isLogged = async (req, res, next) => {
-  if (res.locals[process.env.SESSION_INFO_NAME]) {
+  if (res.locals.userInfo) {
     return message.create(req, res, next, "warning", "You are logged in", true, "/");
   }
   next();
@@ -46,14 +51,14 @@ exports.isLogged = async (req, res, next) => {
 
 // middleware block access to page if not logged
 exports.isNotLogged = async (req, res, next) => {
-  if (!res.locals[process.env.SESSION_INFO_NAME])
+  if (!res.locals.userInfo)
     return message.create(req, res, next, "warning", "You are not logged in", true, "/signin");
   next();
 };
 
 // middleware block access to page if not admin
 exports.isAdmin = async (req, res, next) => {
-  if (!res.locals[process.env.SESSION_INFO_NAME].role) {
+  if (!res.locals.userInfo.role) {
     const error = new Error("Page not found");
     error.status = 404;
     next(error);

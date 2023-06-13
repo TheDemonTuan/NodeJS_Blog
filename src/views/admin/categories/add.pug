@@ -1,0 +1,33 @@
+extend ../layouts/layout
+block content
+  a.btn.btn-primary.btn-rounded(href='/' + path[0] + '/' + path[1]) Back
+  .col-12.col-sm-6.col-lg-5.col-xl-4.mx-auto.justify-content-center
+    form.row.my-4.justify-content-center.align-items-center.g-4(method='POST')
+      .form-outline.col-md-6
+        input#name.form-control(type='text' name='name' required)
+        label.form-label(for='name') Name
+      .form-outline.col-md-6
+        input#slug.form-control(type='text' name='slug' required)
+        label.form-label(for='slug') Slug
+      .form-check.form-switch
+        input#status.form-check-input(type='checkbox' role='switch' name='status')
+        label.form-check-label(for='status') Status
+      input(name='_csrf' type='hidden' value=csrfToken)
+      button.btn.btn-success.btn-rounded.col-lg-3(type='submit') ADD
+block scripts
+  script.
+    function convertToSlug(str) {
+      //replace all special characters | symbols with a space
+      str = str.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ').toLowerCase();
+      // trim spaces at start and end of string
+      str = str.replace(/^\\s+|\s+$/gm, '');
+      // replace space with dash/hyphen
+      str = str.replace(/\\s+/g, '-');
+      return str;
+    }
+    $(document).ready(function () {
+      $('#name').on('keyup', function () {
+        $('#slug').val(convertToSlug($(this).val()));
+      })
+    });
+
