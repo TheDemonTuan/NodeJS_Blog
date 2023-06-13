@@ -14,7 +14,7 @@ It's just a small project of mine for my website.
 
 ## Screenshots
 
-![App Screenshot](https://i.imgur.com/TFzEL2k.png)
+![App Screenshot](https://i.imgur.com/OeCTzZu.png)
 
 
 ## Demo
