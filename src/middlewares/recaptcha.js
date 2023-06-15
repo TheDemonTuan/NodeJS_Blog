@@ -12,7 +12,7 @@ exports.v2 = async (req, res, next) => {
   // Gửi yêu cầu POST đến API reCAPTCHA
   const result = await axios.post('https://www.google.com/recaptcha/api/siteverify', null, {
     params: {
-      secret: '6LdlzIgjAAAAAFmpQwucpSpq-UaLHntzjvePEoa2',
+      secret: process.env.RECAPTCHA_SECRET_KEY,
       response: recaptchaResponse,
     },
   });
@@ -38,7 +38,7 @@ exports.v3 = async (req, res, next) => {
   // Gửi yêu cầu POST đến API reCAPTCHA
   const result = await axios.post('https://www.google.com/recaptcha/api/siteverify', null, {
     params: {
-      secret: '6LeHzKQjAAAAAC_LuaQl9BUUZbWNDqO_lLR2s4Ex',
+      secret: process.env.RECAPTCHA_SECRET_KEY,
       response: recaptchaResponse,
     },
   });
