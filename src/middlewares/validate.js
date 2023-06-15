@@ -10,15 +10,18 @@ const catchErrors = (req, res, next) => {
     if (req.body.username)
       arr["username"] = req.body.username;
     const query = "?" + Object.entries(arr).map(([key, value]) => `${key}=${value}`).join("&");
-    return message.create(req, res, next, "error", err.array()[0].msg, true, `${req.baseUrl}${query}`);
+    return message.set(req, res, next, "error", err.array()[0].msg, true, `${req.baseUrl}${query}`);
   } else next();
 };
 
 exports.signup = [
   checkSchema({
     email: {
-      notEmpty: {
+      exists: {
         errorMessage: "Email is required",
+      },
+      notEmpty: {
+        errorMessage: "Email not empty",
       },
       isEmail: {
         errorMessage: "Invalid email",
@@ -27,11 +30,15 @@ exports.signup = [
         options: { max: 50 },
         errorMessage: "Email should be at most 50 chars long",
       },
+      escape: true,
       trim: true,
     },
     username: {
-      notEmpty: {
+      exists: {
         errorMessage: "Username is required",
+      },
+      notEmpty: {
+        errorMessage: "Username not empty",
       },
       isLength: {
         errorMessage:

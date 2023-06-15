@@ -1,4 +1,5 @@
 const pool = require("../utils/db");
+
 class Category {
 
   static table = "categories";
@@ -8,8 +9,6 @@ class Category {
       this.name = category.name;
       this.slug = category.slug;
       this.status = category.status ? 1 : 0;
-      this.createdAt = new Date();
-      this.updatedAt = new Date();
     } else if (type == "update") {
       this.name = category.name;
       this.slug = category.slug;

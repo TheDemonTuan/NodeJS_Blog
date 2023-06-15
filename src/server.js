@@ -14,8 +14,10 @@ const helmet = require("helmet");
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
-      "script-src": ["'self'", "cdnjs.cloudflare.com", "'unsafe-inline'"],
-      "img-src": ["'self'", "mdbootstrap.com", "data:"],
+      "img-src": ["'self'", "mdbootstrap.com", "sp.tinymce.com" ,"data:"],
+      "script-src-elem": ["'self'", "www.google.com", "cdnjs.cloudflare.com","www.gstatic.com","cdn.tiny.cloud" ,"'unsafe-inline'"],
+      "frame-src": ["'self'", "www.google.com"],
+      "connect-src": ["'self'", "spelling.tiny.cloud"],
     },
   },
 }));
@@ -33,7 +35,8 @@ const cookieParser = require("cookie-parser");
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Static files
-app.use(express.static(path.join(__dirname, "public")));
+global.staticPath = path.join(__dirname, "public")
+app.use(express.static(global.staticPath));
 
 // Constructor for ejs template
 app.use(require("./middlewares/constructor.js"));

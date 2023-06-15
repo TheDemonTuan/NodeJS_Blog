@@ -1,4 +1,44 @@
 extend ../layouts/layout
 
 block content
-  h1 hi
+  a.btn.btn-success.my-3.btn-rounded(href='/' + fullPath + '/add') Add
+  .table-responsive
+    table#usersTable.table.align-middle.mb-0.bg-white.table-hover
+      thead
+        tr
+          th ID
+          th Category
+          th Thumbnail
+          th Title
+          th Slug
+          th Status
+          th Action
+      tbody
+        if(posts.length)
+          each post in posts
+            tr
+              td= post.id
+              td
+                each category in categories
+                  if(category.id == post.category_id)
+                    = category.name
+              td 
+                img.img-thumbnail.img-fluid.hover-shadow(src=post.thumbnail width='250')
+              td= post.title
+              td= post.slug
+              td
+                if(post.status)
+                  span.badge.badge-success.rounded-pill.d-inline Active
+                else
+                  span.badge.badge-danger.rounded-pill.d-inline Deactive
+              td
+                .col-12.d-flex.justify-content-center.gap-3
+                  a.text-primary.action-button(href='/' + fullPath + '/edit/' + post.id)
+                    i.fa-regular.fa-pen-to-square.fs-3
+                  a.text-danger.action-button(href='/' + fullPath + '/delete/' + post.id)
+                    i.fa-regular.fa-trash-can.fs-3
+block scripts
+  script.
+    $(document).ready(function() {
+      $('#usersTable').DataTable();
+    });

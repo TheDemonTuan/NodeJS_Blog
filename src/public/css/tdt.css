@@ -38,6 +38,29 @@ body {
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
 
+.avatar-circle {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+}
+
+.avatar-circle:hover {
+  transition: all 0.2s ease-in-out;
+  transform: scale(1.1);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.avatar-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+
+
 #user-id {
   max-width: 10vw;
   overflow: hidden;
@@ -45,4 +68,9 @@ body {
 
 #user-id:hover {
   overflow: auto;
+}
+
+.action-button:hover {
+  transition: all 0.2s ease-in-out;
+  transform: scale(1.2);
 }

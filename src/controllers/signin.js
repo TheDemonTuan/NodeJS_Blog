@@ -18,17 +18,17 @@ exports.checkLogin = async (req, res, next) => {
 
     // if user not exists or password is incorrect
     if (user.length == 0 || !bcrypt.compareSync(req.body.password, user[0].password))
-      return message.create(req, res, next, "error", "Username or password is incorrect", true,`/signin?username=${req.body.username}`);
+      return message.set(req, res, next, "error", "Username or password is incorrect", true,`/signin?username=${req.body.username}`);
 
     // Create token
     const token = await jwt.signAsync({ id: user[0].id }, process.env.JWT_SECRET, { expiresIn: "1d" });
     const jwtCookie = res.cookie(process.env.JWT_COOKIE_NAME, token, { httpOnly: true, sameSite: "lax", secure: true, signed: true, maxAge: 86400000 });
 
     // Return success message
-    return message.create(req, res, next, "success", "Sign in successfully", true, "/");
+    return message.set(req, res, next, "success", "Sign in successfully", true, "/");
   } catch (err) {
     // Return error message
     //console.log(err);
-    return message.create(req, res, next, "error", "Can't sign in, please try again later.", true);
+    return message.set(req, res, next, "error", "Can't sign in, please try again later.", true);
   }
 };

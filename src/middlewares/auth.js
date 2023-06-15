@@ -6,7 +6,7 @@ const Users = Promise.promisifyAll(require('../models/users'));
 const logOut = (req, res, next) => {
   res.clearCookie(process.env.JWT_COOKIE_NAME);
   _redisClient.del(res.locals.userInfo.id);
-  message.create(req, res, next, "error", "Token is invalid", true, "/signin");
+  message.set(req, res, next, "error", "Token is invalid", true, "/signin");
 }
 
 exports.token = async (req, res, next) => {
@@ -44,7 +44,7 @@ exports.token = async (req, res, next) => {
 // middleware block access to page if logged in
 exports.isLogged = async (req, res, next) => {
   if (res.locals.userInfo) {
-    return message.create(req, res, next, "warning", "You are logged in", true, "/");
+    return message.set(req, res, next, "warning", "You are logged in", true, "/");
   }
   next();
 };
@@ -52,7 +52,7 @@ exports.isLogged = async (req, res, next) => {
 // middleware block access to page if not logged
 exports.isNotLogged = async (req, res, next) => {
   if (!res.locals.userInfo)
-    return message.create(req, res, next, "warning", "You are not logged in", true, "/signin");
+    return message.set(req, res, next, "warning", "You are not logged in", true, "/signin");
   next();
 };
 

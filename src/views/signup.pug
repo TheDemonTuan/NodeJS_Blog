@@ -1,4 +1,6 @@
 extend ./layouts/layout
+block customHead
+  script(src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit' async defer)
 
 block content
   .container.my-2
@@ -35,9 +37,12 @@ block content
             label.form-label(for='repeat-password') Repeat password
           // Checkbox
           .form-check.d-flex.justify-content-center.mb-4
-            input#registerCheck.form-check-input.me-2(type='checkbox' checked='' aria-describedby='registerCheckHelpText' name='check')
+            input#registerCheck.form-check-input.me-2(type='checkbox' name='check')
             label.form-check-label(for='registerCheck') I have read and agree to the terms
-          input(name='_csrf' type='hidden' value=csrfToken)
+          // CSRF token
+          input(name='_csrf' type='hidden')
+          // Recaptcha
+          #_recaptcha.mb-4
           // Submit button
           button.btn.btn-primary.btn-block.mb-4(type='submit' name='signup')
             | Sign up
@@ -45,3 +50,14 @@ block content
             p
               | Already have an account? 
               a(href='/signin') Sign in 
+
+block scripts
+  script.
+    var onloadCallback = () => {
+      grecaptcha.render('_recaptcha', {
+        'sitekey' : '6LdlzIgjAAAAAHhB1DoQpIVo4hWDudqCaPkp65_Q'
+      });
+    };
+    $(() => {
+      $('input[name="_csrf"]').val("#{csrfToken}");
+    });

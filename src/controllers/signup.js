@@ -17,7 +17,7 @@ exports.store = async (req, res, next) => {
 
     // If duplicate email or username exists, return error
     if (duplicateCheck.length > 0)
-      return message.create(req, res, next, "error", "Email or username already exists", true,`/signup?email=${req.body.email}&username=${req.body.username}`);
+      return message.set(req, res, next, "error", "Email or username already exists", true,`/signup?email=${req.body.email}&username=${req.body.username}`);
 
     // Create new user
     var user = await User.createAsync(req.body)
@@ -27,10 +27,10 @@ exports.store = async (req, res, next) => {
       throw new Error("Can't create new user");
 
     // Return success message
-    return message.create(req, res, next, "success", "Sign up successfully", true, `/signin?username=${req.body.username}`);
+    return message.set(req, res, next, "success", "Sign up successfully", true, `/signin?username=${req.body.username}`);
   } catch (err) {
     // Return error message
     //console.log(err);
-    return message.create(req, res, next, "error", "Can't sign up new user, please try again later.", true);
+    return message.set(req, res, next, "error", "Can't sign up new user, please try again later.", true);
   }
 };

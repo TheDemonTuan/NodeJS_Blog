@@ -14,20 +14,3 @@ block content
         label.form-check-label(for='status') Status
       input(name='_csrf' type='hidden' value=csrfToken)
       button.btn.btn-success.btn-rounded.col-lg-3(type='submit') ADD
-block scripts
-  script.
-    function convertToSlug(str) {
-      //replace all special characters | symbols with a space
-      str = str.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ').toLowerCase();
-      // trim spaces at start and end of string
-      str = str.replace(/^\\s+|\s+$/gm, '');
-      // replace space with dash/hyphen
-      str = str.replace(/\\s+/g, '-');
-      return str;
-    }
-    $(document).ready(function () {
-      $('#name').on('keyup', function () {
-        $('#slug').val(convertToSlug($(this).val()));
-      })
-    });
-

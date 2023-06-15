@@ -13,30 +13,34 @@ block content
           th Status
           th Actions
       tbody
-        if(users.length > 0)
+        if(users.length)
           each user in users
             tr
               td#user-id.fw-normal #{user.id}
               td
                 .d-flex.align-items-center
-                  img.rounded-circle(src=user.avatar alt='' height=35)
+                  .avatar-circle
+                    img(src=user.avatar alt='Avatar')
                   .ms-3
                     p.fw-bold.mb-1 #{user.username}
                     p.text-muted.mb-0 #{user.email}
               td #{new Date(user.createdAt).toLocaleString()}
               td
                 if(user.role)
-                  span.badge.badge-danger.rounded-pill.d-inline Admin
+                  span.badge.badge-dark.rounded-pill.d-inline Admin
                 else
-                  span.badge.badge-primary.rounded-pill.d-inline Member
+                  span.badge.badge-light.rounded-pill.d-inline Member
               td
                 if(user.status)
                   span.badge.badge-success.rounded-pill.d-inline Active
                 else
                   span.badge.badge-danger.rounded-pill.d-inline Deactive
               td
-                a.btn.btn-sm.btn-primary.btn-rounded(href='/' + fullPath + '/edit/' + user.id) Edit
-                a.btn.btn-sm.btn-danger.btn-rounded.mx-1(href='/' + fullPath + '/delete/' + user.id) Delete
+                .col-12.d-flex.justify-content-center.gap-3
+                  a.text-primary.action-button(href='/' + fullPath + '/edit/' + user.id)
+                    i.fa-regular.fa-pen-to-square.fs-3
+                  a.text-danger.action-button(href='/' + fullPath + '/delete/' + user.id)
+                    i.fa-regular.fa-trash-can.fs-3
 block scripts
   script.
     $(document).ready(function() {

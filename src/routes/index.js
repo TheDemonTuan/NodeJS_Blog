@@ -2,23 +2,21 @@
 
 const csrf = require("../middlewares/csrf");
 const auth = require("../middlewares/auth");
-const rateLimit = require("../middlewares/rate-limit");
 const message = require("../middlewares/message");
 const statusCheck = require("../middlewares/status");
 
-function routes(app) {
+module.exports = (app) => {
   // Middleware
-  const middlewares = [rateLimit.all, message.load, auth.token, statusCheck]
-  app.use(middlewares);
+  app.use(message.load, auth.token, statusCheck);
 
   // Admin Router
-  app.use("/admin", auth.isAdmin, csrf.protection, require("./admin"))
+  app.use("/admin", auth.isAdmin, csrf, require("./admin"))
 
   // Signup Router
-  app.use("/signup", auth.isLogged, rateLimit.signup, csrf.protection, require("./signup"));
+  app.use("/signup", auth.isLogged, csrf, require("./signup"));
 
   // Signin Router
-  app.use("/signin", auth.isLogged, rateLimit.signin, csrf.protection, require("./signin"));
+  app.use("/signin", auth.isLogged, csrf, require("./signin"));
 
   // Logout Router
   app.use("/logout", auth.isNotLogged, require("./logout"));
@@ -27,22 +25,5 @@ function routes(app) {
   app.use("/", require("./home"));
 
   // 404 Router
-  app.use((req, res, next) => {
-    const error = new Error("Page not found");
-    error.status = 404;
-    next(error);
-  });
-
-  // Error Handler
-  app.use((err, req, res, next) => {
-    if(err == "Too many requests, please try again later.")
-      return res.status(429).render("errors/error", { title: 429, error_code: 429, error_message: err });
-    if (!err.status) {
-      err.status = 500;
-      err.message = process.env.NODE_ENV == "production" ? "Internal Server Error" : err.message;
-    }
-    res.status(err.status).render("errors/error", { title: err.status, error_code: err.status, error_message: err.message });
-  });
+  app.use(require("./errors"));
 }
-
-module.exports = routes;

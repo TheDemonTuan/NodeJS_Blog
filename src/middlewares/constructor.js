@@ -1,4 +1,4 @@
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
     let nowPath = req.path;
 
     //Remove first and last slash

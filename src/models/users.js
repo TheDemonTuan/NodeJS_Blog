@@ -24,8 +24,8 @@ class Users {
       this.username = user.username;
       if (user.password)
         this.password = bcrypt.hashSync(user.password, 11);
-      this.role = user.role
-      this.status = user.status ? 1 : 0
+      this.role = user.role;
+      this.status = user.status ? 1 : 0;
     }
   }
 
@@ -34,6 +34,7 @@ class Users {
       result(err, res);
     });
   }
+
   static async findByUsername(username, result) {
     // Do something with the connection
     pool.execute(`select * from ${this.table} where username = ?`, [username], (err, res) => {

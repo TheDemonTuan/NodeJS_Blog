@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const adminController = require("../controllers/admin");
+const thumbnailUpload = require("../middlewares/posts/thumbnailUpload");
+const validdate = require("../middlewares/validate");
 
 
 //----------------------------------------------Settings----------------------------------------------
@@ -34,7 +36,13 @@ router.post("/categories/delete/:id", adminController.categoriesDestroy);
 //----------------------------------------------Posts----------------------------------------------
 // [GET]
 router.get("/posts", adminController.postsIndex);
-
+router.get("/posts/add", adminController.postsAdd);
+router.get("/posts/edit/:id", adminController.postsEdit);
+router.get("/posts/delete/:id", adminController.postsDelete);
+// [POST]
+router.post("/posts/add", thumbnailUpload.add, adminController.postsStore);
+router.post("/posts/edit/:id", thumbnailUpload.edit, adminController.postsUpdate);
+router.post("/posts/delete/:id", adminController.postsDestroy);
 //----------------------------------------------Dashboard----------------------------------------------
 // [GET] 
 router.get("/", adminController.dashboardIndex);

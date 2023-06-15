@@ -1,0 +1,33 @@
+extend ../layouts/layout
+
+block content
+  a.btn.btn-primary.btn-rounded(href='/' + path[0] + '/' + path[1]) Back
+  form.row.my-4.justify-content-center.align-items-center.g-4(method='POST')
+    .table-responsive
+      table.table.align-middle.mb-0.bg-white.table-hover.text-nowrap
+        thead.bg-light
+          tr
+            th ID
+            th Category
+            th Thumbnail
+            th Title
+            th Slug
+            th Status
+        tbody
+          tr
+            td= post.id
+            td
+              each category in categories
+                if(category.id == post.category_id)
+                  = category.name
+            td 
+              img.img-thumbnail.img-fluid.hover-shadow(src=post.thumbnail width='250')
+            td= post.title
+            td= post.slug
+            td
+              if(post.status)
+                span.badge.badge-success.rounded-pill.d-inline Active
+              else
+                span.badge.badge-danger.rounded-pill.d-inline Deactive
+        input(name='_csrf' type='hidden' value=csrfToken)
+    button.btn.btn-danger.btn-rounded.col-sm-3.col-md-2.col-xxl-1(type='submit') Delete

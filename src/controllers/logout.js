@@ -4,6 +4,6 @@ const message = require("../middlewares/message.js");
 exports.index = async (req, res, next) => {
     res.clearCookie(process.env.JWT_COOKIE_NAME);
     _redisClient.del(res.locals.userInfo.id);
-    return message.create(req, res, next, "success", "Logout successfully", true, "/signin")
+    return message.set(req, res, next, "success", "Logout successfully", true, "/signin")
 
 };

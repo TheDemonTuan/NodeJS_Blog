@@ -4,20 +4,20 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title
+    title #{title ? title : 'Home'} | TheDemonTuan
     // Font Awesome
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' integrity='sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==' crossorigin='anonymous' referrerpolicy='no-referrer')
     // Google Fonts
     link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap' rel='stylesheet')
     // MDB
     link(href='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css' rel='stylesheet')
-    // SweetAlert2
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.10/sweetalert2.all.min.js' integrity='sha512-hqj3uRcg6pYUd2hJHI1k1qKyf8PA/YMWcEV9hTlD+mpnUKe2mpzS7Epp8FCQrGG632TEp2Bn194SN69Auykcdg==' crossorigin='anonymous' referrerpolicy='no-referrer')
     // jQuery
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js' integrity='sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    // Custom
+    block customHead
     // CSS
     link(rel='stylesheet' href='/css/home.css')
-    link(rel='icon' type='image/x-icon' href='/img/favicon.ico')
+    link(rel='icon' type='image/x-icon' href='/favicon.ico')
   // Header
   .container-fluid.border-bottom.bg-light.shadow-sm.lh-1.py-3
   body
@@ -75,7 +75,7 @@ html(lang='en')
                 if(userInfo)
                   li.nav-item.dropdown
                     a#navbarDropdownAvatar.nav-link.dropdown-toggle.hidden-arrow.d-sm-flex.align-items-sm-center(role='button' data-mdb-toggle='dropdown')
-                      img.rounded-circle(src=userInfo.avatar height='25' alt='Avatar' loading='lazy')
+                      img.rounded-circle.hover-shadow(src=userInfo.avatar height='25' alt='Avatar' loading='lazy')
                       strong.d-none.d-sm-block.ms-1 #{userInfo.username}
                     ul.dropdown-menu.dropdown-menu-end(aria-labelledby='navbarDropdownAvatar')
                       if(userInfo.role)
@@ -117,6 +117,7 @@ html(lang='en')
     script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js')
     script(src='/js/home.js')
     if(showMessage)
+      script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.10/sweetalert2.all.min.js' integrity='sha512-hqj3uRcg6pYUd2hJHI1k1qKyf8PA/YMWcEV9hTlD+mpnUKe2mpzS7Epp8FCQrGG632TEp2Bn194SN69Auykcdg==' crossorigin='anonymous' referrerpolicy='no-referrer')
       script.
         Swal.fire({
           icon: `#{showMessage.status}`,

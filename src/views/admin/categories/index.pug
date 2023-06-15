@@ -24,8 +24,11 @@ block content
                 else
                   span.badge.badge-danger.rounded-pill.d-inline Deactive
               td
-                a.btn.btn-sm.btn-primary.btn-rounded(href='/' + fullPath + '/edit/' + category.id) Edit
-                a.btn.btn-sm.btn-danger.btn-rounded.mx-1(href='/' + fullPath + '/delete/' + category.id) Delete
+                .col-12.d-flex.justify-content-center.gap-3
+                  a.text-primary.action-button(href='/' + fullPath + '/edit/' + category.id)
+                    i.fa-regular.fa-pen-to-square.fs-3
+                  a.text-danger.action-button(href='/' + fullPath + '/delete/' + category.id)
+                    i.fa-regular.fa-trash-can.fs-3
 block scripts
   script.
     $(document).ready(function() {
