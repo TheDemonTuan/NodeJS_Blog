@@ -1,4 +1,7 @@
+'use strict'
+
 const pool = require("../utils/db");
+const readingTime = require("reading-time");
 
 class Posts {
 
@@ -12,6 +15,7 @@ class Posts {
       this.slug = post.slug;
       this.description = post.description;
       this.content = post.content;
+      this.read_time = readingTime(post.content).minutes < 1 ? 1 : readingTime(post.content).minutes;
       this.status = post.status ? 1 : 0;
     }
     if (type == "update") {
@@ -21,13 +25,14 @@ class Posts {
       this.slug = post.slug;
       this.description = post.description;
       this.content = post.content;
+      this.read_time = readingTime(post.content).minutes < 1 ? 1 : readingTime(post.content).minutes;
       this.status = post.status ? 1 : 0;
       this.updatedAt = new Date();
     }
   }
 
   static getAll(result) {
-    pool.execute(`select * from ${this.table}`, (err, res) => {
+    pool.execute(`select * from ${this.table} order by id`, (err, res) => {
       result(err, res);
     });
   }

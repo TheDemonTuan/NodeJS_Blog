@@ -1,51 +1,46 @@
 extend ./layouts/layout
 
 block customHead
-  script(src='https://www.google.com/recaptcha/api.js?render=6LeHzKQjAAAAAB2suSQorn4HvsCJSeG12NkIyAiy' async defer)
+  script(src='https://www.google.com/recaptcha/api.js?render=6LeHzKQjAAAAAB2suSQorn4HvsCJSeG12NkIyAiy')
 
 block content
-  .container.my-2
-    h1.mb-0.text-center.mb-3 Sign in
-    h1
+  +breadcrumb
+  .container.my-5
     section.pb-4
-      form#sign-in.row.justify-content-center.gx-3.gy-2.align-items-center(method='POST')
-        .col-sm-8.col-md-6.col-lg-4.col-xl-3
+      form#sign-in.row.justify-content-center.align-items-center(method='POST')
+        .col-10.col-sm-8.col-md-6.col-lg-4.col-xl-3.text-center
           // Username input
-          .form-outline.mb-4
-            input#username.form-control(type='text' name='username' value=old_username)
-            label.form-label(for='username') Username
+          .form-floating.mb-4
+            input#username.form-control(type='text' name='username' placeholder='Username' value=old_username)
+            label(for='username') Username
           // Password input
-          .form-outline.mb-4
-            input#password.form-control(type='password' name='password')
-            label.form-label(for='password') Password
+          .form-floating.mb-4
+            input#password.form-control(type='password' name='password' placeholder='Password')
+            label(for='password') Password
           input(name='_csrf' type='hidden')
           input(name='g-recaptcha-response' type='hidden')
-          .row.mb-4
-            .col.d-flex.justify-content-center
-              // Checkbox
+          .row
+            .col
               .form-check
                 input#remember.form-check-input(type='checkbox' value checked)
                 label.form-check-label(for='remember') Remember me
             .col
-              // Simple link
               a(href='/forgot') Forgot password?
           // Submit button
-          button.btn.btn-primary.btn-block.mb-4(type='submit' name='signin')
-            | Sign in
+          button.btn.btn-outline-primary.my-3(type='submit' name='signin') Sign in
           // Signin buttons
           .text-center
-            p
-              | Not a member? 
+            p Not a member? 
               a(href='/signup') Sign up
             p or sign up with:
             button.btn.btn-secondary.btn-floating.mx-1(type='button')
-              i.fab.fa-facebook-f
+              i.ti-facebook
             button.btn.btn-secondary.btn-floating.mx-1(type='button')
-              i.fab.fa-google
+              i.ti-google
             button.btn.btn-secondary.btn-floating.mx-1(type='button')
-              i.fab.fa-twitter
+              i.ti-twitter
             button.btn.btn-secondary.btn-floating.mx-1(type='button')
-              i.fab.fa-github
+              i.ti-github
 
 block scripts
   script.
@@ -53,7 +48,7 @@ block scripts
       $('button[name="signin"]').hide();
       $('input[name="_csrf"]').val("#{csrfToken}");
       grecaptcha.ready(function() {
-        grecaptcha.execute('6LeHzKQjAAAAAB2suSQorn4HvsCJSeG12NkIyAiy', {action: 'submit'}).then((token) => {
+        grecaptcha.execute('6LeHzKQjAAAAAB2suSQorn4HvsCJSeG12NkIyAiy', {action: 'signin'}).then((token) => {
           $('input[name="g-recaptcha-response"]').val(token);
           $('button[name="signin"]').show();
         });

@@ -1,9 +1,15 @@
-extend ../layouts/layout
+extend ../../layouts/layout
+
+block customHead
+  link(rel='stylesheet', href='/plugins/datatables/datatables.min.css')
 
 block content
-  a.btn.btn-success.my-3.btn-rounded(href='/' + fullPath + '/add') Add
-  .table-responsive
-    table#usersTable.table.align-middle.mb-0.bg-white.table-hover
+  +adminLayout
+block adminContent
+  a.btn.btn-outline-primary.my-3.btn-rounded(href='/' + fullPath + '/add') Add
+  .table-responsive.my-3
+    table#postTable.table.table-hover.caption-top.text-nowrap
+      caption List of posts
       thead
         tr
           th ID
@@ -14,7 +20,7 @@ block content
           th Status
           th Action
       tbody
-        if(posts.length)
+        if(posts)
           each post in posts
             tr
               td= post.id
@@ -23,22 +29,23 @@ block content
                   if(category.id == post.category_id)
                     = category.name
               td 
-                img.img-thumbnail.img-fluid.hover-shadow(src=post.thumbnail width='250')
+                img.img-thumbnail.img-fluid(src=post.thumbnail width='250')
               td= post.title
               td= post.slug
               td
                 if(post.status)
-                  span.badge.badge-success.rounded-pill.d-inline Active
+                  span.badge.rounded-pill.text-bg-success Active
                 else
-                  span.badge.badge-danger.rounded-pill.d-inline Deactive
+                  span.badge.rounded-pill.text-bg-danger Inactive
               td
-                .col-12.d-flex.justify-content-center.gap-3
+                .col.d-flex.justify-content-center.gap-3
                   a.text-primary.action-button(href='/' + fullPath + '/edit/' + post.id)
-                    i.fa-regular.fa-pen-to-square.fs-3
+                    i.ti-pencil-alt.fs-3
                   a.text-danger.action-button(href='/' + fullPath + '/delete/' + post.id)
-                    i.fa-regular.fa-trash-can.fs-3
+                    i.ti-trash.fs-3
 block scripts
+  script(src='/plugins/datatables/datatables.min.js')
   script.
     $(document).ready(function() {
-      $('#usersTable').DataTable();
+      $('#postTable').DataTable();
     });

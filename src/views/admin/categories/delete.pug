@@ -2,25 +2,28 @@ extend ../layouts/layout
 
 block content
   a.btn.btn-primary.btn-rounded(href='/' + path[0] + '/' + path[1]) Back
-  form.row.my-4.justify-content-center.align-items-center.g-4(method='POST')
-    .table-responsive
-      table.table.align-middle.mb-0.bg-white.table-hover.text-nowrap.text-center
-        thead.bg-light
-          tr
-            th ID
-            th Name
-            th Slug
-            th Status
-        tbody
-          tr
-            td
-              p.fw-normal.mb-1 #{category.id}
-            td #{category.name}
-            td #{category.slug}
-            td
-              if(category.status)
-                span.badge.badge-success.rounded-pill.d-inline Active
-              else
-                span.badge.badge-danger.rounded-pill.d-inline Deactive
-    input(name='_csrf' type='hidden' value=csrfToken)
-    button.btn.btn-danger.btn-rounded.col-sm-3.col-md-2.col-xxl-1(type='submit') Delete
+  if(category)
+    form.row.my-4.justify-content-center.align-items-center.g-4(method='POST')
+      .table-responsive
+        table.table.align-middle.mb-0.bg-white.table-hover.text-nowrap.text-center
+          thead.bg-light
+            tr
+              th ID
+              th Name
+              th Slug
+              th Status
+          tbody
+            tr
+              td
+                p.fw-normal.mb-1 #{category.id}
+              td #{category.name}
+              td #{category.slug}
+              td
+                if(category.status)
+                  span.badge.badge-success.rounded-pill.d-inline Active
+                else
+                  span.badge.badge-danger.rounded-pill.d-inline Deactive
+      input(name='_csrf' type='hidden' value=csrfToken)
+      button.btn.btn-danger.btn-rounded.col-sm-3.col-md-2.col-xxl-1(type='submit') Delete
+  else
+    .alert.alert-danger.m-2(role='alert') No category found

@@ -1,53 +1,46 @@
 const axios = require('axios');
 const message = require("./message");
 
-exports.v2 = async (req, res, next) => {
-  const recaptchaResponse = req.body['g-recaptcha-response'];
+const verifyCaptcha = async (recaptchaResponse,recaptchaSecret) => {
 
-  if(recaptchaResponse === undefined || recaptchaResponse === '' || recaptchaResponse === null) {
-    // reCAPTCHA không được gửi kèm
-    return message.set(req, res, next, "error", "Please check captcha box", true, "/signup");
+  if (recaptchaResponse === undefined || recaptchaResponse === '' || recaptchaResponse === null) {
+    return false;
   }
 
-  // Gửi yêu cầu POST đến API reCAPTCHA
   const result = await axios.post('https://www.google.com/recaptcha/api/siteverify', null, {
     params: {
-      secret: process.env.RECAPTCHA_SECRET_KEY,
+      secret: recaptchaSecret,
       response: recaptchaResponse,
     },
   });
 
-  // Kiểm tra kết quả trả về từ API reCAPTCHA
-  if (result.data.success) {
-    // reCAPTCHA hợp lệ, tiếp tục xử lý yêu cầu
-    next();
+  return result;
+}
+
+exports.v2 = async (req, res, next) => {
+  const result = await verifyCaptcha(req.body['g-recaptcha-response'],process.env.RECAPTCHA_V2_SECRET_KEY);
+  if (result) {
+    if (result.data.success && result.data.action === 'signup') {
+      next();
+    }
+    else {
+      return message.set(req, res, next, "error", "Captcha not valid", true);
+    }
   } else {
-    // reCAPTCHA không hợp lệ
-    return message.set(req, res, next, "error", "Captcha not valid", true, "/signup");
+    return message.set(req, res, next, "error", "Please check captcha box", true);
   }
 };
 
 exports.v3 = async (req, res, next) => {
-  const recaptchaResponse = req.body['g-recaptcha-response'];
+  const result = await verifyCaptcha(req.body['g-recaptcha-response'],process.env.RECAPTCHA_V3_SECRET_KEY);
 
-  if(recaptchaResponse === undefined || recaptchaResponse === '' || recaptchaResponse === null) {
-    // reCAPTCHA không được gửi kèm
-    return message.set(req, res, next, "error", "Please check captcha box", true, "/signin");
-  }
-
-  // Gửi yêu cầu POST đến API reCAPTCHA
-  const result = await axios.post('https://www.google.com/recaptcha/api/siteverify', null, {
-    params: {
-      secret: process.env.RECAPTCHA_SECRET_KEY,
-      response: recaptchaResponse,
-    },
-  });
-
-  // Kiểm tra kết quả trả về từ API reCAPTCHA
-  if (result.data.success && result.data.score >= 0.6 && result.data.action === 'submit') {
-    next();
+  if (result) {
+    if (result.data.success && result.data.score >= 0.6 && result.data.action === 'signin') {
+      next();
+    } else {
+      return message.set(req, res, next, "error", "Captcha not valid", true);
+    }
   } else {
-    // reCAPTCHA không hợp lệ
-    return message.set(req, res, next, "error", "Captcha not valid", true, "/signin");
+    return message.set(req, res, next, "error", "Please check captcha box", true);
   }
 }

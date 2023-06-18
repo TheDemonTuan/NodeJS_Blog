@@ -1,46 +1,51 @@
-extend ../layouts/layout
+extend ../../layouts/layout
 
 block customHead
   script(src='https://cdn.tiny.cloud/1/y23hzg8aj938zk2im177gh43vo4yaqf6qswfi4e0b4u1mon0/tinymce/6/tinymce.min.js' referrerpolicy="origin")
 
 block content
-  a.btn.btn-primary.btn-rounded(href='/' + path[0] + '/' + path[1]) Back
-  .col-9.mx-auto
-    form#category_form.row.my-4.justify-content-center.align-items-center.g-4(method='POST' action='/admin/posts/edit/'+ post.id +'?csrftoken=' + csrfToken enctype="multipart/form-data")
-      select.form-select.form-select-lg(name='category_id')
-        option(selected disabled) Select Category
-        if(categories.length)
-          each category in categories
-            if(category.id == post.category_id)
-              option(value=category.id selected)= category.name
-            else
-              option(value=category.id)= category.name
-      #thumbnail-preview
-        if(post.thumbnail)
-          img.img-thumbnail.img-fluid.hover-shadow(src=post.thumbnail)
-      input(type='hidden' name='oldThumbnail' value=post.thumbnail)
-      .input-group.mb-3
-        input#thumbnail.form-control(type='file' name='thumbnail')
-        label.input-group-text(for='thumbnail') Thumbnail Upload
-      .form-outline
-        input#title.form-control(type='text' name='title' value=post.title)
-        label.form-label(for='title') Title
-      .form-outline
-        input#slug.form-control(type='text' name='slug' value=post.slug)
-        label.form-label(for='slug') Slug
-      .form-outline
-        input#description.form-control(type='text' name='description' value=post.description)
-        label.form-label(for='description') Description
-      textarea(name='content') #{post.content}
-      .form-check.form-switch
-        input#status.form-check-input(type='checkbox' role='switch' name='status' checked=post.status ? true : false)
-        label.form-check-label(for='status') Status
-      button#category_add.btn.btn-success.btn-rounded.col-auto(type='submit') Update
+  +adminLayout
+block adminContent
+  a.btn.btn-outline-primary.btn-rounded(href='/' + paths[0] + '/' + paths[1]) Back
+  if(post)
+    form.row.my-4.justify-content-center.align-items-center.g-4(method='POST' action='/' + fullPath +'/?csrftoken=' + csrfToken enctype="multipart/form-data")
+      .col-12
+        select.form-select.form-select(name='category_id')
+          option(selected disabled) Select Category
+          if(categories)
+            each category in categories
+              if(category.id == post.category_id)
+                option(value=category.id selected)= category.name
+              else
+                option(value=category.id)= category.name
+        #thumbnail-preview.my-4
+          img.img-thumbnail.img-fluid(src=post.thumbnail)
+        input(type='hidden' name='oldThumbnail' value=post.thumbnail)
+        .input-group.my-4
+          input#thumbnail.form-control(type='file' name='thumbnail')
+          label.input-group-text(for='thumbnail') Thumbnail Upload
+        .form-floating.my-4
+          input#title.form-control(type='text' name='title' value=post.title)
+          label.form-label(for='title') Title
+        .form-floating.my-4
+          input#slug.form-control(type='text' name='slug' value=post.slug)
+          label.form-label(for='slug') Slug
+        .form-floating.my-4
+          textarea#description.form-control(rows='5' name='description') #{post.description}
+          label.form-label(for='description') Description
+        textarea#content(name='content') #{post.content}
+        .form-check.form-switch.my-4
+          input#status.form-check-input(type='checkbox' role='switch' name='status' checked=post.status ? true : false)
+          label.form-check-label(for='status') Status
+        .d-flex.justify-content-center
+          button#category_add.btn.btn-success.btn-rounded.col-auto(type='submit') Update
+  else
+    .alert.alert-danger.m-2(role='alert') No post found
 
 block scripts
   script.
     tinymce.init({
-      selector: 'textarea',
+      selector: 'textarea#content',
       plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
       toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
       tinycomments_mode: 'embedded',
@@ -62,7 +67,7 @@ block scripts
         if(file){
           const reader = new FileReader();
           reader.onload = function(){
-            $('#thumbnail-preview').html(`<img src="${reader.result}" class="img-thumbnail img-fluid hover-shadow" />`)
+            $('#thumbnail-preview').html(`<img src="${reader.result}" class="img-thumbnail img-fluid" />`)
           }
           reader.readAsDataURL(file);
         }

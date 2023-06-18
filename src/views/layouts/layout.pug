@@ -1,125 +1,205 @@
 doctype html
-html(lang='en')
+html(lang='en-us')
   head
-    meta(charset='UTF-8')
-    meta(http-equiv='X-UA-Compatible' content='IE=edge')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(charset='utf-8')
     title #{title ? title : 'Home'} | TheDemonTuan
-    // Font Awesome
-    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' integrity='sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==' crossorigin='anonymous' referrerpolicy='no-referrer')
-    // Google Fonts
-    link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap' rel='stylesheet')
-    // MDB
-    link(href='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css' rel='stylesheet')
-    // jQuery
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js' integrity='sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==' crossorigin='anonymous' referrerpolicy='no-referrer')
-    // Custom
+    // mobile responsive meta
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    meta(name='description', content='This is meta description')
+    meta(name='author', content='TheDemonTuan')
+    meta(name='generator', content='TDT 1.0')
+    // theme meta
+    meta(name='theme-name', content='tdt')
+    // plugins
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css' integrity='sha512-t4GWSVZO1eC8BM339Xd7Uphw5s17a86tIZIj8qRxhnKub6WoyhnrxeCIMeAqBPgdZGlCcG2PrZjMc+Wr78+5Xg==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    link(rel='stylesheet', href='/plugins/themify-icons/themify-icons.css')
+    link(rel='stylesheet', href='/plugins/slick/slick.css')
+    // Main Stylesheet
     block customHead
-    // CSS
-    link(rel='stylesheet' href='/css/home.css')
-    link(rel='icon' type='image/x-icon' href='/favicon.ico')
-  // Header
-  .container-fluid.border-bottom.bg-light.shadow-sm.lh-1.py-3
+    link(rel='stylesheet', href='/css/style.css', media='screen')
+    // Favicon
+    link(rel='shortcut icon', href='/favicon.ico', type='image/x-icon')
+    link(rel='icon', href='/favicon.ico', type='image/x-icon')
+    meta(property='og:title', content=`${title} | TheDemonTuan`)
+    meta(property='og:description', content='This is meta description')
+    meta(property='og:type', content='website')
+    meta(property='og:url', content='')
+    meta(property='og:updated_time', content='2020-03-15T15:40:24+06:00')
   body
-    header
-      // Navbar
-      #tdt-navbar.nav.navbar.navbar-expand-lg.bg-white.navbar-light.p-3.shadow-lg
-        .container-fluid
-          // Navbar brand
+    // preloader
+    #preloader
+      #loader
+    
+    // Admin Menu
+    .menu-sticky
+      i.ti-user.fs-2
+    // navigation
+    header.navigation.fixed-top
+      .container-fluid
+        nav.navbar.navbar-expand-lg.navbar-white
           a.navbar-brand(href='/')
-            img(src='/img/logo.webp' height='25' alt='')
-          button.navbar-toggler(type='button' data-mdb-toggle='collapse' data-mdb-target='#navbar-toggle' aria-controls='navbar-toggle' aria-expanded='false' aria-label='Toggle navigation')
-            i.fas.fa-bars
-          #navbar-toggle.collapse.navbar-collapse
-            form.d-none.d-md-flex.input-group.w-auto.my-auto(action='search?keyword=' method='POST')
-              input.form-control.rounded(autocomplete='off' type='search' placeholder='Search (ctrl + "/" to focus)' style='min-width: 225px')
-              span.input-group-text.border-0
-                i.fas.fa-search
-            span#dpl-navbar-new-right-buttons.navbar-nav.ms-auto.d-flex.flex-row
-              ul#main-navbar.nav.navbar-nav.nav-flex-icons.ml-auto.ms-auto.flex-row
-                li.nav-item.me-3.me-lg-0.d-none.d-sm-inline-block.dropdown
-                  a.nav-link(href='/datapacks')
-                    span.d-none.d-lg-inline-block.ml-1 Datapacks
-                li#navbar-static-support.nav-item.me-3.me-lg-0(alt='License')
-                  a.nav-link(href='/forums')
-                    span.d-none.d-lg-inline-block.ml-1 Forums
-                    i.fas.fa-file.d-inline-block.d-lg-none
-                li#navbar-static-support.nav-item.me-3.me-lg-0(alt='Support')
-                  a.nav-link(href='/support/')
-                    span.d-none.d-lg-inline-block.ml-1 FAQS
-                    i.fas.fa-question-circle.d-inline-block.d-lg-none
-                li.nav-item.me-3.me-lg-0.d-none.d-xl-inline-block
-                  a.nav-link(href='/services/')
-                    span.d-none.d-lg-inline-block Services
-                    i.fas.fa-question-circle.d-inline-block.d-lg-none
-                li.nav-item.d-none.d-xl-inline-block
-                  a.nav-link(href='/snippets/')
-                    span.d-none.d-lg-inline-block Playground
-                    i.fas.fa-code.d-inline-block.d-lg-none
-                li.nav-item.me-3.me-lg-0
-                  a.nav-link(href='/learn/mdb-foundations/basics/introduction/')
-                    span.d-none.d-lg-inline-block Learn
-                    i.fas.fa-fire-alt.d-inline-block.d-lg-none
-                li.nav-item.row.align-items-center.mx-1
-                  a#navbarDropdownMenuLink.nav-link(href='#' role='button' data-mdb-toggle='dropdown' aria-expanded='false')
-                    span.d-none.d-lg-inline-block.badge.rounded-pill.badge-notification.bg-danger 1
-                    i.fas.fa-bell.d-inline-block
-                  ul.dropdown-menu.dropdown-menu-end(aria-labelledby='navbarDropdownMenuLink' style='width: 250px;')
+            img.img-fluid(width='100px', src='/logo.webp', alt='TheDemonTuan Logo')
+          button.navbar-toggler.border-0.order-1(type='button',  data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation")
+            i.ti-menu
+          #navigation.collapse.navbar-collapse.text-center.order-4.order-lg-2
+            ul.navbar-nav.mx-auto
+              li.nav-item
+                a.nav-link(href='/') Home 
+              li.nav-item
+                a.nav-link(href='/datapacks') Datapacks
+              li.nav-item
+                a.nav-link(href='/forums') Forums
+              li.nav-item
+                a.nav-link(href='/faqs') FAQS
+              li.nav-item.dropdown
+                a.nav-link(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                  | Pages 
+                  i.ti-angle-down.ml-1
+                .dropdown-menu
+                  a.dropdown-item(href='author.html') Author
+                  a.dropdown-item(href='author-single.html') Author Single
+                  a.dropdown-item(href='advertise.html') Advertise
+                  a.dropdown-item(href='post-details.html') Post Details
+                  a.dropdown-item(href='post-elements.html') Post Elements
+                  a.dropdown-item(href='tags.html') Tags
+                  a.dropdown-item(href='search-result.html') Search Result
+                  a.dropdown-item(href='search-not-found.html') Search Not Found
+                  a.dropdown-item(href='privacy-policy.html') Privacy Policy
+                  a.dropdown-item(href='terms-conditions.html') Terms Conditions
+                  a.dropdown-item(href='404.html') 404 Page
+          .order-3.order-lg-3.d-inline-flex.align-items-center.justify-content-center
+            // search
+            form.search-bar
+              input#search-query(name='s', type='search', placeholder='Type & Hit Enter...')
+          .dropdown.order-2.order-lg-3
+            if(userInfo)
+                a.d-block.link-body-emphasis.text-decoration-none.dropdown-toggle(href='#' data-bs-toggle='dropdown' aria-expanded='false')
+                  img.mx-2.rounded-circle(src=userInfo.avatar alt='mdo' width='32' height='32')
+                  strong #{userInfo.username}
+                ul.dropdown-menu
+                  if(userInfo.role)
                     li
-                      a.dropdown-item.text-wrap(gtm-id='Notifications' data-notification-date='03/23/2023 13:00' target='_blank' rel='nofollow')
-                        p.small.text-uppercase.mb-2 1/6/2023
-                        p.mb-0 Website under construction!
-                li.nav-item.row.align-items-center.mx-1
-                  a.nav-link(href='https://github.com/TheDemonTuan' rel='nofollow' target='_blank')
-                    i.fab.fa-github
-                if(userInfo)
-                  li.nav-item.dropdown
-                    a#navbarDropdownAvatar.nav-link.dropdown-toggle.hidden-arrow.d-sm-flex.align-items-sm-center(role='button' data-mdb-toggle='dropdown')
-                      img.rounded-circle.hover-shadow(src=userInfo.avatar height='25' alt='Avatar' loading='lazy')
-                      strong.d-none.d-sm-block.ms-1 #{userInfo.username}
-                    ul.dropdown-menu.dropdown-menu-end(aria-labelledby='navbarDropdownAvatar')
-                      if(userInfo.role)
-                        li
-                          a.dropdown-item(href='/admin') Admin Daskboard
-                      li
-                        a.dropdown-item(href='#') My profile
-                      li
-                        a.dropdown-item(href='#') Settings
-                      li
-                        a.dropdown-item(href='/logout') Logout
-                else
-                  li.nav-item.row.align-content-center.mx-1
-                    a.btn.btn-primary.btn-outline-info(type='button' href='/signin') Sign in
-
-      // Jumpotron
-      #intro.p-5.text-center.bg-light
-        h1.mb-3.h2 Hi, I am TheDemonTuan.
-        p.mb-3 Backend developer and also a minecraft datapack developer.
+                      a.dropdown-item(href='/admin/dashboard') Admin Dashboard
+                  li
+                    a.dropdown-item(href='#') Settings
+                  li
+                    a.dropdown-item(href='#') Another action
+                  li
+                    a.dropdown-item(href='/logout') Logout
+            else
+              a.btn.btn-outline-primary.mx-3(href='/signin') Login
+    // Breadcrumb
+    mixin breadcrumb
+      .header.text-center
+          .container
+            .row
+              .col-lg-12.mx-auto
+                h1.mb-4 #{title}
+                ul.list-inline
+                  li.list-inline-item
+                    .text-defaul
+                      nav(style="--bs-breadcrumb-divider: '➫'" aria-label="breadcrumb")
+                        ol.breadcrumb.fs-5
+                          if(paths[0])
+                            li.breadcrumb-item
+                              a(href='/') Home
+                            - let url = '';
+                            - let path = '';
+                            - for(let i = 0; i < paths.length; i++)
+                              - path = paths[i];
+                              - path = path.charAt(0).toUpperCase() + path.slice(1);
+                              - url = url.concat('/',path);
+                              if(i == paths.length - 1)
+                                li.breadcrumb-item.active(aria-current='page') #{path}
+                              else
+                                li.breadcrumb-item
+                                  a(href=url) #{path}
+                          else
+                            li.breadcrumb-item.active(aria-current='page') Home
+          svg.banner-border(height='240', viewBox='0 0 2202 240', fill='none', xmlns='http://www.w3.org/2000/svg')
+            path(d='M1 123.043C67.2858 167.865 259.022 257.325 549.762 188.784C764.181 125.427 967.75 112.601 1200.42 169.707C1347.76 205.869 1901.91 374.562 2201 1', stroke-width='2')
     // Content
+    mixin adminLayout
+      +breadcrumb
+      section.section
+        .container-fluid
+          .row.justify-content-evenly
+            .col-12.col-lg-3.widget.panel
+              .container
+                h1.widget-title.border-success.border-bottom Admin Panel
+                // Tab navs
+                .widget-control.flex-row
+                  - let listPanel = ['dashboard', 'settings' ,'users', 'categories', 'posts'];
+                  each panel in listPanel
+                    - let url = "/" + paths[0] + "/" + panel;
+                    if(paths[1] === panel)
+                      a(href=url)
+                        .widget-button.active #{panel.charAt(0).toUpperCase() + panel.slice(1)}
+                    else
+                      a(href=url)
+                        .widget-button #{panel.charAt(0).toUpperCase() + panel.slice(1)}
+            .col-12.col-lg-8.widget
+              .container
+                h1.widget-title.border-success.border-bottom #{title}
+                block adminContent
     block content
     // Footer
-    footer.bg-light.text-lg-start
-      hr.m-0
-      .text-center.py-4.align-items-center
-        p Follow me on social media
-        a.btn.btn-primary.m-1(href='https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA' role='button' rel='nofollow' target='_blank')
-          i.fab.fa-youtube
-        a.btn.btn-primary.m-1(href='https://www.facebook.com/mdbootstrap' role='button' rel='nofollow' target='_blank')
-          i.fab.fa-facebook-f
-        a.btn.btn-primary.m-1(href='https://twitter.com/MDBootstrap' role='button' rel='nofollow' target='_blank')
-          i.fab.fa-twitter
-        a.btn.btn-primary.m-1(href='https://github.com/mdbootstrap/mdb-ui-kit' role='button' rel='nofollow' target='_blank')
-          i.fab.fa-github
-      .text-center.p-3(style='background-color: rgba(0, 0, 0, 0.2);') &copy; #{new Date().getFullYear()} 
-        span.fw-bold TheDemonTuan
-    // JS
-    // MDB
-    script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js')
-    script(src='/js/home.js')
+    footer.footer
+      svg.footer-border(height='214', viewBox='0 0 2204 214', fill='none', xmlns='http://www.w3.org/2000/svg')
+        path(d='M2203 213C2136.58 157.994 1942.77 -33.1996 1633.1 53.0486C1414.13 114.038 1200.92 188.208 967.765 118.127C820.12 73.7483 263.977 -143.754 0.999958 158.899', stroke-width='2')
+      .container
+        .row.align-items-center
+          .col-md-5.text-center.text-md-left.mb-4
+            ul.list-inline.footer-list.mb-0
+              li.list-inline-item
+                a(href='privacy-policy.html') Privacy Policy
+              li.list-inline-item
+                a(href='terms-conditions.html') Terms Conditions
+          .col-md-2.text-center.mb-4
+            a(href='index.html')
+              img.img-fluid(width='100px', src='/logo.webp', alt='TheDemonTuan Logo')
+          .col-md-5.text-md-right.text-center.mb-4
+            ul.list-inline.footer-list.mb-0
+              li.list-inline-item
+                a(href='#')
+                  i.ti-facebook
+              li.list-inline-item
+                a(href='#')
+                  i.ti-twitter-alt
+              li.list-inline-item
+                a(href='#')
+                  i.ti-linkedin
+              li.list-inline-item
+                a(href='#')
+                  i.ti-github
+              li.list-inline-item
+                a(href='#')
+                  i.ti-youtube
+          .col-12
+            .border-bottom.border-default
+    // JS Plugins
+    script(src='/plugins/jQuery/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js' integrity='sha512-VK2zcvntEufaimc+efOYi622VN5ZacdnufnmX7zIhCPmjhKnOi9ZDMtg1/ug5l183f19gG1/cBstPO4D8N/Img==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    script(src='/plugins/slick/slick.min.js')
+    // Main Script
+    script(src='/js/script.js')
     if(showMessage)
       script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.10/sweetalert2.all.min.js' integrity='sha512-hqj3uRcg6pYUd2hJHI1k1qKyf8PA/YMWcEV9hTlD+mpnUKe2mpzS7Epp8FCQrGG632TEp2Bn194SN69Auykcdg==' crossorigin='anonymous' referrerpolicy='no-referrer')
       script.
-        Swal.fire({
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          showCloseButton: true,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
           icon: `#{showMessage.status}`,
           title: `#{showMessage.message}`,
         })

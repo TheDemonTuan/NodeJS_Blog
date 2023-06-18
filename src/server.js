@@ -59,9 +59,6 @@ app.use(session({
 app.set("view engine", "pug")
 app.set("views", path.join(__dirname, "views"));
 app.locals.pretty = true;
-//const cache = require("./utils/lru")
-//app.set('view cache', true);
-//app.set('cache', cache);
 
 // Routes init
 const routes = require("./routes");

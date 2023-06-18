@@ -77,6 +77,17 @@ exports.signup = [
         },
       },
     },
+    check: {
+      custom: {
+        options: (value, { req }) => {
+          if (!req.body.check) {
+            throw new Error("Please check the box");
+          } else {
+            return value;
+          }
+        }
+      }
+    }
   }),
   catchErrors
 ];

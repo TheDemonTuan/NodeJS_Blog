@@ -1,48 +1,57 @@
-extend ../layouts/layout
+extend ../../layouts/layout
+
+block customHead
+  link(rel='stylesheet', href='/plugins/datatables/datatables.min.css')
 
 block content
-  a.btn.btn-success.my-3.btn-rounded(href='/' + fullPath + '/add') Add
-  .table-responsive
-    table#usersTable.table.align-middle.mb-0.bg-white.table-hover.text-nowrap
+  +adminLayout
+block adminContent
+  a.btn.btn-outline-primary.my-3.btn-rounded(href='/' + fullPath + '/add') Add
+  .table-responsive.my-3
+    table#userTable.table.table-hover.caption-top.text-nowrap
+      caption List of users
       thead.bg-light
         tr
-          th ID
-          th Info
-          th Created At
-          th Role
-          th Status
-          th Actions
+          th(scope='col') ID
+          th(scope='col') Info
+          th(scope='col') Created At
+          th(scope='col') Role
+          th(scope='col') Status
+          th(scope='col') Actions
       tbody
-        if(users.length)
+        if(users)
           each user in users
             tr
               td#user-id.fw-normal #{user.id}
-              td
-                .d-flex.align-items-center
-                  .avatar-circle
-                    img(src=user.avatar alt='Avatar')
-                  .ms-3
-                    p.fw-bold.mb-1 #{user.username}
-                    p.text-muted.mb-0 #{user.email}
+              td.d-flex.align-items-center
+                .avatar-circle
+                  img(src=user.avatar alt='Avatar')
+                .ms-2
+                  p.fw-bold.mb-1 #{user.username}
+                  p.text-muted.mb-0 #{user.email}
               td #{new Date(user.createdAt).toLocaleString()}
               td
                 if(user.role)
-                  span.badge.badge-dark.rounded-pill.d-inline Admin
+                  span.badge.rounded-pill.text-bg-dark Admin
                 else
-                  span.badge.badge-light.rounded-pill.d-inline Member
+                  span.badge.rounded-pill.text-bg-light Member
               td
                 if(user.status)
-                  span.badge.badge-success.rounded-pill.d-inline Active
+                  span.badge.rounded-pill.text-bg-success Active
                 else
-                  span.badge.badge-danger.rounded-pill.d-inline Deactive
+                  span.badge.rounded-pill.text-bg-danger Inactive
               td
-                .col-12.d-flex.justify-content-center.gap-3
+                .col.d-flex.justify-content-center.gap-3
                   a.text-primary.action-button(href='/' + fullPath + '/edit/' + user.id)
-                    i.fa-regular.fa-pen-to-square.fs-3
+                    i.ti-pencil-alt.fs-3
                   a.text-danger.action-button(href='/' + fullPath + '/delete/' + user.id)
-                    i.fa-regular.fa-trash-can.fs-3
+                    i.ti-trash.fs-3
 block scripts
+  script(src='/plugins/datatables/datatables.min.js')
   script.
     $(document).ready(function() {
-      $('#usersTable').DataTable();
+      $('#userTable').DataTable({
+        "pageLength": 5,
+        "order": [[ 4, "desc"]]
+      });
     });

@@ -1,21 +1,23 @@
-extend ../layouts/layout
+extend ../../layouts/layout
 
 block content
-  a.btn.btn-primary.btn-rounded(href='/' + path[0] + '/' + path[1]) Back
-  .col-12.col-sm-6.col-lg-5.col-xl-4.mx-auto
-    form.row.my-4.justify-content-center.align-items-center.g-4(method='POST')
-      button#user-random.btn.btn-info.btn-rounded.col-auto(type='button') Generate random user
-      .form-outline.col-md-6
-        input#email.form-control(type='email' name='email' required)
+  +adminLayout
+block adminContent
+  a.btn.btn-outline-primary.btn-rounded(href='/' + paths[0] + '/' + paths[1]) Back
+  form.row.justify-content-center.align-items-center.my-4(method='POST')
+    .col-12.col-sm-10.col-md-8.col-lg-6.col-xl-5.text-center
+      button#user-random.btn.btn-info.btn-rounded(type='button') Generate random user
+      .form-floating.my-4
+        input#email.form-control(type='email' name='email' placeholder="Email" required)
         label.form-label(for='email') Email
-      .form-outline.col-md-6
-        input#username.form-control(type='text' name='username' required)
+      .form-floating.my-4
+        input#username.form-control(type='text' name='username' placeholder="Username" required)
         label.form-label(for='username') Username
-      .form-outline.col-md-6
-        input#password.form-control(type='text' name='password' required)
+      .form-floating.my-4
+        input#password.form-control(type='text' name='password' placeholder="Password" required)
         label.form-label(for='Password') Password
       input(name='_csrf' type='hidden' value=csrfToken)
-      button.btn.btn-success.btn-rounded.col-auto(type='submit') Add
+      button.btn.btn-outline-info.col-auto(type='submit') Add
 block scripts
   script.
     function makeid(length) {

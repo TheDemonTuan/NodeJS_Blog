@@ -1,51 +1,31 @@
 const router = require("express").Router();
 const adminController = require("../controllers/admin");
 const thumbnailUpload = require("../middlewares/posts/thumbnailUpload");
-const validdate = require("../middlewares/validate");
 
+//----------------------------------------------Dashboard----------------------------------------------
+router.route("/dashboard").get(adminController.dashboardIndex);
 
 //----------------------------------------------Settings----------------------------------------------
-// [GET]
-router.get("/settings", adminController.settingsIndex);
-// [POST]
-router.post("/settings/save", adminController.settingsStore);
+router.route("/settings").get(adminController.settingsIndex);
+router.route("/settings/save").post(adminController.settingsUpdate);
 
 //----------------------------------------------Users----------------------------------------------
-// [GET]
-router.get("/users", adminController.usersIndex);
-router.get("/users/add", adminController.usersAdd);
-router.get("/users/edit/:id", adminController.usersEdit);
-router.get("/users/delete/:id", adminController.usersDelete);
-// [POST]
-router.post("/users/add", adminController.usersStore);
-router.post("/users/edit/:id", adminController.usersUpdate);
-router.post("/users/delete/:id", adminController.usersDestroy);
+router.route("/users").get(adminController.usersIndex);
+router.route("/users/add").get(adminController.usersAdd).post(adminController.usersStore);
+router.route("/users/edit/:id").get(adminController.usersEdit).post(adminController.usersUpdate);
+router.route("/users/delete/:id").get(adminController.usersDelete).post(adminController.usersDestroy);
 
 //----------------------------------------------Categories----------------------------------------------
-// [GET]
-router.get("/categories", adminController.categoriesIndex);
-router.get("/categories/add", adminController.categoriesAdd);
-router.get("/categories/edit/:id", adminController.categoriesEdit);
-router.get("/categories/delete/:id", adminController.categoriesDelete);
-// [POST]
-router.post("/categories/add", adminController.categoriesStore);
-router.post("/categories/edit/:id", adminController.categoriesUpdate);
-router.post("/categories/delete/:id", adminController.categoriesDestroy);
-
+router.route("/categories").get(adminController.categoriesIndex);
+router.route("/categories/add").get(adminController.categoriesAdd).post(adminController.categoriesStore);
+router.route("/categories/edit/:id").get(adminController.categoriesEdit).post(adminController.categoriesUpdate);
+router.route("/categories/delete/:id").get(adminController.categoriesDelete).post(adminController.categoriesDestroy);
 
 //----------------------------------------------Posts----------------------------------------------
-// [GET]
-router.get("/posts", adminController.postsIndex);
-router.get("/posts/add", adminController.postsAdd);
-router.get("/posts/edit/:id", adminController.postsEdit);
-router.get("/posts/delete/:id", adminController.postsDelete);
-// [POST]
-router.post("/posts/add", thumbnailUpload.add, adminController.postsStore);
-router.post("/posts/edit/:id", thumbnailUpload.edit, adminController.postsUpdate);
-router.post("/posts/delete/:id", adminController.postsDestroy);
-//----------------------------------------------Dashboard----------------------------------------------
-// [GET] 
-router.get("/", adminController.dashboardIndex);
+router.route("/posts").get(adminController.postsIndex);
+router.route("/posts/add").get(adminController.postsAdd).post(thumbnailUpload.add, adminController.postsStore);
+router.route("/posts/edit/:id").get(adminController.postsEdit).post(thumbnailUpload.edit, adminController.postsUpdate);
+router.route("/posts/delete/:id").get(adminController.postsDelete).post(adminController.postsDestroy);
 
 
 module.exports = router;

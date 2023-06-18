@@ -10,20 +10,21 @@ module.exports = (app) => {
   app.use(message.load, auth.token, statusCheck);
 
   // Admin Router
-  app.use("/admin", auth.isAdmin, csrf, require("./admin"))
+  app.use("/admin", csrf, auth.isAdmin, require("./admin"))
 
   // Signup Router
-  app.use("/signup", auth.isLogged, csrf, require("./signup"));
+  app.use("/signup", csrf, auth.isLogged, require("./signup"));
 
   // Signin Router
-  app.use("/signin", auth.isLogged, csrf, require("./signin"));
+  app.use("/signin", csrf, auth.isLogged, require("./signin"));
 
   // Logout Router
-  app.use("/logout", auth.isNotLogged, require("./logout"));
+  app.use("/logout", csrf, auth.isNotLogged, require("./logout"));
 
   // Home Router
   app.use("/", require("./home"));
 
   // 404 Router
   app.use(require("./errors"));
+
 }

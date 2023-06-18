@@ -9,7 +9,8 @@ class Category {
       this.name = category.name;
       this.slug = category.slug;
       this.status = category.status ? 1 : 0;
-    } else if (type == "update") {
+    }
+    if (type == "update") {
       this.name = category.name;
       this.slug = category.slug;
       this.status = category.status ? 1 : 0;

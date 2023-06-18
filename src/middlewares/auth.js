@@ -3,10 +3,10 @@ const message = require("../middlewares/message");
 const jwt = Promise.promisifyAll(require('jsonwebtoken'));
 const Users = Promise.promisifyAll(require('../models/users'));
 
-const logOut = (req, res, next) => {
-  res.clearCookie(process.env.JWT_COOKIE_NAME);
-  _redisClient.del(res.locals.userInfo.id);
-  message.set(req, res, next, "error", "Token is invalid", true, "/signin");
+const logOut = async (req, res, next) => {
+  await res.clearCookie(process.env.JWT_COOKIE_NAME);
+  await _redisClient.del(res.locals.userInfo.id);
+  return message.set(req, res, next, "error", "Token is invalid", true, "/signin");
 }
 
 exports.token = async (req, res, next) => {
@@ -43,9 +43,8 @@ exports.token = async (req, res, next) => {
 
 // middleware block access to page if logged in
 exports.isLogged = async (req, res, next) => {
-  if (res.locals.userInfo) {
+  if (res.locals.userInfo) 
     return message.set(req, res, next, "warning", "You are logged in", true, "/");
-  }
   next();
 };
 
@@ -61,7 +60,7 @@ exports.isAdmin = async (req, res, next) => {
   if (!res.locals.userInfo.role) {
     const error = new Error("Page not found");
     error.status = 404;
-    next(error);
+    return next(error);
   }
   next();
 }

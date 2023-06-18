@@ -11,10 +11,11 @@ const { invalidCsrfTokenError, generateToken, validateRequest, doubleCsrfProtect
 
 
 const csrfErrorHandler = async (error, req, res, next) => {
-  console.log(req.query.token)
   if (error == invalidCsrfTokenError)
-    return next(new Error("Invalid CSRF token"));
-  next();
+    next(new Error("Invalid CSRF token"));
+  else if (error)
+    next(error);
+  else next();
 };
 
 module.exports = [
