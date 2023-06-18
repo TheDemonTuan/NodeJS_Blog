@@ -14,8 +14,7 @@ It's just a small project of mine for my website.
 
 ## Screenshots
 
-![App Screenshot](https://i.imgur.com/OeCTzZu.png)
-
+![App Screenshot](https://i.imgur.com/QUzpfkS.png)
 
 ## Demo
 https://node.thedemontuan.com
