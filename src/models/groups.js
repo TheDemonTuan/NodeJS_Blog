@@ -11,9 +11,10 @@ class Groups {
       const lastest_datapack = connection.queryAsync('SELECT * FROM posts order by id desc limit 1');
       const lastest_updated_datapacks = connection.queryAsync('SELECT * FROM posts order by updatedAt limit 4');
       const recent_datapacks = connection.queryAsync('SELECT * FROM posts order by id desc limit 1,5');
+      const categories = connection.queryAsync('SELECT * FROM categories');
       const tags = connection.queryAsync('SELECT * FROM tags');
 
-      const result = await Promise.all([lastest_datapack, lastest_updated_datapacks, recent_datapacks, tags]);
+      const result = await Promise.all([lastest_datapack, lastest_updated_datapacks, recent_datapacks, categories, tags]);
 
       return result;
 

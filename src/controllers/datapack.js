@@ -19,3 +19,8 @@ exports.show = async (req, res, next) => {
     next(err);
   }
 };
+
+// [GET] /
+exports.index = async (req, res, next) => {
+  res.redirect("/all-datapacks");
+};

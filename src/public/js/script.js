@@ -40,6 +40,7 @@ $(() => {
 });
 
 (function ($) {
+
 	$(window).on('scroll', function () {
 		var scrolling = $(this).scrollTop();
 		if (scrolling > 10) {

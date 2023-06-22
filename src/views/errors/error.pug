@@ -1,7 +1,7 @@
 extend ../layouts/layout
 
 block content
-  +breadcrumb
+  +breadcrumb(title, [`${error_code}`,`${error_message}`])
   section.error
     .container
       .row.align-items-center
@@ -716,5 +716,3 @@ block content
       path(d='M0.965848 20.6397L0.943848 38.3906L18.6947 38.4126L18.7167 20.6617L0.965848 20.6397Z' stroke='#040306' stroke-miterlimit='10')
       path.path(d='M10.4966 11.1283L10.4746 28.8792L28.2255 28.9012L28.2475 11.1503L10.4966 11.1283Z')
       path(d='M20.0078 1.62949L19.9858 19.3804L37.7367 19.4024L37.7587 1.65149L20.0078 1.62949Z' stroke='#040306' stroke-miterlimit='10')
-
-

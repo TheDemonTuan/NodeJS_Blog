@@ -161,7 +161,7 @@ block content
               li.list-inline-item
                 a(href='#')
                   i.ti-youtube
-            a.btn.btn-primary.mb-2(href='about-me.html') About me
+            a.btn.btn-outline-primary.mb-2(href='about-me.html') About me
           // Search
           .widget
             h4.widget-title
@@ -172,16 +172,25 @@ block content
               button.btn.btn-primary.btn-block(type='submit', name='subscribe') Subscribe now
               div(style='position: absolute; left: -5000px;', aria-hidden='true')
                 input(type='text', name='b_463ee871f45d2d93748e77cad_a0a2c6d074', tabindex='-1')
-          // Tags
+          // Categories
           .widget.widget-categories
             h4.widget-title
-              span Tags
+              span Categories
             ul.list-unstyled.widget-list.mx-3
+              if(categories)
+                each category in categories
+                  li
+                    a.d-flex(href=`/category/${category.slug}`)
+                      | #{category.name}
+          // Tags
+          .widget
+            h4.widget-title
+              span Tags
+            ul.list-inline.widget-list-inline.widget-card.mx-3
               if(tags)
                 each tag in tags
-                  li
-                    a.d-flex(href=tag.slug)
-                      | #{tag.name}
+                  li.list-inline-item
+                    a(href=`/tag/${tag.slug}`) #{tag.name}
           // Social
           .widget
             h4.widget-title

@@ -30,9 +30,6 @@ html(lang='en-us')
     #preloader
       #loader
     
-    // Admin Menu
-    .menu-sticky
-      i.ti-user.fs-2
     // navigation
     header.navigation.fixed-top
       .container-fluid
@@ -93,7 +90,7 @@ html(lang='en-us')
       .header.text-center
           .container
             .row
-              .col-lg-12.mx-auto
+              .col-lg-12
                 h1.mb-4 #{title}
                 ul.list-inline
                   li.list-inline-item
@@ -122,25 +119,24 @@ html(lang='en-us')
             path(d='M1 123.043C67.2858 167.865 259.022 257.325 549.762 188.784C764.181 125.427 967.75 112.601 1200.42 169.707C1347.76 205.869 1901.91 374.562 2201 1', stroke-width='2')
     //Layout
     mixin adminLayout
-      +breadcrumb
-      section.section
-        .container-fluid
-          .row.justify-content-evenly
-            .col-12.col-lg-3.widget.panel
-              .container
-                h1.widget-title.border-success.border-bottom Admin Panel
-                // Tab navs
-                .widget-control.flex-row
-                  - let listPanel = ['dashboard', 'settings' ,'users','categories' ,'tags', 'posts'];
-                  each panel in listPanel
-                    - let url = "/" + paths[0] + "/" + panel;
-                    if(paths[1] === panel)
-                      a(href=url)
-                        .widget-button.active #{panel.charAt(0).toUpperCase() + panel.slice(1)}
-                    else
-                      a(href=url)
-                        .widget-button #{panel.charAt(0).toUpperCase() + panel.slice(1)}
-            .col-12.col-lg-8.widget
+      +breadcrumb(title)
+      section.section-sm
+        .container.dashboard-panel.p-3.rounded-5
+          .row
+            .col-12
+              ul.dashboard-menu.nav.justify-content-center
+                - let listAdminPanel = ['dashboard', 'settings' ,'users','categories' ,'tags', 'posts'];
+                - let listAdminPanelIcon = ['ti-dashboard', 'ti-settings' ,'ti-user','ti-folder' ,'ti-tag', 'ti-pencil-alt'];
+                - for(let i = 0; i < listAdminPanel.length; i++)
+                  - let panel = listAdminPanel[i];
+                  - let url = `/${paths[0]}/${listAdminPanel[i]}`;
+                  li.nav-item
+                    a.nav-link(href=url class=paths[1] == panel ? 'active' : '')
+                      i(class=listAdminPanelIcon[i])
+                      span #{panel.charAt(0).toUpperCase() + panel.slice(1)}
+        .container.my-5
+          .row.justify-content-center
+            .col-12.widget
               .container
                 h1.widget-title.border-success.border-bottom #{title}
                 block adminContent

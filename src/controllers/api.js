@@ -1,7 +1,5 @@
 const Promise = require("bluebird");
-const { forEach } = require("../middlewares/csrf.js");
 const Post = Promise.promisifyAll(require("../models/posts.js"));
-
 
 // [GET] /datapacks/load/:lastId
 exports.datapackLoad = async (req, res, next) => {

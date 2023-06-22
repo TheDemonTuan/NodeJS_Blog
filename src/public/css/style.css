@@ -1615,27 +1615,6 @@ input:focus {
   color: #4fd675;
 }
 
-.menu-sticky {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  cursor: pointer;
-  z-index: 9999;
-}
-
-.panel {
-  height: max-content;
-  top: 100px;
-  position: sticky;
-  transition: all 0.2s ease-in-out;
-}
-
-@media (max-width: 991px) {
-  .panel {
-    position: relative;
-  }
-}
-
 #user-id {
   max-width: 10vw;
   overflow: hidden;
@@ -1673,4 +1652,47 @@ input:focus {
 .action-button:hover {
   transition: all 0.2s ease-in-out;
   transform: scale(1.2);
+}
+
+.dashboard-panel{
+  background-color: #f1f2f6;
+}
+
+.dashboard-panel:hover{
+  transition: all 0.2s ease-in-out;
+  transform:translateY(-5px);
+}
+
+.dashboard-panel .nav-item{
+  max-width: fit-content;
+}
+
+.dashboard-panel .nav-link{
+  color: #333;
+  border: 2px solid transparent;
+  font-size: 1.3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.dashboard-panel .nav-link.active{
+  color: #4fd675;
+  background-color: transparent;
+  border-bottom: #4fd675 1px solid;
+}
+
+.dashboard-panel .nav-link:hover:not(.active){
+  color: #4fd675;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+  transform: scale(1.1) translateY(-5px);
+}
+
+@media (max-width: 991px) {
+  .dashboard-menu{
+    flex-direction: column;
+    align-items: center;
+  }
 }
