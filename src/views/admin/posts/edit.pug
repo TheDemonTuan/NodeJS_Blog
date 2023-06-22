@@ -2,6 +2,7 @@ extend ../../layouts/layout
 
 block customHead
   script(src='https://cdn.tiny.cloud/1/y23hzg8aj938zk2im177gh43vo4yaqf6qswfi4e0b4u1mon0/tinymce/6/tinymce.min.js' referrerpolicy="origin")
+  link(rel='stylesheet', href='/plugins/datatables/datatables.min.css')
 
 block content
   +adminLayout
@@ -10,19 +11,42 @@ block adminContent
   if(post)
     form.row.my-4.justify-content-center.align-items-center.g-4(method='POST' action='/' + fullPath +'/?csrftoken=' + csrfToken enctype="multipart/form-data")
       .col-12
-        select.form-select.form-select(name='category_id')
+        select.form-select.form-select.mb-5(name='category_slug')
           option(selected disabled) Select Category
           if(categories)
             each category in categories
-              if(category.id == post.category_id)
-                option(value=category.id selected)= category.name
-              else
-                option(value=category.id)= category.name
+              option(value=category.slug selected=category.slug == post.category_slug ? true : false) #{category.name}  (Slug: #{category.slug})
+        .table-responsive.my-4
+          table#tagTable.table.table-hover.caption-top.text-nowrap
+            caption List of tag
+            thead.bg-light
+              tr
+                th Select
+                th ID
+                th Name
+            tbody
+              if(tags)
+                each tag in tags
+                  tr
+                    td
+                      - let tagList = post.tag_list;
+                      input#tag-select(type='checkbox' value=tag.name checked=tagList.includes(tag.name) ? true : false)
+                    td= tag.id
+                    td
+                      p=tag.name
+        input#tagID(type='hidden' name='tag_list' value=post.tag_list)
+        .form-check.form-switch
+          input#link_status.form-check-input(type='checkbox' role='switch' name='link_status' checked)
+          label.form-check-label(for='link_status') Auto Link
+        .form-floating.my-4
+          input#link.form-control(type='text' name='link' value=post.link disabled)
+          label.form-label(for='link') Link
+        .form-floating.my-4
         #thumbnail-preview.my-4
           img.img-thumbnail.img-fluid(src=post.thumbnail)
         input(type='hidden' name='oldThumbnail' value=post.thumbnail)
         .input-group.my-4
-          input#thumbnail.form-control(type='file' name='thumbnail')
+          input#thumbnail.form-control(type='file' name='thumbnail' value=post.thumbnail)
           label.input-group-text(for='thumbnail') Thumbnail Upload
         .form-floating.my-4
           input#title.form-control(type='text' name='title' value=post.title)
@@ -38,11 +62,12 @@ block adminContent
           input#status.form-check-input(type='checkbox' role='switch' name='status' checked=post.status ? true : false)
           label.form-check-label(for='status') Status
         .d-flex.justify-content-center
-          button#category_add.btn.btn-success.btn-rounded.col-auto(type='submit') Update
+          button#category_add.btn.btn-outline-success.btn-rounded.col-auto(type='submit') Update
   else
     .alert.alert-danger.m-2(role='alert') No post found
 
 block scripts
+  script(src='/plugins/datatables/datatables.min.js')
   script.
     tinymce.init({
       selector: 'textarea#content',
@@ -62,6 +87,34 @@ block scripts
       ]
     });
     $(() => {
+      // Datatable
+      $('#tagTable').DataTable();
+
+      // Tag
+      var oldList = '#{post.tag_list}';
+      var tagData = oldList.split(',');
+      if(!tagData[0])
+        tagData = [];
+      $('[id=tag-select]').on('change', function(){
+        const tagID = $(this).val();
+        if(tagData.includes(tagID)){
+          tagData = tagData.filter((tag) => tag !== tagID);
+        }else{
+          tagData.push(tagID);
+        }
+        $('#tagID').val(tagData);
+      });
+
+      // Link
+      $('#link_status').on('change', function(){
+        if($(this).is(':checked')){
+          $('#link').prop('disabled', true);
+        }else{
+          $('#link').prop('disabled', false);
+        }
+      });
+
+      // Thumbnail
       $('#thumbnail').on('change', function(){
         const file = $(this).get(0).files[0];
         if(file){

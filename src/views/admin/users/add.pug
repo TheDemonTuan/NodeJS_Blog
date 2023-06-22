@@ -5,8 +5,9 @@ block content
 block adminContent
   a.btn.btn-outline-primary.btn-rounded(href='/' + paths[0] + '/' + paths[1]) Back
   form.row.justify-content-center.align-items-center.my-4(method='POST')
-    .col-12.col-sm-10.col-md-8.col-lg-6.col-xl-5.text-center
-      button#user-random.btn.btn-info.btn-rounded(type='button') Generate random user
+    .col-12.col-sm-10.col-md-8.col-lg-6.col-xl-5
+      .d-flex.justify-content-center
+        button#user-random.btn.btn-info.btn-rounded(type='button') Generate random user
       .form-floating.my-4
         input#email.form-control(type='email' name='email' placeholder="Email" required)
         label.form-label(for='email') Email
@@ -17,7 +18,8 @@ block adminContent
         input#password.form-control(type='text' name='password' placeholder="Password" required)
         label.form-label(for='Password') Password
       input(name='_csrf' type='hidden' value=csrfToken)
-      button.btn.btn-outline-info.col-auto(type='submit') Add
+      .d-flex.justify-content-center
+        button.btn.btn-outline-info.col-auto(type='submit') Add
 block scripts
   script.
     function makeid(length) {

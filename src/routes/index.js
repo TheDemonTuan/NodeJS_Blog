@@ -1,30 +1,43 @@
 'use strict'
 
-const csrf = require("../middlewares/csrf");
-const auth = require("../middlewares/auth");
-const message = require("../middlewares/message");
-const statusCheck = require("../middlewares/status");
+const csrf = require('../middlewares/csrf');
+const auth = require('../middlewares/auth');
+const message = require('../middlewares/message');
+const statusCheck = require('../middlewares/status');
 
 module.exports = (app) => {
   // Middleware
   app.use(message.load, auth.token, statusCheck);
 
+  // API V1 Router
+  app.use('/api/v1', require('./api'));
+
+  //-----------------Categories-----------------//
+  
+  // All-Datapack Router
+  app.use('/all-datapacks', require('./all-datapacks'));
+
+  // Datapack Router
+  app.use('/datapack', require('./datapack'));
+
+  //-----------------Categories End-----------------//
+
   // Admin Router
-  app.use("/admin", csrf, auth.isAdmin, require("./admin"))
+  app.use('/admin', csrf, auth.isAdmin, require('./admin'))
 
   // Signup Router
-  app.use("/signup", csrf, auth.isLogged, require("./signup"));
+  app.use('/signup', csrf, auth.isLogged, require('./signup'));
 
   // Signin Router
-  app.use("/signin", csrf, auth.isLogged, require("./signin"));
+  app.use('/signin', csrf, auth.isLogged, require('./signin'));
 
   // Logout Router
-  app.use("/logout", csrf, auth.isNotLogged, require("./logout"));
+  app.use('/logout', csrf, auth.isNotLogged, require('./logout'));
 
   // Home Router
-  app.use("/", require("./home"));
+  app.use('/', require('./home'));
 
-  // 404 Router
-  app.use(require("./errors"));
+  // Handle Router
+  app.use(require('./errors'));
 
 }

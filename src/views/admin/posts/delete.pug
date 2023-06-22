@@ -11,7 +11,7 @@ block adminContent
           thead.bg-light
             tr
               th ID
-              th Category
+              th Tags
               th Thumbnail
               th Title
               th Slug
@@ -19,10 +19,7 @@ block adminContent
           tbody
             tr
               td= post.id
-              td
-                each category in categories
-                  if(category.id == post.category_id)
-                    = category.name
+              td= post.tag_list
               td 
                 img.img-thumbnail.img-fluid.hover-shadow(src=post.thumbnail width='250')
               td= post.title

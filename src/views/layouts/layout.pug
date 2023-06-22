@@ -46,7 +46,7 @@ html(lang='en-us')
               li.nav-item
                 a.nav-link(href='/') Home 
               li.nav-item
-                a.nav-link(href='/datapacks') Datapacks
+                a.nav-link(href='/all-datapacks') Datapacks
               li.nav-item
                 a.nav-link(href='/forums') Forums
               li.nav-item
@@ -89,7 +89,7 @@ html(lang='en-us')
             else
               a.btn.btn-outline-primary.mx-3(href='/signin') Login
     // Breadcrumb
-    mixin breadcrumb
+    mixin breadcrumb(title,breadcrumbs)
       .header.text-center
           .container
             .row
@@ -100,15 +100,17 @@ html(lang='en-us')
                     .text-defaul
                       nav(style="--bs-breadcrumb-divider: '➫'" aria-label="breadcrumb")
                         ol.breadcrumb.fs-5
+                          li.breadcrumb-item
+                            a(href='/') Home
+                          if(breadcrumbs)
+                            - paths = breadcrumbs;
                           if(paths[0])
-                            li.breadcrumb-item
-                              a(href='/') Home
                             - let url = '';
                             - let path = '';
                             - for(let i = 0; i < paths.length; i++)
                               - path = paths[i];
-                              - path = path.charAt(0).toUpperCase() + path.slice(1);
                               - url = url.concat('/',path);
+                              - path = path.charAt(0).toUpperCase() + path.slice(1);
                               if(i == paths.length - 1)
                                 li.breadcrumb-item.active(aria-current='page') #{path}
                               else
@@ -118,7 +120,7 @@ html(lang='en-us')
                             li.breadcrumb-item.active(aria-current='page') Home
           svg.banner-border(height='240', viewBox='0 0 2202 240', fill='none', xmlns='http://www.w3.org/2000/svg')
             path(d='M1 123.043C67.2858 167.865 259.022 257.325 549.762 188.784C764.181 125.427 967.75 112.601 1200.42 169.707C1347.76 205.869 1901.91 374.562 2201 1', stroke-width='2')
-    // Content
+    //Layout
     mixin adminLayout
       +breadcrumb
       section.section
@@ -129,7 +131,7 @@ html(lang='en-us')
                 h1.widget-title.border-success.border-bottom Admin Panel
                 // Tab navs
                 .widget-control.flex-row
-                  - let listPanel = ['dashboard', 'settings' ,'users', 'categories', 'posts'];
+                  - let listPanel = ['dashboard', 'settings' ,'users','categories' ,'tags', 'posts'];
                   each panel in listPanel
                     - let url = "/" + paths[0] + "/" + panel;
                     if(paths[1] === panel)
@@ -142,6 +144,7 @@ html(lang='en-us')
               .container
                 h1.widget-title.border-success.border-bottom #{title}
                 block adminContent
+    // Content
     block content
     // Footer
     footer.footer
@@ -156,7 +159,7 @@ html(lang='en-us')
               li.list-inline-item
                 a(href='terms-conditions.html') Terms Conditions
           .col-md-2.text-center.mb-4
-            a(href='index.html')
+            a(href='/')
               img.img-fluid(width='100px', src='/logo.webp', alt='TheDemonTuan Logo')
           .col-md-5.text-md-right.text-center.mb-4
             ul.list-inline.footer-list.mb-0
@@ -181,24 +184,11 @@ html(lang='en-us')
     script(src='/plugins/jQuery/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js' integrity='sha512-VK2zcvntEufaimc+efOYi622VN5ZacdnufnmX7zIhCPmjhKnOi9ZDMtg1/ug5l183f19gG1/cBstPO4D8N/Img==' crossorigin='anonymous' referrerpolicy='no-referrer')
     script(src='/plugins/slick/slick.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.10/sweetalert2.all.min.js' integrity='sha512-hqj3uRcg6pYUd2hJHI1k1qKyf8PA/YMWcEV9hTlD+mpnUKe2mpzS7Epp8FCQrGG632TEp2Bn194SN69Auykcdg==' crossorigin='anonymous' referrerpolicy='no-referrer')
     // Main Script
     script(src='/js/script.js')
     if(showMessage)
-      script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.10/sweetalert2.all.min.js' integrity='sha512-hqj3uRcg6pYUd2hJHI1k1qKyf8PA/YMWcEV9hTlD+mpnUKe2mpzS7Epp8FCQrGG632TEp2Bn194SN69Auykcdg==' crossorigin='anonymous' referrerpolicy='no-referrer')
       script.
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          showCloseButton: true,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
-
         Toast.fire({
           icon: `#{showMessage.status}`,
           title: `#{showMessage.message}`,

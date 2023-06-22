@@ -21,6 +21,12 @@ router.route("/categories/add").get(adminController.categoriesAdd).post(adminCon
 router.route("/categories/edit/:id").get(adminController.categoriesEdit).post(adminController.categoriesUpdate);
 router.route("/categories/delete/:id").get(adminController.categoriesDelete).post(adminController.categoriesDestroy);
 
+//----------------------------------------------Tags----------------------------------------------
+router.route("/tags").get(adminController.tagsIndex);
+router.route("/tags/add").get(adminController.tagsAdd).post(adminController.tagsStore);
+router.route("/tags/edit/:id").get(adminController.tagsEdit).post(adminController.tagsUpdate);
+router.route("/tags/delete/:id").get(adminController.tagsDelete).post(adminController.tagsDestroy);
+
 //----------------------------------------------Posts----------------------------------------------
 router.route("/posts").get(adminController.postsIndex);
 router.route("/posts/add").get(adminController.postsAdd).post(thumbnailUpload.add, adminController.postsStore);

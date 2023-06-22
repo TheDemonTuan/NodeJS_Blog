@@ -8,7 +8,7 @@ block content
 block adminContent
   a.btn.btn-outline-primary.my-3.btn-rounded(href='/' + fullPath + '/add') Add
   .table-responsive.my-3
-    table#categoryTable.table.table-hover.caption-top.text-nowrap
+    table#tagTable.table.table-hover.caption-top.text-nowrap
       thead.bg-light
         tr
           th ID
@@ -16,21 +16,21 @@ block adminContent
           th Slug
           th Actions
       tbody
-        if (categories)
-          each category in categories
+        if (tags)
+          each tag in tags
             tr
-              td #{category.id}
-              td #{category.name}
-              td #{category.slug}
+              td #{tag.id}
+              td #{tag.name}
+              td #{tag.slug}
               td
                 .col.d-flex.gap-3
-                  a.text-primary.action-button(href=`/${fullPath}/edit/${category.id}`)
+                  a.text-primary.action-button(href=`/${fullPath}/edit/${tag.id}`)
                     i.ti-pencil-alt.fs-3
-                  a.text-danger.action-button(href=`/${fullPath}/delete/${category.id}`)
+                  a.text-danger.action-button(href=`/${fullPath}/delete/${tag.id}`)
                     i.ti-trash.fs-3
 block scripts
   script(src='/plugins/datatables/datatables.min.js')
   script.
     $(document).ready(function() {
-      $('#categoryTable').DataTable();
+      $('#tagTable').DataTable();
     });

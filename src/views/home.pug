@@ -24,14 +24,13 @@ block content
       .row
         .col-lg-4.mb-5
           h2.h5.section-title Lastest Datapack
-          if(posts)
-            - var post = posts[posts.length - 1];
-            article.card
-              .post-slider.slider-sm
-                img.card-img-top(src=post.thumbnail, alt='post-thumb')
+          if(lastest_post)
+            article.card.posts
+              a(href=lastest_post.link)
+                img.card-img-top(src=lastest_post.thumbnail, alt='post-thumb')
               .card-body
                 h3.h4.mb-3
-                  a.post-title(href=post.slug) #{post.title}
+                  a.post-title(href=lastest_post.link) #{lastest_post.title}
                 ul.card-meta.list-inline
                   li.list-inline-item
                     a.card-meta-author(href='author-single.html')
@@ -39,37 +38,40 @@ block content
                       span TheDemonTuan
                   li.list-inline-item
                     i.ti-timer
-                    span #{post.read_time} Min To Read
+                    span #{lastest_post.read_time} Min To Read
                   li.list-inline-item
                     ul.card-meta-tag.list-inline
-                      if(categories)
-                        each category in categories
-                          if category.id == post.category_id
-                            li.list-inline-item
-                              a(href=category.name.toLowerCase()) #{category.name}
+                      - let tagList = lastest_post.tag_list;
+                      - tagList = tagList.split(',');
+                        each tag in tagList
+                          li.list-inline-item
+                            a(href=tag.toLowerCase()) #{tag}
                   li.list-inline-item
                     i.ti-calendar
-                    span Last Updated: #{new Date(post.updatedAt).toLocaleString('en-US')}
+                    span Last Updated: #{new Date(lastest_post.updatedAt).toLocaleString('en-US')}
                 .container
                   .row
                     .col-12
-                      p#description-text=post.description
-                    a.btn.btn-outline-primary(href=post.slug) Read More
+                      p#description-text=lastest_post.description
+                    a.btn.btn-outline-primary(href=lastest_post.link) Read More
         .col-lg-4.mb-5
-          h2.h5.section-title Trending Datapack
-          article.card.mb-4
-            .card-body.d-flex
-              img.card-img-sm(src='images/post/post-3.jpg')
-              .mx-3
-                h4
-                  a.post-title(href='post-details.html') Advice From a Twenty Something
-                ul.card-meta.list-inline.mb-0
-                  li.list-inline-item.mb-0
-                    i.ti-calendar
-                    | 14 jan, 2020
-                  li.list-inline-item.mb-0
-                    i.ti-timer
-                    | 2 Min To Read
+          h2.h5.section-title Lastest Updated Datapack
+          if(lastest_updated_posts)
+            each post in lastest_updated_posts
+              article.card.mb-3.posts
+                .card-body.d-flex
+                  a(href=post.link)
+                    img.card-img-sm(src=post.thumbnail, alt='post-thumb')
+                  .ms-3
+                    h4
+                      a.post-title(href=post.link) #{post.title}
+                    ul.card-meta.list-inline.mb-0
+                      li.list-inline-item.mb-0
+                        i.ti-calendar
+                        span Last Updated: #{new Date(post.updatedAt).toLocaleString('en-US')}
+                      li.list-inline-item.mb-0
+                        i.ti-timer
+                        span #{post.read_time} Min To Read
         .col-lg-4.mb-5
           h2.h5.section-title Popular Datapack
           article.card
@@ -101,39 +103,42 @@ block content
               a.btn.btn-outline-primary(href='post-details.html') Read More
         .col-12
           .border-bottom.border-default
+  // Posts
   section.section-sm
     .container
       .row.justify-content-center
         .col-lg-8.mb-5.mb-lg-0
           h2.h5.section-title Recent Datapack
-          if(posts)
-          - for(var i = posts.length - 1; i >= 0; i--)
-            - var post = posts[i]
-            article.posts.card.mb-4
-              a(href=post.slug)
-                img.card-img-top(src=post.thumbnail, alt='post-thumb')
-              .card-body
-                h3.mb-3
-                  a.post-title(href=post.slug) #{post.title}
-                ul.card-meta.list-inline
-                  li.list-inline-item
-                    a.card-meta-author(href='author-single.html')
-                      img(src='/favicon.ico', alt='TheDemonTuan')
-                      span TheDemonTuan
-                  li.list-inline-item
-                    i.ti-timer
-                    span #{post.read_time} Min To Read
-                  li.list-inline-item
-                    i.ti-calendar
-                    span Last Updated: #{new Date(post.updatedAt).toLocaleString('en-US')}
-                  li.list-inline-item
-                    ul.card-meta-tag.list-inline
-                      each category in categories
-                        if category.id == post.category_id
-                          li.list-inline-item
-                            a(href=category.name.toLowerCase()) #{category.name}
-                p #{post.description}
-                a.btn.btn-outline-primary(href=post.slug) Read More
+          if(recent_posts)
+            each post in recent_posts
+              article.posts.card.mb-4
+                a(href=post.link)
+                  img.card-img-top(src=post.thumbnail, alt='post-thumb')
+                .card-body
+                  h3.mb-3
+                    a.post-title(href=post.link) #{post.title}
+                  ul.card-meta.list-inline
+                    li.list-inline-item
+                      a.card-meta-author(href='author-single.html')
+                        img(src='/favicon.ico', alt='TheDemonTuan')
+                        span TheDemonTuan
+                    li.list-inline-item
+                      i.ti-timer
+                      span #{post.read_time} Min To Read
+                    li.list-inline-item
+                      i.ti-calendar
+                      span Last Updated: #{new Date(post.updatedAt).toLocaleString('en-US')}
+                    li.list-inline-item
+                      ul.card-meta-tag.list-inline
+                        - let tagList = post.tag_list;
+                        - tagList = tagList.split(',');
+                          each tag in tagList
+                            li.list-inline-item
+                              a(href=tag.toLowerCase()) #{tag}
+                  p #{post.description}
+                  a.btn.btn-outline-primary(href=post.link) Read More
+          .d-flex.justify-content-center
+            a.btn.btn-outline-primary(href='/all-datapacks') Load More
         aside.col-lg-4.sidebar-home
           // about me
           .widget.widget-about
@@ -167,64 +172,16 @@ block content
               button.btn.btn-primary.btn-block(type='submit', name='subscribe') Subscribe now
               div(style='position: absolute; left: -5000px;', aria-hidden='true')
                 input(type='text', name='b_463ee871f45d2d93748e77cad_a0a2c6d074', tabindex='-1')
-          // categories
+          // Tags
           .widget.widget-categories
             h4.widget-title
-              span Categories
-            ul.list-unstyled.widget-list
-              li
-                a.d-flex(href='tags.html')
-                  | Datapacks
-                  small.ml-auto (#{posts.length})
-              li
-                a.d-flex(href='tags.html')
-                  | Forums 
-                  small.ml-auto (1)
-              li
-                a.d-flex(href='tags.html')
-                  | FAQS 
-                  small.ml-auto (1)
-          // tags
-          .widget
-            h4.widget-title
               span Tags
-            ul.list-inline.widget-list-inline.widget-card
-              li.list-inline-item
-                a(href='tags.html') City
-          // recent post
-          .widget
-            h4.widget-title Recent Datapack
-            // post-item
-            article.widget-card
-              .d-flex
-                img.card-img-sm(src='images/post/post-10.jpg')
-                .ml-3
-                  h5
-                    a.post-title(href='post/elements/') Elements That You Can Use In This Template.
-                  ul.card-meta.list-inline.mb-0
-                    li.list-inline-item.mb-0
-                      i.ti-calendar
-                      | 15 jan, 2020
-            article.widget-card
-              .d-flex
-                img.card-img-sm(src='images/post/post-3.jpg')
-                .ml-3
-                  h5
-                    a.post-title(href='post-details.html') Advice From a Twenty Something
-                  ul.card-meta.list-inline.mb-0
-                    li.list-inline-item.mb-0
-                      i.ti-calendar
-                      | 14 jan, 2020
-            article.widget-card
-              .d-flex
-                img.card-img-sm(src='images/post/post-7.jpg')
-                .ml-3
-                  h5
-                    a.post-title(href='post-details.html') Advice From a Twenty Something
-                  ul.card-meta.list-inline.mb-0
-                    li.list-inline-item.mb-0
-                      i.ti-calendar
-                      | 14 jan, 2020
+            ul.list-unstyled.widget-list.mx-3
+              if(tags)
+                each tag in tags
+                  li
+                    a.d-flex(href=tag.slug)
+                      | #{tag.name}
           // Social
           .widget
             h4.widget-title

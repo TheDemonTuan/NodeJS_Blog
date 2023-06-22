@@ -58,9 +58,7 @@ exports.isNotLogged = async (req, res, next) => {
 // middleware block access to page if not admin
 exports.isAdmin = async (req, res, next) => {
   if (!res.locals.userInfo.role) {
-    const error = new Error("Page not found");
-    error.status = 404;
-    return next(error);
+    return next(new Error("Page not found"));
   }
   next();
 }

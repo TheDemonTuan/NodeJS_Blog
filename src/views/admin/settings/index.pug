@@ -5,7 +5,7 @@ block content
   +adminLayout
 
 block adminContent
-  form#settings.row.justify-content-center.align-items-end(action='/admin/settings/save' method='POST')
+  form#settings.row.justify-content-center.align-items-end.my-4(action='/admin/settings/save' method='POST')
     .form-check.form-switch
       input#maintenance.form-check-input(type='checkbox' role='switch' name='maintenance' checked=maintenance ? true : false)
       label.form-check-label(for='maintenance') Maintenance

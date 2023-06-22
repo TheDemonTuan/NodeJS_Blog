@@ -1,14 +1,45 @@
-// Preloader js    
+'use strict';
 
+var Toast = Swal.mixin({
+	toast: true,
+	position: 'top-end',
+	showConfirmButton: false,
+	showCloseButton: true,
+	timer: 3000,
+	timerProgressBar: true,
+	didOpen: (toast) => {
+		toast.addEventListener('mouseenter', Swal.stopTimer)
+		toast.addEventListener('mouseleave', Swal.resumeTimer)
+	}
+})
+
+var loadDatapacks = async (type) => {
+	var lastId;
+	await $.ajax({
+		method: 'GET',
+		url: `/api/v1/datapacks/load/${type}`,
+		dataType: 'json',
+	}).done((result) => {
+		if(result.status == 'success'){
+			$('#datapackList').append(result.htmlCode);
+		}
+		lastId = result.lastId;
+	}).fail((e) => {
+	}).always((result) => {
+		Toast.fire({
+			icon: `${result.status}`,
+			title: `${result.message}`,
+		})
+	})
+	return lastId;
+}
+
+//Preloader
 $(() => {
-	'use strict';
-
 	$('#preloader').fadeOut("slow");
 });
 
 (function ($) {
-	'use strict';
-
 	$(window).on('scroll', function () {
 		var scrolling = $(this).scrollTop();
 		if (scrolling > 10) {

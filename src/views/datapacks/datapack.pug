@@ -1,0 +1,161 @@
+extend ../layouts/layout
+
+block content
+  section.section.my-4
+    .container
+      .row
+        .col-lg-8.mb-5.mb-lg-0
+          article
+            .mb-4
+              img.card-img(src=post.thumbnail, alt='post-thumb')
+            h1.h2 #{post.title}
+            ul.card-meta.my-3.list-inline
+              li.list-inline-item
+                a.card-meta-author(href='author-single.html')
+                  img(src='/favicon.ico', alt='TheDemonTuan')
+                  span TheDemonTuan
+              li.list-inline-item
+                i.ti-timer
+                span #{post.read_time} Min To Read
+              li.list-inline-item
+                i.ti-calendar
+                span Last Updated: #{new Date(post.updatedAt).toLocaleString('en-US')}
+              li.list-inline-item
+                ul.card-meta-tag.list-inline
+                  - let tagList = post.tag_list;
+                  - tagList = tagList.split(',');
+                    each tag in tagList
+                      li.list-inline-item
+                        a(href=tag.toLowerCase()) #{tag}
+            .content
+              h1 !{post.content}
+          .mt-5
+            .mb-5.border-top.mt-4.pt-5
+              h3.mb-4 Comments
+              .media.d-block.d-sm-flex.mb-4.pb-4
+                a.d-inline-block.mr-2.mb-3.mb-md-0(href='#')
+                  img.mr-3.rounded-circle(src='images/post/user-01.jpg', alt='')
+                .media-body
+                  a.h4.d-inline-block.mb-3(href='#!') Alexender Grahambel
+                  p
+                    | Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                  span.text-black-800.mr-3.font-weight-600 April 18, 2020 at 6.25 pm
+                  a.text-primary.font-weight-600(href='#!') Reply
+              .media.d-block.d-sm-flex
+                .d-inline-block.mr-2.mb-3.mb-md-0(href='#')
+                  img.mr-3(src='images/post/arrow.png', alt='')
+                  a(href='#!')
+                    img.mr-3.rounded-circle(src='images/post/user-02.jpg', alt='')
+                .media-body
+                  a.h4.d-inline-block.mb-3(href='#!') Nadia Sultana Tisa
+                  p
+                    | Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                  span.text-black-800.mr-3.font-weight-600 April 18, 2020 at 6.25 pm
+                  a.text-primary.font-weight-600(href='#!') Reply
+            div
+              h3.mb-4 Leave a Reply
+              form(method='POST')
+                .row
+                  .form-group.col-md-12
+                    textarea.form-control.shadow-none(name='comment', rows='7', required='')
+                  .form-group.col-md-4
+                    input.form-control.shadow-none(type='text', placeholder='Name', required='')
+                  .form-group.col-md-4
+                    input.form-control.shadow-none(type='email', placeholder='Email', required='')
+                  .form-group.col-md-4
+                    input.form-control.shadow-none(type='url', placeholder='Website')
+                    p.font-weight-bold.valid-feedback OK! You can skip this field.
+                button.btn.btn-primary(type='submit') Comment Now
+        aside.col-lg-4(class='@@sidebar')
+          // about me
+          .widget.widget-about
+            h4.widget-title Hi, I am TheDemonTuan!
+            img.img-fluid(src='/favicon.ico', alt='Themefisher')
+            p I'm a backend developer also a minecraft datapack developer.
+            ul.list-inline.social-icons.mb-3
+              li.list-inline-item
+                a(href='#')
+                  i.ti-facebook
+              li.list-inline-item
+                a(href='#')
+                  i.ti-twitter-alt
+              li.list-inline-item
+                a(href='#')
+                  i.ti-linkedin
+              li.list-inline-item
+                a(href='#')
+                  i.ti-github
+              li.list-inline-item
+                a(href='#')
+                  i.ti-youtube
+            a.btn.btn-primary.mb-2(href='about-me.html') About me
+          // hot post
+          .widget
+            h4.widget-title Hot Post
+            // post-item
+            each post in recent_posts
+              article.widget-card
+                .d-flex
+                  img.card-img-sm(src=post.thumbnail, alt='post-thumb')
+                  .ms-3
+                    h5
+                      a.post-title(href='/datapack/' + post.slug) #{post.title}
+                    ul.card-meta.list-inline.mb-0
+                      li.list-inline-item.mb-0
+                        i.ti-calendar
+                        span Last Updated: #{new Date(post.updatedAt).toLocaleString('en-US')}
+          // recent post
+          .widget
+            h4.widget-title Recent Post
+            // post-item
+            each post in recent_posts
+              article.widget-card
+                .d-flex
+                  img.card-img-sm(src=post.thumbnail, alt='post-thumb')
+                  .ms-3
+                    h5
+                      a.post-title(href='/datapack/' + post.slug) #{post.title}
+                    ul.card-meta.list-inline.mb-0
+                      li.list-inline-item.mb-0
+                        i.ti-calendar
+                        span Last Updated: #{new Date(post.updatedAt).toLocaleString('en-US')}
+          // Search
+          .widget
+            h4.widget-title
+              span Never Miss A News
+            form.widget-search(action='#!', method='post', name='mc-embedded-subscribe-form', target='_blank')
+              input#search-query.mb-3(name='s', type='search', placeholder='Your Email Address')
+              i.ti-email
+              button.btn.btn-primary.btn-block(type='submit', name='subscribe') Subscribe now
+              div(style='position: absolute; left: -5000px;', aria-hidden='true')
+                input(type='text', name='b_463ee871f45d2d93748e77cad_a0a2c6d074', tabindex='-1')
+          // categories
+          .widget.widget-categories
+            h4.widget-title
+              span Tags
+            ul.list-unstyled.widget-list.mx-3
+              if(tags)
+                each tag in tags
+                  li
+                    a.d-flex(href=tag.slug)
+                      | #{tag.name}
+          // Social
+          .widget
+            h4.widget-title
+              span Social Links
+            ul.list-inline.widget-social
+              li.list-inline-item
+                a(href='#')
+                  i.ti-facebook
+              li.list-inline-item
+                a(href='#')
+                  i.ti-twitter-alt
+              li.list-inline-item
+                a(href='#')
+                  i.ti-linkedin
+              li.list-inline-item
+                a(href='#')
+                  i.ti-github
+              li.list-inline-item
+                a(href='#')
+                  i.ti-youtube

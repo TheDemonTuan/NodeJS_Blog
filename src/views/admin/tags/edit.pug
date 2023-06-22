@@ -4,17 +4,17 @@ block content
   +adminLayout
 block adminContent
   a.btn.btn-outline-primary.btn-rounded(href='/' + paths[0] + '/' + paths[1]) Back
-  if(category)
+  if(tag)
     form.row.justify-content-center.align-items-center.my-4(method='POST')
       .col-12.col-sm-10.col-md-8.col-lg-6.col-xl-5
         .form-floating.my-4
-          input#name.form-control(type='text' name='name' value=category.name required)
+          input#name.form-control(type='text' name='name' value=tag.name required)
           label.form-label(for='name') Name
         .form-floating.my-4
-          input#slug.form-control(type='text' name='slug' value=category.slug required)
+          input#slug.form-control(type='text' name='slug' value=tag.slug required)
           label.form-label(for='slug') Slug
         input(name='_csrf' type='hidden' value=csrfToken)
         .d-flex.justify-content-center
           button.btn.btn-outline-success.col-auto.my-3(type='submit') Update
   else
-    .alert.alert-danger.m-2(role='alert') No category found
+    .alert.alert-danger.m-2(role='alert') No tag found

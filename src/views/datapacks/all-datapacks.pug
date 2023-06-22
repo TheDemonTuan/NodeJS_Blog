@@ -1,0 +1,22 @@
+extend ../layouts/layout
+
+block content
+  +breadcrumb("All Datapacks",["Datapacks"])
+  section.section
+    .container
+      .row.justify-content-center
+        .col-lg-10.mb-4
+          h1.h2.mb-4
+            | Showing items from
+            mark Datapacks
+        #datapackList.col-lg-10
+      .d-flex.justify-content-center
+        button#loadMore.btn.btn-outline-primary(type='button') Load More
+block scripts
+  script.
+    $(async () =>{
+      var lastId = await loadDatapacks('default');
+      $('#loadMore').on('click',async () =>{
+        lastId = await loadDatapacks(lastId);
+      })
+    })

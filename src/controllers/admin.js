@@ -1,8 +1,9 @@
 const message = require("../middlewares/message");
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
-const Category = Promise.promisifyAll(require("../models/categories"));
 const User = Promise.promisifyAll(require("../models/users"));
+const Category = Promise.promisifyAll(require("../models/categories"));
+const Tag = Promise.promisifyAll(require("../models/tags"));
 const Post = Promise.promisifyAll(require("../models/posts"));
 
 // White list
@@ -24,7 +25,7 @@ exports.settingsUpdate = async (req, res, next) => {
       await _redisClient.del("maintenance");
     return message.set(req, res, next, "success", "Settings updated successfully.", true, "/admin/settings");
   } catch (err) {
-    return message.set(req, res, next, "error", "Something went wrong, please try again later.", true, "/admin/settings");
+    next(err);
   }
 };
 
@@ -71,8 +72,8 @@ exports.usersStore = async (req, res, next) => {
   try {
     await User.createAsync(req.body);
     return message.set(req, res, next, "success", "User added successfully.", true, "/admin/users");
-  } catch (error) {
-    return message.set(req, res, next, "error", "Something went wrong, please try again later.", true, "/admin/users");
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -90,8 +91,8 @@ exports.usersUpdate = async (req, res, next) => {
     await User.updateByIdAsync(user.id, req.body);
     await _redisClient.del(user.id);
     return message.set(req, res, next, "success", "User updated successfully.", true, "/admin/users");
-  } catch (error) {
-    return message.set(req, res, next, "error", "Something went wrong, please try again later.", true, "/admin/users");
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -112,8 +113,8 @@ exports.usersDestroy = async (req, res, next) => {
     await User.deleteByIdAsync(user.id);
     await _redisClient.del(user.id);
     return message.set(req, res, next, "success", "User deleted successfully.", true, "/admin/users");
-  } catch (error) {
-    return message.set(req, res, next, "error", "Something went wrong, please try again later.", true, "/admin/users");
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -159,9 +160,8 @@ exports.categoriesStore = async (req, res, next) => {
   try {
     await Category.createAsync(req.body);
     return message.set(req, res, next, "success", "Category added successfully.", true, "/admin/categories")
-  } catch (error) {
-    //console.log(error)
-    return message.set(req, res, next, "error", "Something went wrong, please try again later.", true, "/admin/categories")
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -171,9 +171,8 @@ exports.categoriesUpdate = async (req, res, next) => {
     req.body.updatedAt = new Date();
     await Category.updateByIdAsync(req.params.id, req.body);
     return message.set(req, res, next, "success", "Category updated successfully.", true, "/admin/categories")
-  } catch (error) {
-    //console.log(error)
-    return message.set(req, res, next, "error", "Something went wrong, please try again later.", true, "/admin/categories")
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -182,9 +181,76 @@ exports.categoriesDestroy = async (req, res, next) => {
   try {
     await Category.deleteByIdAsync(req.params.id);
     return message.set(req, res, next, "success", "Category deleted successfully.", true, "/admin/categories")
-  } catch (error) {
-    //console.log(error)
-    return message.set(req, res, next, "error", "Something went wrong, please try again later.", true, "/admin/categories")
+  } catch (err) {
+    next(err);
+  }
+};
+
+//----------------------------------------------Tags----------------------------------------------
+
+// [GET] /tags
+exports.tagsIndex = async (req, res, next) => {
+  try {
+    res.locals.tags = await Tag.getAllAsync();
+    res.render("admin/tags", { title: "Tags" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// [GET] /tags/add
+exports.tagsAdd = async (req, res, next) => {
+  res.render("admin/tags/add", { title: "Add Tag" });
+};
+
+// [GET] /tags/edit/:id
+exports.tagsEdit = async (req, res, next) => {
+  try {
+    res.locals.tag = await Tag.findByIdAsync(req.params.id);
+    res.render("admin/tags/edit", { title: "Edit Tag" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// [GET] /tags/delete/:id
+exports.tagsDelete = async (req, res, next) => {
+  try {
+    res.locals.tag = await Tag.findByIdAsync(req.params.id);
+    res.render("admin/tags/delete", { title: "Delete Tag" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// [POST] /tags/add
+exports.tagsStore = async (req, res, next) => {
+  try {
+    await Tag.createAsync(req.body);
+    return message.set(req, res, next, "success", "Tag added successfully.", true, "/admin/tags")
+  } catch (err) {
+    next(err);
+  }
+};
+
+// [POST] /tags/edit/:id
+exports.tagsUpdate = async (req, res, next) => {
+  try {
+    req.body.updatedAt = new Date();
+    await Tag.updateByIdAsync(req.params.id, req.body);
+    return message.set(req, res, next, "success", "Tag updated successfully.", true, "/admin/tags")
+  } catch (err) {
+    next(err);
+  }
+};
+
+// [POST] /tags/delete/:id
+exports.tagsDestroy = async (req, res, next) => {
+  try {
+    await Tag.deleteByIdAsync(req.params.id);
+    return message.set(req, res, next, "success", "Tag deleted successfully.", true, "/admin/tags")
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -194,7 +260,6 @@ exports.categoriesDestroy = async (req, res, next) => {
 exports.postsIndex = async (req, res, next) => {
   try {
     res.locals.posts = await Post.getAllAsync();
-    res.locals.categories = await Category.getAllAsync();
     res.render("admin/posts", { title: "Posts" });
   } catch (err) {
     next(err);
@@ -205,6 +270,7 @@ exports.postsIndex = async (req, res, next) => {
 exports.postsAdd = async (req, res, next) => {
   try {
     res.locals.categories = await Category.getAllAsync();
+    res.locals.tags = await Tag.getAllAsync();
     res.render("admin/posts/add", { title: "Add Post" });
   } catch (err) {
     next(err);
@@ -215,6 +281,7 @@ exports.postsAdd = async (req, res, next) => {
 exports.postsEdit = async (req, res, next) => {
   try {
     res.locals.categories = await Category.getAllAsync();
+    res.locals.tags = await Tag.getAllAsync();
     res.locals.post = await Post.findByIdAsync(req.params.id);
     res.render("admin/posts/edit", { title: "Edit Post" });
   } catch (err) {
@@ -226,7 +293,7 @@ exports.postsEdit = async (req, res, next) => {
 exports.postsDelete = async (req, res, next) => {
   try {
     res.locals.post = await Post.findByIdAsync(req.params.id);
-    res.locals.categories = await Category.getAllAsync();
+    res.locals.tags = await Tag.getAllAsync();
     res.render("admin/posts/delete", { title: "Delete Post" });
   } catch (err) {
     next(err);
@@ -238,9 +305,8 @@ exports.postsStore = async (req, res, next) => {
   try {
     await Post.createAsync(req.body);
     return message.set(req, res, next, "success", "Post added successfully.", true, "/admin/posts")
-  } catch (error) {
-    //console.log(error)
-    return message.set(req, res, next, "error", "Something went wrong, please try again later.", true, "/admin/posts")
+  } catch (err) {
+    next(err);
   }
 }
 
@@ -248,11 +314,12 @@ exports.postsStore = async (req, res, next) => {
 exports.postsUpdate = async (req, res, next) => {
   try {
     req.body.updatedAt = new Date();
+    if(req.body.link_status)
+      req.body.link = `/${req.body.category_slug}/${req.body.slug}`
     await Post.updateByIdAsync(req.params.id, req.body);
     return message.set(req, res, next, "success", "Post updated successfully.", true, "/admin/posts")
-  } catch (error) {
-    //console.log(error)
-    return message.set(req, res, next, "error", "Something went wrong, please try again later.", true, "/admin/posts")
+  } catch (err) {
+    next(err);
   }
 }
 
@@ -263,9 +330,8 @@ exports.postsDestroy = async (req, res, next) => {
     await fs.unlinkAsync(staticPath + post.thumbnail);
     await Post.deleteByIdAsync(req.params.id);
     return message.set(req, res, next, "success", "Post deleted successfully.", true, "/admin/posts")
-  } catch (error) {
-    //console.log(error)
-    return message.set(req, res, next, "error", "Something went wrong, please try again later.", true, "/admin/posts")
+  } catch (err) {
+    next(err);
   }
 }
 

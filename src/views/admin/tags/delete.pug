@@ -4,7 +4,7 @@ block content
   +adminLayout
 block adminContent
   a.btn.btn-outline-primary.btn-rounded(href='/' + paths[0] + '/' + paths[1]) Back
-  if(category)
+  if(tag)
     form.row.my-4.justify-content-center.align-items-center.g-4(method='POST')
       .table-responsive.my-3
         table.table.table-hover.caption-top.text-nowrap
@@ -16,11 +16,11 @@ block adminContent
           tbody
             tr
               td
-                p.fw-normal.mb-1 #{category.id}
-              td #{category.name}
-              td #{category.slug}
+                p.fw-normal.mb-1 #{tag.id}
+              td #{tag.name}
+              td #{tag.slug}
       input(name='_csrf' type='hidden' value=csrfToken)
       .d-flex.justify-content-center
         button.btn.btn-outline-danger.col-auto.my-3(type='submit') Delete
   else
-    .alert.alert-danger.m-2(role='alert') No category found
+    .alert.alert-danger.m-2(role='alert') No tag found

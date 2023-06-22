@@ -41,10 +41,10 @@ block adminContent
                 else
                   span.badge.rounded-pill.text-bg-danger Inactive
               td
-                .col.d-flex.justify-content-center.gap-3
-                  a.text-primary.action-button(href='/' + fullPath + '/edit/' + user.id)
+                .col.d-flex.gap-3
+                  a.text-primary.action-button(href=`/${fullPath}/edit/${user.id}`)
                     i.ti-pencil-alt.fs-3
-                  a.text-danger.action-button(href='/' + fullPath + '/delete/' + user.id)
+                  a.text-danger.action-button(href=`/${fullPath}/delete/${user.id}`)
                     i.ti-trash.fs-3
 block scripts
   script(src='/plugins/datatables/datatables.min.js')

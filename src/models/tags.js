@@ -1,8 +1,8 @@
 const pool = require("../utils/db");
 
-class Category {
+class Tag {
 
-  static table = "categories";
+  static table = "tags";
 
   constructor(tag, type) {
     if (type == "create") {
@@ -28,13 +28,13 @@ class Category {
   }
 
   static create = async (data, result) => {
-    pool.query(`insert into ${this.table} set ?`, [new Category(data, "create")], (err, res) => {
+    pool.query(`insert into ${this.table} set ?`, [new Tag(data, "create")], (err, res) => {
       result(err, res);
     })
   }
 
   static updateById = async (id, data, result) => {
-    pool.query(`update ${this.table} set ? where id = ?`, [new Category(data, "update"), id], (err, res) => {
+    pool.query(`update ${this.table} set ? where id = ?`, [new Tag(data, "update"), id], (err, res) => {
       result(err, res);
     })
   }
@@ -46,4 +46,4 @@ class Category {
   }
 }
 
-module.exports = Category;
+module.exports = Tag;

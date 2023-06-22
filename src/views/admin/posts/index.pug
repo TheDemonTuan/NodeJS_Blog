@@ -13,7 +13,8 @@ block adminContent
       thead
         tr
           th ID
-          th Category
+          th Category Slug
+          th Tags
           th Thumbnail
           th Title
           th Slug
@@ -24,10 +25,12 @@ block adminContent
           each post in posts
             tr
               td= post.id
+              td= post.category_slug
               td
-                each category in categories
-                  if(category.id == post.category_id)
-                    = category.name
+                - var tags = post.tag_list;
+                - tags = tags.split(',');
+                each tag in tags
+                  span.badge.rounded-pill.text-bg-secondary.me-1 #{tag}
               td 
                 img.img-thumbnail.img-fluid(src=post.thumbnail width='250')
               td= post.title
@@ -38,10 +41,12 @@ block adminContent
                 else
                   span.badge.rounded-pill.text-bg-danger Inactive
               td
-                .col.d-flex.justify-content-center.gap-3
-                  a.text-primary.action-button(href='/' + fullPath + '/edit/' + post.id)
+                .col.d-flex.gap-3
+                  a.text-warning.action-button(href=post.link target='_blank')
+                    i.ti-eye.fs-3
+                  a.text-primary.action-button(href=`/${fullPath}/edit/${post.id}`)
                     i.ti-pencil-alt.fs-3
-                  a.text-danger.action-button(href='/' + fullPath + '/delete/' + post.id)
+                  a.text-danger.action-button(href=`/${fullPath}/delete/${post.id}`)
                     i.ti-trash.fs-3
 block scripts
   script(src='/plugins/datatables/datatables.min.js')
