@@ -6,7 +6,7 @@ block content
   +breadcrumb
   .container.my-5
     section.pb-4
-      form#sign-up.row.justify-content-center.gx-3.gy-2.align-items-center(method='POST')
+      form#sign-up.row.justify-content-center.gx-3.gy-2.align-items-center(method='POST' action='/signup/submit')
         .text-center.mb-3
           p Sign up with:
           button.btn.btn-secondary.btn-floating.mx-1(type='button')
@@ -19,25 +19,28 @@ block content
             i.ti-github
         p.text-center or:
         .col-sm-8.col-md-6.col-lg-4.col-xl-3
+          .form-floating.mb-4
+            input#display-name.form-control(type='text' name='displayName' placeholder="Display Name" required)
+            label.form-label(for='#display-name') Display Name
           // Email input
           .form-floating.mb-4
-            input#email.form-control(type='email' name='email' placeholder="Email" value=old_email)
+            input#email.form-control(type='email' name='email' placeholder="Email" required)
             label.form-label(for='email') Email
           // Username input
           .form-floating.mb-4
-            input#username.form-control(type='text' name='username' placeholder="Username" value=old_username)
+            input#username.form-control(type='text' name='username' placeholder="Username" required)
             label.form-label(for='username') Username
           // Password input
           .form-floating.mb-4
-            input#password.form-control(type='password' placeholder="Password" name='password')
+            input#password.form-control(type='password' placeholder="Password" name='password' required)
             label.form-label(for='password') Password
-          // Repeat Password input
+          // Confirm Password input
           .form-floating.mb-4
-            input#repeat-password.form-control(type='password' placeholder="Repeat Password" name='repeat-password')
-            label.form-label(for='repeat-password') Repeat Password
+            input#confirm-password.form-control(type='password' placeholder="Confirm Password" name='confirmPassword' required)
+            label.form-label(for='confirm-password') Confirm Password
           // Checkbox
           .form-check.d-flex.justify-content-center.mb-4
-            input#registerCheck.form-check-input.me-2(type='checkbox' name='check')
+            input#registerCheck.form-check-input.me-2(type='checkbox' name='check' checked)
             label.form-check-label(for='registerCheck') I have read and agree to the terms
           input(name='_csrf' type='hidden')
           #_recaptcha.mb-4

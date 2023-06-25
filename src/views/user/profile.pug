@@ -1,0 +1,152 @@
+extend ../layouts/layout
+
+block content
+  +userLayout(title)
+
+block userContent
+  .container-fluid.p-3
+    .row.justify-content-between
+      .col-lg-4.mb-3
+        .card
+          .card-header.text-center
+            h4 Change Basic Info
+          .card-body
+            form#change-userInfo(method='POST' enctype="multipart/form-data")
+              .d-flex.flex-column.align-items-center.text-center
+                .avatar-upload
+                  .avatar-edit
+                    input#imageUpload(type='file' accept='.png, .jpeg, .jpg, .webp' name='avatar')
+                    input(type='hidden' name='current_avatar' value=userInfo.avatar)
+                    label(for='imageUpload')
+                  .avatar-preview
+                    #imagePreview(style=`background-image: url(${userInfo.avatar});`)
+                div
+                  label.form-label.fw-bold(for='id') ID:
+                  input.form-control(type='text' placeholder='ID' value=`#${userInfo.id}` disabled)
+                  #displayNameInput.my-3
+                    label.form-label.fw-bold(for='displayName') Display Name:
+                    input.form-control(type='text' placeholder='Display Name' name='displayName' value=userInfo.displayName required)
+                  #description.my-3
+                    label.form-label.fw-bold(for='description') Description:
+                    textarea.form-control(rows='6' cols='50' name='description' placeholder='Description' required) #{userInfo.description}
+                  .my-3
+                    span.fw-bold Role: 
+                    if(userInfo.role)
+                      span.badge.rounded-pill.text-bg-dark Admin
+                    else
+                      span.badge.rounded-pill.text-bg-light Member
+                  .my-3
+                    span.fw-bold Account Status: 
+                    if(userInfo.status)
+                      span.badge.rounded-pill.text-bg-success Active
+                    else
+                      span.badge.rounded-pill.text-bg-warning Inactive
+                  .d-flex.justify-content-center.align-items-center.gap-2
+                    span.fw-bold Joined:
+                    span #{new Date(userInfo.createdAt).toLocaleString('en-US')}
+              .alert.alert-warning.d-flex.align-items-center.gap-2.mt-4(role='alert')
+                i.fa-solid.fa-triangle-exclamation
+                span Info requirements
+              p.small.text-muted.mb-2 To edit a info, you have to meet all of the following requirements:
+              ul.small.text-muted.pl-4.mb-0
+                li 
+                  span.fw-bold Avatar 
+                  | accept .png, .jpeg, .jpg, .webp.
+                li 
+                  span.fw-bold Avatar 
+                  | size maximum 15MB.
+                li 
+                  span.fw-bold Display Name 
+                  | maximum 30 character.
+                li 
+                  span.fw-bold Description 
+                  | maximum 300 character.
+              .d-flex.justify-content-center.mt-3
+                button.btn.btn-outline-primary(type='submit') Save Changes
+      .col-lg-7
+        .card
+          .card-header.text-center 
+            h4 Change Account
+          .card-body
+            form(method='POST' action='/user/profile/change-account')
+              .row
+                .col-lg-6
+                  .mb-4
+                    label.form-label.fw-bold(for='username') Username:
+                    input#username.form-control(type='text' placeholder='Username' name='username' value=userInfo.username required)
+                .col-lg-6
+                  .mb-4
+                    label.form-label.fw-bold(for='email') Email:
+                    input#email.form-control(type='text' placeholder='Email' name='email' value=userInfo.email required)
+                .col-lg-12
+                  .mb-4
+                    label.form-label.fw-bold(for='confirmPassword') Confirm Password:
+                    input#confirmPassword.form-control(type='password' placeholder='Confirm Password' name='confirmPassword' required)
+                input(name='_csrf' type='hidden')
+                .alert.alert-warning.d-flex.align-items-center.gap-2(role='alert')
+                  i.fa-solid.fa-triangle-exclamation
+                  span Account requirements
+                p.small.text-muted.mb-2 To edit account, you have to meet all of the following requirements:
+                ul.small.text-muted.pl-4.mb-0
+                  li
+                    span.fw-bold  Username 
+                    | minimum 5 character and maximum 20 character.
+                  li 
+                    span.fw-bold Email 
+                    | must be valid.
+                  li 
+                    span.fw-bold Email 
+                    | maximum 50 character.
+                  li 
+                    span.fw-bold Confirm password 
+                    | must be same with current password.
+                .d-flex.justify-content-center.mt-3
+                  button.btn.btn-outline-primary(type='submit') Save Changes
+        .card.mt-5
+          .card-header.text-center 
+            h4 Change Password
+          .card-body
+            form(method='POST' action='/user/profile/change-password')
+              .row
+                .col-lg-6
+                  .mb-4
+                    label.form-label.fw-bold(for='currentPassword') Current Password:
+                    input#currentPassword.form-control(type='password' placeholder='Current Password' name='currentPassword' required)
+                .col-lg-6
+                  .mb-4
+                    label.form-label.fw-bold(for='newPassword') New Password:
+                    input#newPassword.form-control(type='password' placeholder='New Password' name='newPassword' required)
+                .col-lg-12
+                  .mb-4
+                    label.form-label.fw-bold(for='confirmNewPassword') Confirm New Password:
+                    input#confirmNewPassword.form-control(type='password' placeholder='Confirm New Password' name='confirmNewPassword' required)
+                input(name='_csrf' type='hidden')
+                .alert.alert-warning.d-flex.align-items-center.gap-2(role='alert')
+                  i.fa-solid.fa-triangle-exclamation
+                  span Password requirements
+                p.small.text-muted.mb-2 To edit password, you have to meet all of the following requirements:
+                ul.small.text-muted.pl-4.mb-0
+                  li 
+                    span.fw-bold Current password 
+                    | must be valid.
+                  li 
+                    span.fw-bold New password 
+                    | minimum 8 character and maximum 20 character.
+                  li 
+                    span.fw-bold Confirm new password 
+                    | must be same with new password.
+                .d-flex.justify-content-center.mt-3
+                  button.btn.btn-outline-primary(type='submit') Save Changes
+block scripts
+  script.
+    $(() => {
+      //CSRF
+      $('input[name="_csrf"]').val("#{csrfToken}");
+      $('#change-userInfo').attr('action', '/#{fullPath}/change-info?csrfToken=#{csrfToken}');
+
+      //Image Preview
+      $("#imageUpload").change(function() {
+        imagePreview(this);
+      });
+    });
+

@@ -2,7 +2,8 @@ const sharp = require('sharp');
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const formidable = require('formidable');
-const message = require("../../middlewares/message");
+const message = require("../../message");
+
 const form = formidable({
   keepExtensions: true,
   uploadDir: staticPath + '/img/upload/posts',

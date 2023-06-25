@@ -5,15 +5,19 @@ const Post = Promise.promisifyAll(require("../models/posts.js"));
 exports.datapackLoad = async (req, res, next) => {
   try {
     const limit = 3
-    if (req.params.lastId === 'default')
+    var lastId = Number.isInteger(Number.parseInt(req.params.lastId)) ? Number.parseInt(req.params.lastId) : 0;
+
+    if (lastId === 0)
+      return res.status(201).json({ status: "error", message: "No more datapacks", lastId: 0, htmlCode: "" });
+
+    if (lastId === -1)
       var posts = await Post.getWithLimitAsync(limit);
     else {
-      var lastId = Number.isInteger(Number.parseInt(req.params.lastId)) ? Number.parseInt(req.params.lastId) : 1;
       var posts = await Post.paginateAsync(lastId, limit);
     }
 
-    if (posts.length == 0)
-      return res.status(201).json({ status: "error", message: "No more datapacks" });
+    if (posts.length === 0)
+      return res.status(201).json({ status: "error", message: "No more datapacks", lastId: 0, htmlCode: "" });
 
     let htmlCode = "";
     posts.forEach(post => {
@@ -53,6 +57,6 @@ exports.datapackLoad = async (req, res, next) => {
     });
     res.status(201).json({ status: "success", message: "Load datapacks successfully", lastId: posts.at(-1).id, htmlCode: htmlCode });
   } catch (err) {
-    res.status(201).json({ status: "error", message: "Something went wrong, please try again later." });
+    res.status(201).json({ status: "error", message: "Something went wrong, please try again later.", lastId: 0, htmlCode: "" });
   }
 };

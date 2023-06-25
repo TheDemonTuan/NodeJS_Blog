@@ -10,6 +10,7 @@ module.exports = async (req, res, next) => {
     res.locals = {
         showMessage: false,
         userInfo: false,
+        userSettings: false,
         paths: nowPath.split("/"),
         fullPath: nowPath,
     }

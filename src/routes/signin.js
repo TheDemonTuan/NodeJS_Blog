@@ -3,6 +3,7 @@ const validate = require("../middlewares/validate");
 const recaptchaCheck = require("../middlewares/recaptcha");
 const signinController = require("../controllers/signin");
 
-router.route("/").get(signinController.index).post(recaptchaCheck.v3, validate.signin, signinController.checkLogin);
+router.route("/submit").post(recaptchaCheck.v3, validate.signin, signinController.check);
+router.route("/").get(signinController.index);
 
 module.exports = router;

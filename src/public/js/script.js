@@ -1,6 +1,7 @@
 'use strict';
 
-var Toast = Swal.mixin({
+// Toast
+const Toast = Swal.mixin({
 	toast: true,
 	position: 'top-end',
 	showConfirmButton: false,
@@ -11,36 +12,47 @@ var Toast = Swal.mixin({
 		toast.addEventListener('mouseenter', Swal.stopTimer)
 		toast.addEventListener('mouseleave', Swal.resumeTimer)
 	}
-})
+});
 
-var loadDatapacks = async (type) => {
-	var lastId;
-	await $.ajax({
-		method: 'GET',
-		url: `/api/v1/datapacks/load/${type}`,
-		dataType: 'json',
-	}).done((result) => {
-		if(result.status == 'success'){
+// Image Preview
+function imagePreview(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+		reader.onload = (e) => {
+			$('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
+			$('#imagePreview').hide();
+			$('#imagePreview').fadeIn(650);
+		};
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+
+// Load More Datapacks
+async function loadDatapacks(type) {
+	return new Promise((resolve, reject) => {
+		$.ajax({
+			method: 'GET',
+			url: `/api/v1/datapacks/load/${type}`,
+			dataType: 'json',
+		}).done((result) => {
 			$('#datapackList').append(result.htmlCode);
-		}
-		lastId = result.lastId;
-	}).fail((e) => {
-	}).always((result) => {
-		Toast.fire({
-			icon: `${result.status}`,
-			title: `${result.message}`,
-		})
-	})
-	return lastId;
+			Toast.fire({
+				icon: `${result.status}`,
+				title: `${result.message}`,
+			});
+			resolve(result.lastId);
+		}).fail((e) => {
+			reject(e)
+		});
+	});
 }
 
 //Preloader
-$(() => {
+$(window).on('load', () => {
 	$('#preloader').fadeOut("slow");
 });
 
-(function ($) {
-
+(($) => {
 	$(window).on('scroll', function () {
 		var scrolling = $(this).scrollTop();
 		if (scrolling > 10) {
@@ -81,17 +93,6 @@ $(() => {
 		$(this).parent().find('.ti-plus').removeClass('ti-plus').addClass('ti-minus');
 	}).on('hidden.bs.collapse', function () {
 		$(this).parent().find('.ti-minus').removeClass('ti-minus').addClass('ti-plus');
-	});
-
-	//post slider
-	$('.post-slider').slick({
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		autoplay: true,
-		dots: false,
-		arrows: true,
-		prevArrow: '<button type=\'button\' class=\'prevArrow\'><i class=\'ti-angle-left\'></i></button>',
-		nextArrow: '<button type=\'button\' class=\'nextArrow\'><i class=\'ti-angle-right\'></i></button>'
 	});
 
 	// copy to clipboard

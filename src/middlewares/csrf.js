@@ -6,7 +6,7 @@ const { invalidCsrfTokenError, generateToken, validateRequest, doubleCsrfProtect
   cookieOptions: { sameSite: true, secure: true, signed: true }, // not ideal for production, development only
   size: 64,
   ignoredMethods: ["GET", "HEAD", "OPTIONS"],
-  getTokenFromRequest: (req) => req.query.csrftoken ?? req.body["_csrf"] ?? req.headers["x-csrf-token"], // A function that returns the token from the request
+  getTokenFromRequest: (req) => req.query.csrfToken ?? req.body["_csrf"] ?? req.headers["x-csrf-token"], // A function that returns the token from the request
 });
 
 

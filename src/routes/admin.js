@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const adminController = require("../controllers/admin");
-const thumbnailUpload = require("../middlewares/posts/thumbnailUpload");
+const thumbnailUpload = require("../middlewares/admin/posts/thumbnailUpload");
 
 //----------------------------------------------Dashboard----------------------------------------------
 router.route("/dashboard").get(adminController.dashboardIndex);

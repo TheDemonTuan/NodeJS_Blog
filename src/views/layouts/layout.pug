@@ -4,7 +4,7 @@ html(lang='en-us')
     meta(charset='utf-8')
     title #{title ? title : 'Home'} | TheDemonTuan
     // mobile responsive meta
-    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    meta(name='viewport' content='width=device-width,initial-scale=1')
     meta(name='description', content='This is meta description')
     meta(name='author', content='TheDemonTuan')
     meta(name='generator', content='TDT 1.0')
@@ -12,13 +12,12 @@ html(lang='en-us')
     meta(name='theme-name', content='tdt')
     // plugins
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css' integrity='sha512-t4GWSVZO1eC8BM339Xd7Uphw5s17a86tIZIj8qRxhnKub6WoyhnrxeCIMeAqBPgdZGlCcG2PrZjMc+Wr78+5Xg==' crossorigin='anonymous' referrerpolicy='no-referrer')
-    link(rel='stylesheet', href='/plugins/themify-icons/themify-icons.css')
-    link(rel='stylesheet', href='/plugins/slick/slick.css')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' integrity='sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==' crossorigin='anonymous' referrerpolicy='no-referrer')
     // Main Stylesheet
     block customHead
     link(rel='stylesheet', href='/css/style.css', media='screen')
     // Favicon
-    link(rel='shortcut icon', href='/favicon.ico', type='image/x-icon')
+    //- link(rel='shortcut icon', href='/favicon.ico', type='image/x-icon')
     link(rel='icon', href='/favicon.ico', type='image/x-icon')
     meta(property='og:title', content=`${title} | TheDemonTuan`)
     meta(property='og:description', content='This is meta description')
@@ -29,7 +28,6 @@ html(lang='en-us')
     // preloader
     #preloader
       #loader
-    
     // navigation
     header.navigation.fixed-top
       .container-fluid
@@ -37,7 +35,7 @@ html(lang='en-us')
           a.navbar-brand(href='/')
             img.img-fluid(width='100px', src='/logo.webp', alt='TheDemonTuan Logo')
           button.navbar-toggler.border-0.order-1(type='button',  data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation")
-            i.ti-menu
+            i.fa-solid.fa-bars
           #navigation.collapse.navbar-collapse.text-center.order-4.order-lg-2
             ul.navbar-nav.mx-auto
               li.nav-item
@@ -51,7 +49,7 @@ html(lang='en-us')
               li.nav-item.dropdown
                 a.nav-link(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                   | Pages 
-                  i.ti-angle-down.ml-1
+                  i.fa-solid.fa-caret-down.ms-1
                 .dropdown-menu
                   a.dropdown-item(href='author.html') Author
                   a.dropdown-item(href='author-single.html') Author Single
@@ -70,53 +68,63 @@ html(lang='en-us')
               input#search-query(name='s', type='search', placeholder='Type & Hit Enter...')
           .dropdown.order-2.order-lg-3
             if(userInfo)
-                a.d-block.link-body-emphasis.text-decoration-none.dropdown-toggle(href='#' data-bs-toggle='dropdown' aria-expanded='false')
-                  img.mx-2.rounded-circle(src=userInfo.avatar alt='mdo' width='32' height='32')
-                  strong #{userInfo.username}
-                ul.dropdown-menu
-                  if(userInfo.role)
-                    li
-                      a.dropdown-item(href='/admin/dashboard') Admin Dashboard
+              a.d-block.link-body-emphasis.text-decoration-none.dropdown-toggle(data-bs-toggle='dropdown' aria-expanded='false')
+                img.mx-2.rounded-circle(src=userInfo.avatar alt='mdo' width='32' height='32')
+                strong #{userInfo.username}
+              ul.dropdown-menu
+                li
+                  a.dropdown-item(href=`/${userInfo.displayName}`)
+                    i.fa-solid.fa-user
+                    span My Profile
+                if(userInfo.role)
                   li
-                    a.dropdown-item(href='#') Settings
-                  li
-                    a.dropdown-item(href='#') Another action
-                  li
-                    a.dropdown-item(href='/logout') Logout
+                    a.dropdown-item(href='/admin/dashboard')
+                      i.fa-solid.fa-gauge
+                      span Admin Dashboard
+                li
+                  a.dropdown-item(href='/user/profile')
+                    i.fa-solid.fa-user-gear
+                    span Settings
+                li
+                  a.dropdown-item(href='#') Another action
+                li
+                  a.dropdown-item(href='/logout')
+                    i.fa-solid.fa-right-from-bracket
+                    span Logout
             else
               a.btn.btn-outline-primary.mx-3(href='/signin') Login
     // Breadcrumb
     mixin breadcrumb(title,breadcrumbs)
       .header.text-center
-          .container
-            .row
-              .col-lg-12
-                h1.mb-4 #{title}
-                ul.list-inline
-                  li.list-inline-item
-                    .text-defaul
-                      nav(style="--bs-breadcrumb-divider: '➫'" aria-label="breadcrumb")
-                        ol.breadcrumb.fs-5
-                          li.breadcrumb-item
-                            a(href='/') Home
-                          if(breadcrumbs)
-                            - paths = breadcrumbs;
-                          if(paths[0])
-                            - let url = '';
-                            - let path = '';
-                            - for(let i = 0; i < paths.length; i++)
-                              - path = paths[i];
-                              - url = url.concat('/',path);
-                              - path = path.charAt(0).toUpperCase() + path.slice(1);
-                              if(i == paths.length - 1)
-                                li.breadcrumb-item.active(aria-current='page') #{path}
-                              else
-                                li.breadcrumb-item
-                                  a(href=url) #{path}
-                          else
-                            li.breadcrumb-item.active(aria-current='page') Home
-          svg.banner-border(height='240', viewBox='0 0 2202 240', fill='none', xmlns='http://www.w3.org/2000/svg')
-            path(d='M1 123.043C67.2858 167.865 259.022 257.325 549.762 188.784C764.181 125.427 967.75 112.601 1200.42 169.707C1347.76 205.869 1901.91 374.562 2201 1', stroke-width='2')
+        .container
+          .row
+            .col-lg-12
+              h1.mb-4 #{title}
+              ul.list-inline
+                li.list-inline-item
+                  .text-defaul
+                    nav(style="--bs-breadcrumb-divider: '➫'" aria-label="breadcrumb")
+                      ol.breadcrumb.fs-5
+                        li.breadcrumb-item
+                          a(href='/') Home
+                        if(breadcrumbs)
+                          - paths = breadcrumbs;
+                        if(paths[0])
+                          - let url = '';
+                          - let path = '';
+                          - for(let i = 0; i < paths.length; i++)
+                            - path = paths[i];
+                            - url = url.concat('/',path);
+                            - path = path.charAt(0).toUpperCase() + path.slice(1);
+                            if(i == paths.length - 1)
+                              li.breadcrumb-item.active(aria-current='page') #{path}
+                            else
+                              li.breadcrumb-item
+                                a(href=url) #{path}
+                        else
+                          li.breadcrumb-item.active(aria-current='page') Home
+        svg.banner-border(height='240', viewBox='0 0 2202 240', fill='none', xmlns='http://www.w3.org/2000/svg')
+          path(d='M1 123.043C67.2858 167.865 259.022 257.325 549.762 188.784C764.181 125.427 967.75 112.601 1200.42 169.707C1347.76 205.869 1901.91 374.562 2201 1', stroke-width='2')
     //Layout
     mixin adminLayout
       +breadcrumb(title)
@@ -126,7 +134,7 @@ html(lang='en-us')
             .col-12
               ul.dashboard-menu.nav.justify-content-center
                 - let listAdminPanel = ['dashboard', 'settings' ,'users','categories' ,'tags', 'posts'];
-                - let listAdminPanelIcon = ['ti-dashboard', 'ti-settings' ,'ti-user','ti-folder' ,'ti-tag', 'ti-pencil-alt'];
+                - let listAdminPanelIcon = ['fa-solid fa-gauge', 'fa-solid fa-sliders' ,'fa-solid fa-users','fa-solid fa-folder' ,'fa-solid fa-tags', 'fa-solid fa-pen-to-square'];
                 - for(let i = 0; i < listAdminPanel.length; i++)
                   - let panel = listAdminPanel[i];
                   - let url = `/${paths[0]}/${listAdminPanel[i]}`;
@@ -136,10 +144,33 @@ html(lang='en-us')
                       span #{panel.charAt(0).toUpperCase() + panel.slice(1)}
         .container.my-5
           .row.justify-content-center
-            .col-12.widget
-              .container
+            .col-12
+              .widget
                 h1.widget-title.border-success.border-bottom #{title}
-                block adminContent
+                .container
+                  block adminContent
+    mixin userLayout
+      +breadcrumb(title)
+      section.section-sm
+        .container.dashboard-panel.p-3.rounded-5
+          .row
+            .col-12
+              ul.dashboard-menu.nav.justify-content-center
+                - let listUserPanel = ['profile', 'settings', 'security', 'activity'];
+                - let listUserPanelIcon = ['fa-solid fa-user', 'fa-solid fa-sliders', 'fa-solid fa-shield-halved', 'fa-solid fa-chart-line'];
+                - for(let i = 0; i < listUserPanel.length; i++)
+                  - let panel = listUserPanel[i];
+                  - let url = `/${paths[0]}/${listUserPanel[i]}`;
+                  li.nav-item
+                    a.nav-link(href=url class=paths[1] == panel ? 'active' : '')
+                      i(class=listUserPanelIcon[i])
+                      span #{panel.charAt(0).toUpperCase() + panel.slice(1)}
+        .container-fluid.my-5
+          .row.justify-content-center
+            .col-12
+              .widget
+                h1.widget-title.border-success.border-bottom #{title}
+                block userContent
     // Content
     block content
     // Footer
@@ -177,9 +208,8 @@ html(lang='en-us')
           .col-12
             .border-bottom.border-default
     // JS Plugins
-    script(src='/plugins/jQuery/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js' integrity='sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==' crossorigin='anonymous' referrerpolicy='no-referrer')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js' integrity='sha512-VK2zcvntEufaimc+efOYi622VN5ZacdnufnmX7zIhCPmjhKnOi9ZDMtg1/ug5l183f19gG1/cBstPO4D8N/Img==' crossorigin='anonymous' referrerpolicy='no-referrer')
-    script(src='/plugins/slick/slick.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.10/sweetalert2.all.min.js' integrity='sha512-hqj3uRcg6pYUd2hJHI1k1qKyf8PA/YMWcEV9hTlD+mpnUKe2mpzS7Epp8FCQrGG632TEp2Bn194SN69Auykcdg==' crossorigin='anonymous' referrerpolicy='no-referrer')
     // Main Script
     script(src='/js/script.js')

@@ -1,0 +1,59 @@
+extend ../layouts/layout
+
+block content
+  +userLayout(title)
+
+block userContent
+  .container-fluid
+    form(method='POST')
+      .row
+        .col-lg-8
+          // Security preferences card
+          .card.mb-4
+            .card-header Security Preferences
+            .card-body
+              // Account privacy optinos
+              h5.mb-1 Account Privacy
+              p.small.text-muted By setting your account to private, your profile information and posts will not be visible to users outside of your user groups.
+              .form-check
+                input#radioPrivacy1.form-check-input(type='radio' name='radioPrivacy' checked)
+                label.form-check-label(for='radioPrivacy1') Public (posts are available to all users)
+              .form-check
+                input#radioPrivacy2.form-check-input(type='radio' name='radioPrivacy')
+                label.form-check-label(for='radioPrivacy2') Private (posts are available to only users in your groups)
+              hr.my-4
+              // Data sharing options
+              h5.mb-1 Data Sharing
+              p.small.text-muted Sharing usage data can help us to improve our products and better serve our users as they navigation through our application. When you agree to share usage data with us, crash reports and usage analytics will be automatically sent to our development team for investigation.
+              .form-check
+                input#radioUsage1.form-check-input(type='radio' name='radioUsage' checked)
+                label.form-check-label(for='radioUsage1') Yes, share data and crash reports with app developers
+              .form-check
+                input#radioUsage2.form-check-input(type='radio' name='radioUsage')
+                label.form-check-label(for='radioUsage2') No, limit my data sharing with app developers
+        .col-lg-4
+          .card.mb-4
+            .card-header Activity Logs
+            .card-body
+              p This feature will record all activities of your account, enabling you to accurately know what has happened, you can turn it on or off at any time.
+              .form-check
+                input#activity_modeOn.form-check-input(type='radio' name='activity_mode' value='1' checked=userSettings.activity_mode ? true : false)
+                label.form-check-label(for='activity_modeOn') On
+              .form-check
+                input#activity_modeOff.form-check-input(type='radio' name='activity_mode' value='0' checked=userSettings.activity_mode ? false : true)
+                label.form-check-label(for='activity_modeOff') Off
+          // Delete account card
+          .card.mb-4
+            .card-header Delete Account
+            .card-body
+              p Deleting your account is a permanent action and cannot be undone. If you are sure you want to delete your account, select the button below.
+            .d-flex.justify-content-center.my-3
+              button.btn.btn-danger(type='button') I understand, delete my account
+        input(name='_csrf' type='hidden')
+        .d-flex.justify-content-center.p-3
+          button.btn.btn-outline-primary(type='submit') Save Changes
+block scripts
+  script.
+    $(() => {
+      $('input[name="_csrf"]').val("#{csrfToken}");
+    });

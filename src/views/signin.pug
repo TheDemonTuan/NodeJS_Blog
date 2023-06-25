@@ -7,11 +7,11 @@ block content
   +breadcrumb
   .container.my-5
     section.pb-4
-      form#sign-in.row.justify-content-center.align-items-center(method='POST')
+      form#sign-in.row.justify-content-center.align-items-center(method='POST' action='/signin/submit')
         .col-10.col-sm-8.col-md-6.col-lg-4.col-xl-3.text-center
           // Username input
           .form-floating.mb-4
-            input#username.form-control(type='text' name='username' placeholder='Username' value=old_username)
+            input#username.form-control(type='text' name='username' placeholder='Username')
             label(for='username') Username
           // Password input
           .form-floating.mb-4

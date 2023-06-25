@@ -15,8 +15,15 @@ block content
 block scripts
   script.
     $(async () =>{
-      var lastId = await loadDatapacks('default');
-      $('#loadMore').on('click',async () =>{
-        lastId = await loadDatapacks(lastId);
-      })
+      try{
+        let lastId = await loadDatapacks(-1);
+        $('#loadMore').on('click',async () =>{
+          lastId = await loadDatapacks(lastId);
+        });
+      }catch(err){
+        Toast.fire({
+          icon: 'error',
+          title: 'Cant load datapacks, please try again later.',
+        });
+      }
     })

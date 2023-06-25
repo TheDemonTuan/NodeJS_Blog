@@ -10,17 +10,17 @@ const compression = require("compression");
 app.use(compression());
 
 // Helmet
-const helmet = require("helmet");
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      "img-src": ["'self'", "mdbootstrap.com", "sp.tinymce.com" ,"data:"],
-      "script-src-elem": ["'self'", "www.google.com", "cdnjs.cloudflare.com","www.gstatic.com","cdn.tiny.cloud" ,"'unsafe-inline'"],
-      "frame-src": ["'self'", "www.google.com"],
-      "connect-src": ["'self'", "spelling.tiny.cloud"],
-    },
-  },
-}));
+// const helmet = require("helmet");
+// app.use(helmet({
+//   contentSecurityPolicy: {
+//     directives: {
+//       "img-src": ["'self'", "mdbootstrap.com", "sp.tinymce.com" ,"data:"],
+//       "script-src-elem": ["'self'", "www.google.com", "cdnjs.cloudflare.com","www.gstatic.com","cdn.tiny.cloud" ,"'unsafe-inline'"],
+//       "frame-src": ["'self'", "www.google.com"],
+//       "connect-src": ["'self'", "spelling.tiny.cloud"],
+//     },
+//   },
+// }));
 
 // ENV config
 const dotenv = require("dotenv").config();
@@ -44,10 +44,10 @@ app.use(require("./middlewares/constructor.js"));
 //Redis and session
 const session = require("express-session");
 const redisStore = require("connect-redis").default;
-global._redisClient = require("./utils/redis");
+global.redisClient = require("./utils/redis");
 
 app.use(session({
-  store: new redisStore({ client: _redisClient, prefix: "tdt-sess:", ttl: 300 }),
+  store: new redisStore({ client: redisClient.connect, prefix: "tdt_sess:", ttl: 300 }),
   name: process.env.SESSION_NAME,
   resave: false,
   saveUninitialized: false,

@@ -13,7 +13,7 @@ module.exports = (app) => {
   app.use('/api/v1', require('./api'));
 
   //-----------------Categories-----------------//
-  
+
   // All-Datapack Router
   app.use('/all-datapacks', require('./all-datapacks'));
 
@@ -21,6 +21,9 @@ module.exports = (app) => {
   app.use('/datapack', require('./datapack'));
 
   //-----------------Categories End-----------------//
+
+  // User Router
+  app.use('/user', csrf, auth.isNotLogged, require('./user'));
 
   // Admin Router
   app.use('/admin', csrf, auth.isAdmin, require('./admin'))
