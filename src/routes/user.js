@@ -15,4 +15,7 @@ router.route('/settings').get(userController.settingsIndex);
 //----------------------------------------------------SECURITY----------------------------------------------------//
 router.route('/security').get(userController.securityIndex).post(userController.securityUpdate);
 
+//----------------------------------------------------ACTIVITY----------------------------------------------------//
+router.route('/activity').get(userController.activityIndex)
+
 module.exports = router;

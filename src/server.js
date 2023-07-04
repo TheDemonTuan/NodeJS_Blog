@@ -64,4 +64,10 @@ app.locals.pretty = true;
 const routes = require("./routes");
 routes(app);
 
-app.listen(process.env.NODE_ENV == "production" ? null : process.env.NODE_PORT);
+// socket.io
+const http = require("http").createServer(app);
+global.io = require("socket.io")(http);
+const SocketServices = require("./services/socket.js");
+io.on('connection',SocketServices.connection);
+
+http.listen(process.env.NODE_ENV == "production" ? null : process.env.NODE_PORT);

@@ -3,7 +3,7 @@
 const pool = require("../utils/db");
 const readingTime = require("reading-time");
 
-class Posts {
+class Post {
 
   static table = "posts";
 
@@ -80,17 +80,17 @@ class Posts {
   };
 
   static create(post, result) {
-    pool.query(`insert into ${this.table} set ?`, [new Posts(post, 'create')], (err, res) => {
+    pool.query(`insert into ${this.table} set ?`, [new Post(post, 'create')], (err, res) => {
       result(err, res);
     });
   }
 
   static updateById(id, post, result) {
-    pool.query(`update ${this.table} set ? where id = ?`, [new Posts(post, 'update'), id], (err, res) => {
+    pool.query(`update ${this.table} set ? where id = ?`, [new Post(post, 'update'), id], (err, res) => {
       result(err, res);
     });
   };
 
 }
 
-module.exports = Posts;
+module.exports = Post;

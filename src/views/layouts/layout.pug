@@ -73,7 +73,7 @@ html(lang='en-us')
                 strong #{userInfo.username}
               ul.dropdown-menu
                 li
-                  a.dropdown-item(href=`/${userInfo.displayName}`)
+                  a.dropdown-item(href=`/member/${userInfo.displayName}`)
                     i.fa-solid.fa-user
                     span My Profile
                 if(userInfo.role)
@@ -102,7 +102,7 @@ html(lang='en-us')
               h1.mb-4 #{title}
               ul.list-inline
                 li.list-inline-item
-                  .text-defaul
+                  .text-default
                     nav(style="--bs-breadcrumb-divider: '➫'" aria-label="breadcrumb")
                       ol.breadcrumb.fs-5
                         li.breadcrumb-item
@@ -177,7 +177,7 @@ html(lang='en-us')
     footer.footer
       svg.footer-border(height='214', viewBox='0 0 2204 214', fill='none', xmlns='http://www.w3.org/2000/svg')
         path(d='M2203 213C2136.58 157.994 1942.77 -33.1996 1633.1 53.0486C1414.13 114.038 1200.92 188.208 967.765 118.127C820.12 73.7483 263.977 -143.754 0.999958 158.899', stroke-width='2')
-      .container
+      .container.mt-2
         .row.align-items-center
           .col-md-5.text-center.text-md-left.mb-4
             ul.list-inline.footer-list.mb-0
@@ -192,25 +192,30 @@ html(lang='en-us')
             ul.list-inline.footer-list.mb-0
               li.list-inline-item
                 a(href='#')
-                  i.ti-facebook
+                  i.fa-brands.fa-facebook
               li.list-inline-item
                 a(href='#')
-                  i.ti-twitter-alt
+                  i.fa-brands.fa-facebook
               li.list-inline-item
                 a(href='#')
-                  i.ti-linkedin
+                  i.fa-brands.fa-facebook
               li.list-inline-item
                 a(href='#')
-                  i.ti-github
+                  i.fa-brands.fa-github
               li.list-inline-item
                 a(href='#')
-                  i.ti-youtube
+                  i.fa-brands.fa-youtube
+            h3 Total Online:
+              span.ms-2#totalOnline
+          .mt-4.text-center
+            p.mb-0 © 2021 TheDemonTuan. All Rights Reserved.
           .col-12
             .border-bottom.border-default
     // JS Plugins
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js' integrity='sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==' crossorigin='anonymous' referrerpolicy='no-referrer')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js' integrity='sha512-VK2zcvntEufaimc+efOYi622VN5ZacdnufnmX7zIhCPmjhKnOi9ZDMtg1/ug5l183f19gG1/cBstPO4D8N/Img==' crossorigin='anonymous' referrerpolicy='no-referrer')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.10/sweetalert2.all.min.js' integrity='sha512-hqj3uRcg6pYUd2hJHI1k1qKyf8PA/YMWcEV9hTlD+mpnUKe2mpzS7Epp8FCQrGG632TEp2Bn194SN69Auykcdg==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    script(src='/socket.io/socket.io.js')
     // Main Script
     script(src='/js/script.js')
     if(showMessage)

@@ -2,7 +2,7 @@ const pool = require("../utils/db");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 
-class Users {
+class User {
 
   static table = "users";
 
@@ -58,7 +58,7 @@ class Users {
 
   static async findByDisplayName(displayName) {
     return new Promise((resolve, reject) => {
-      pool.execute(`select * from ${this.table} where displayName = ?`, [displayName], (err, res) => {
+      pool.query(`select * from ${this.table} where displayName = ?`, [displayName], (err, res) => {
         if (err) reject(err);
         else resolve(res[0]);
       });
@@ -119,4 +119,4 @@ class Users {
 
 }
 
-module.exports = Users;
+module.exports = User;

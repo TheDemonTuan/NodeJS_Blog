@@ -1,12 +1,13 @@
+'use strict';
+
 const Promise = require('bluebird');
 const message = require("../middlewares/message");
 const jwt = Promise.promisifyAll(require('jsonwebtoken'));
 const User = require('../models/users');
-const UserSetting = require('../models/users_settings');
 
 const logOut = async (req, res, next) => {
   await Promise.all([res.clearCookie(process.env.JWT_COOKIE_NAME), redisClient.deleteUser(res.locals.userInfo.id)]);
-  return message.set(req, res, next, "error", "Token is invalid", true, "/signin");
+  message.set(req, res, next, "error", "Token is invalid", true, "/signin");
 }
 
 exports.token = async (req, res, next) => {
@@ -16,30 +17,22 @@ exports.token = async (req, res, next) => {
       // check token is valid
       const { id: userId } = await jwt.verifyAsync(cookie, process.env.JWT_SECRET);
       // check user exists in redis
-      if (!await redisClient.haveUser(userId)) {
+      if (!await redisClient.haveUserInfo(userId)) {
         // get user from database
-        [userInfo, userSettings] = await Promise.all([User.findById(userId), UserSetting.findByUserId(userId)]);
+        const userInfo = await User.findById(userId)
         // if user exists, set user to redis
         if (userInfo && userInfo.id === userId) {
-          await redisClient.setUser(userId, JSON.stringify(userInfo), JSON.stringify(userSettings));
+          await redisClient.setUserInfo(userId, JSON.stringify(userInfo));
+          res.locals.userInfo = userInfo;
         }
         else {
           return logOut(req, res, next);
         };
       }
       else {
-        // if some fields of user not exists in redis, set it
-        if (!await redisClient.haveUserInfo(userId)) {
-          let userInfo = await User.findById(userId);
-          await redisClient.setUserInfo(userId, JSON.stringify(userInfo));
-        };
-        if (!await redisClient.haveUserSettings(userId)) {
-          let userSettings = await UserSetting.findByUserId(userId);
-          await redisClient.setUserSettings(userId, JSON.stringify(userSettings));
-        };
+        // set user to res.locals
+        res.locals.userInfo = await JSON.parse(await redisClient.getUserInfo(userId));
       }
-      // set user to res.locals
-      [res.locals.userInfo, res.locals.userSettings] = await Promise.all([JSON.parse(await redisClient.getUserInfo(userId)), JSON.parse(await redisClient.getUserSettings(userId))]);
     } catch (err) {
       return logOut(req, res, next);
     }

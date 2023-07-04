@@ -1,7 +1,8 @@
 const Promise = require("bluebird");
 const pool = Promise.promisifyAll(require("../utils/db"));
+const User = require('../models/users');
+class Group {
 
-class Groups {
   static async home() {
     let connection;
     try {
@@ -19,13 +20,34 @@ class Groups {
       return result;
 
     } catch (error) {
-      //console.error('Lỗi:', error);
+      return false;
     } finally {
       if (connection) {
         connection.release();
       }
     }
+  };
+
+  static async signUp(data) {
+    return new Promise(async (resolve, reject) => {
+      let connection;
+      try {
+        connection = await pool.getConnectionAsync();
+        Promise.promisifyAll(connection);
+
+        let userData = new User(data, 'signUp');
+        let addUserInfo = await connection.queryAsync(`insert into ${User.table} set ?`, [userData]);
+
+        resolve(addUserInfo);
+      } catch (error) {
+        reject(error);
+      } finally {
+        if (connection) {
+          connection.release();
+        }
+      }
+    });
   }
 }
 
-module.exports = Groups;
+module.exports = Group;

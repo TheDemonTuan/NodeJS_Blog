@@ -22,6 +22,9 @@ module.exports = (app) => {
 
   //-----------------Categories End-----------------//
 
+  // Member Router
+  app.use('/member', csrf, require('./member'));
+
   // User Router
   app.use('/user', csrf, auth.isNotLogged, require('./user'));
 

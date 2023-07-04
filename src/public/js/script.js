@@ -52,7 +52,14 @@ $(window).on('load', () => {
 	$('#preloader').fadeOut("slow");
 });
 
+const socket = io();
+
 (($) => {
+
+	socket.on('totalOnline', (totalOnline) => {
+		$('#totalOnline').text(totalOnline).fadeOut(500).fadeIn(500);
+	});
+
 	$(window).on('scroll', function () {
 		var scrolling = $(this).scrollTop();
 		if (scrolling > 10) {

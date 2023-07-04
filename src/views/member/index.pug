@@ -1,0 +1,138 @@
+extend ../layouts/layout
+
+block content
+  section.section
+    // Content
+    .container.my-5
+      // Header
+      .container.card.mb-4
+        .d-flex.flex-column.flex-sm-row.col-md-10.col-lg-8.col-xl-7.py-5.gap-3.justify-content-center.align-items-center.mx-auto
+          img.user-avatar.rounded-circle(src=user.avatar alt='User Avatar')
+          .ms-3
+            h4.font-weight-bold.mb-2 #{user.displayName}
+            .text-muted.mb-1
+              | #{user.description}
+            if(userInfo.id === user.id)
+              a.btn.btn-outline-primary(href='/user/profile') Edit Profile
+        hr.m-0
+      // Header
+      .row
+        .col
+          // Info
+          .card.mb-4
+            .card-body
+              .row.mb-2
+                .col-md-3.text-muted ID:
+                .col-md-9
+                  strong #{user.id}
+              .row.mb-2
+                .col-md-3.text-muted Registered:
+                .col-md-9
+                  strong #{new Date(user.createdAt).toLocaleString('en-US')}
+              .row.mb-2
+                .col-md-3.text-muted Last activity:
+                .col-md-9
+                  strong#userLastActivity
+              .row.mb-2
+                .col-md-3.text-muted Verified:
+                .col-md-9
+                  i.fa.fa-check.text-primary
+              .row.mb-2
+                .col-md-3.text-muted Username:
+                .col-md-9
+                  strong #{user.username}
+              .row.mb-2
+                .col-md-3.text-muted Email:
+                .col-md-9 
+                  strong #{user.email}
+              .row.mb-2
+                .col-md-3.text-muted Role:
+                .col-md-9
+                  if(user.role)
+                    span.badge.rounded-pill.text-bg-warning Admin
+                  else
+                    span.badge.rounded-pill.text-bg-secondary User
+              .row.mb-2
+                .col-md-3.text-muted Status:
+                .col-md-9
+                  if(user.status)
+                    span.badge.rounded-pill.text-bg-success Active
+                  else
+                    span.badge.rounded-pill.text-bg-danger Inactive
+            .card-footer.text-center.p-0
+              .row.no-gutters.row-bordered.row-border-light
+                a.d-flex.col.flex-column.text-body.py-3(href='javascript:void(0)')
+                  .font-weight-bold 24
+                  .text-muted.small posts
+                a.d-flex.col.flex-column.text-body.py-3(href='javascript:void(0)')
+                  .font-weight-bold 51
+                  .text-muted.small videos
+                a.d-flex.col.flex-column.text-body.py-3(href='javascript:void(0)')
+                  .font-weight-bold 215
+                  .text-muted.small photos
+          // / Info
+        .col-xl-4
+          // Skills
+          .card.mb-4
+            .card-header Skills
+            .card-body
+              .mb-1
+                | HTML - 
+                small.text-muted 80%
+              .progress.mb-3(style='height: 4px;')
+                .progress-bar.bg-secondary(style='width: 80%;')
+              .mb-1
+                | CSS - 
+                small.text-muted 95%
+              .progress.mb-3(style='height: 4px;')
+                .progress-bar.bg-success(style='width: 95%;')
+              .mb-1
+                | Javascript - 
+                small.text-muted 90%
+              .progress.mb-3(style='height: 4px;')
+                .progress-bar.bg-warning(style='width: 90%;')
+              .mb-1
+                | UI/UX - 
+                small.text-muted 80%
+              .progress(style='height: 4px;')
+                .progress-bar.bg-danger(style='width: 80%;')
+            a.card-footer.d-block.text-center.text-body.small.font-weight-semibold(href='javascript:void(0)') SHOW ALL SKILLS
+          // / Skills
+          // Friends
+          .card.mb-4
+            .card-header.with-elements
+              span.card-header-title
+                | Friends &nbsp;
+                small.text-muted 591
+              .card-header-elements.ml-md-auto
+                a.btn.btn-default.md-btn-flat.btn-xs(href='javascript:void(0)') Show All
+            .row.no-gutters.row-bordered.row-border-light
+              a.d-flex.col-4.col-sm-3.col-md-4.flex-column.align-items-center.text-body.py-3.px-2(href='javascript:void(0)')
+                img.d-block.ui-w-40.rounded-circle.mb-2(src='https://bootdey.com/img/Content/avatar/avatar2.png' alt='')
+                .text-center.small Leon Wilson
+              a.d-flex.col-4.col-sm-3.col-md-4.flex-column.align-items-center.text-body.py-3.px-2(href='javascript:void(0)')
+                img.d-block.ui-w-40.rounded-circle.mb-2(src='https://bootdey.com/img/Content/avatar/avatar3.png' alt='')
+                .text-center.small Allie Rodriguez
+              a.d-flex.col-4.col-sm-3.col-md-4.flex-column.align-items-center.text-body.py-3.px-2(href='javascript:void(0)')
+                img.d-block.ui-w-40.rounded-circle.mb-2(src='https://bootdey.com/img/Content/avatar/avatar4.png' alt='')
+                .text-center.small Kenneth Frazier
+              a.d-flex.col-4.col-sm-3.col-md-4.flex-column.align-items-center.text-body.py-3.px-2(href='javascript:void(0)')
+                img.d-block.ui-w-40.rounded-circle.mb-2(src='https://bootdey.com/img/Content/avatar/avatar5.png' alt='')
+                .text-center.small Nellie Maxwell
+              a.d-flex.col-4.col-sm-3.col-md-4.flex-column.align-items-center.text-body.py-3.px-2(href='javascript:void(0)')
+                img.d-block.ui-w-40.rounded-circle.mb-2(src='https://bootdey.com/img/Content/avatar/avatar6.png' alt='')
+                .text-center.small Mae Gibson
+              a.d-flex.col-4.col-sm-3.col-md-4.flex-column.align-items-center.text-body.py-3.px-2(href='javascript:void(0)')
+                img.d-block.ui-w-40.rounded-circle.mb-2(src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='')
+                .text-center.small Alice Hampton
+              a.d-flex.col-4.col-sm-3.col-md-4.flex-column.align-items-center.text-body.py-3.px-2(href='javascript:void(0)')
+                img.d-block.ui-w-40.rounded-circle.mb-2(src='https://bootdey.com/img/Content/avatar/avatar1.png' alt='')
+                .text-center.small Belle Ross
+              a.d-flex.col-4.col-sm-3.col-md-4.flex-column.align-items-center.text-body.py-3.px-2(href='javascript:void(0)')
+                img.d-block.ui-w-40.rounded-circle.mb-2(src='https://bootdey.com/img/Content/avatar/avatar2.png' alt='')
+                .text-center.small Arthur Duncan
+              a.d-flex.col-4.col-sm-3.col-md-4.flex-column.align-items-center.text-body.py-3.px-2(href='javascript:void(0)')
+                img.d-block.ui-w-40.rounded-circle.mb-2(src='https://bootdey.com/img/Content/avatar/avatar2.png' alt='')
+                .text-center.small Amanda Warner
+          // / Friends
+          // / Content

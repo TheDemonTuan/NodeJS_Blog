@@ -68,7 +68,7 @@ block userContent
           .card-header.text-center 
             h4 Change Account
           .card-body
-            form(method='POST' action='/user/profile/change-account')
+            form(method='POST' action=`${nowPath}/change-account`)
               .row
                 .col-lg-6
                   .mb-4
@@ -106,7 +106,7 @@ block userContent
           .card-header.text-center 
             h4 Change Password
           .card-body
-            form(method='POST' action='/user/profile/change-password')
+            form(method='POST' action=`${nowPath}/change-password`)
               .row
                 .col-lg-6
                   .mb-4
@@ -142,7 +142,7 @@ block scripts
     $(() => {
       //CSRF
       $('input[name="_csrf"]').val("#{csrfToken}");
-      $('#change-userInfo').attr('action', '/#{fullPath}/change-info?csrfToken=#{csrfToken}');
+      $('#change-userInfo').attr('action', '#{nowPath}/change-info?csrfToken=#{csrfToken}');
 
       //Image Preview
       $("#imageUpload").change(function() {

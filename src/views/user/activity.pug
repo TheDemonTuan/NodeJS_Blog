@@ -1,0 +1,48 @@
+extend ../layouts/layout
+
+block customHead
+  link(rel='stylesheet', href='/plugins/datatables/datatables.min.css')
+
+block content
+  +userLayout(title)
+
+block userContent
+  .container.p-3
+    h4.mb-0 Recent Activity
+    p Last activities with your account.
+    if(userInfo.activity_mode)
+      .table-responsive.my-3
+        table#activityTable.table.table-hover.caption-top.text-nowrap
+          thead.bg-light
+            tr
+              th Action
+              th Browser
+              th Engine
+              th OS
+              th CPU
+              th IP
+              th Time
+          tbody
+            each activity in userActivities
+              tr
+                th(scope='col')
+                  i.fe.fe-globe.fe-12.text-muted.mr-2
+                  | #{activity.action}
+                td #{activity.browser}
+                td #{activity.engine}
+                td #{activity.os}
+                td #{activity.cpu}
+                td #{activity.ip}
+                td #{new Date(activity.time).toLocaleString('en-US')}
+    else
+      .alert.alert-warning.d-flex.align-items-center.gap-2.my-4(role='alert')
+        i.fa-solid.fa-triangle-exclamation
+        span Activity logs are disabled.
+block scripts
+  script(src='/plugins/datatables/datatables.min.js')
+  script.
+    $(() => {
+      $('#activityTable').DataTable({
+        order: [[6, 'desc']],
+      });
+    });

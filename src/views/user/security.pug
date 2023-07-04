@@ -37,10 +37,10 @@ block userContent
             .card-body
               p This feature will record all activities of your account, enabling you to accurately know what has happened, you can turn it on or off at any time.
               .form-check
-                input#activity_modeOn.form-check-input(type='radio' name='activity_mode' value='1' checked=userSettings.activity_mode ? true : false)
+                input#activity_modeOn.form-check-input(type='radio' name='activity_mode' value='1' checked=userInfo.activity_mode ? true : false)
                 label.form-check-label(for='activity_modeOn') On
               .form-check
-                input#activity_modeOff.form-check-input(type='radio' name='activity_mode' value='0' checked=userSettings.activity_mode ? false : true)
+                input#activity_modeOff.form-check-input(type='radio' name='activity_mode' value='0' checked=userInfo.activity_mode ? false : true)
                 label.form-check-label(for='activity_modeOff') Off
           // Delete account card
           .card.mb-4

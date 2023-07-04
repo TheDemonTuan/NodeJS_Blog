@@ -3,6 +3,8 @@ const Post = Promise.promisifyAll(require("../models/posts.js"));
 
 // [GET] /datapacks/load/:lastId
 exports.datapackLoad = async (req, res, next) => {
+  if(!req.xhr)
+    return res.status(201).json({ status: "error", message: "Can't load datapacks, please try again later.", lastId: 0, htmlCode: "" });
   try {
     const limit = 3
     var lastId = Number.isInteger(Number.parseInt(req.params.lastId)) ? Number.parseInt(req.params.lastId) : 0;
@@ -57,6 +59,6 @@ exports.datapackLoad = async (req, res, next) => {
     });
     res.status(201).json({ status: "success", message: "Load datapacks successfully", lastId: posts.at(-1).id, htmlCode: htmlCode });
   } catch (err) {
-    res.status(201).json({ status: "error", message: "Something went wrong, please try again later.", lastId: 0, htmlCode: "" });
+    res.status(201).json({ status: "error", message: "Can't load datapacks, please try again later.", lastId: 0, htmlCode: "" });
   }
 };
